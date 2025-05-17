@@ -1,0 +1,5 @@
+<div class="d-flex flex-wrap gap-8">
+    @for (game of games; track $index) {
+        <game-card [game]="game"> </game-card>
+    }
+</div>

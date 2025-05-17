@@ -1,0 +1,55 @@
+.status-circle-out {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-circle-inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.achievement-status {
+    margin-right: 8px;
+    margin-bottom: 3px;
+}
+
+.achievement-status.Playing {
+    .status-circle-out {
+        background-color: color-mix(in oklab, #4b7bd4 20%, transparent);
+    }
+    .status-circle-inner {
+        background-color: #4b7bd4;
+    }
+}
+
+.achievement-status.Complete {
+    .status-circle-out {
+        background-color: color-mix(in oklab, #00bc7d 20%, transparent);
+    }
+    .status-circle-inner {
+        background-color: #00bc7d;
+    }
+}
+
+.achievement-status.Shelved {
+    .status-circle-out {
+        background-color: color-mix(in oklab, #e69b3e 20%, transparent);
+    }
+    .status-circle-inner {
+        background-color: #e69b3e;
+    }
+}
+
+.achievement-status.Backlog {
+    .status-circle-out {
+        background-color: color-mix(in oklab, #ea377a 20%, transparent);
+    }
+    .status-circle-inner {
+        background-color: #ea377a;
+    }
+}

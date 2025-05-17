@@ -1,0 +1,19 @@
+.modal-header {
+    .game-cover {
+        width: 68px;
+        border-radius: 5px;
+        border: 1px solid #30394c;
+        overflow: hidden;
+        margin-right: 16px;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .game-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+}

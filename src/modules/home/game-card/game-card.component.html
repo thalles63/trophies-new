@@ -1,0 +1,28 @@
+<a
+    class="image-container"
+    [routerLink]="['game', game().id]">
+    @if (game().image) {
+        <img
+            [src]="game().image"
+            alt="game" />
+    } @else {
+        <div class="d-flex direction-column align-center">
+            <warning-icon
+                [size]="32"
+                color="#e1e1e1">
+            </warning-icon>
+            Sync this game with IGDB
+        </div>
+    }
+    <div class="overlay">
+        <div class="rating-container">
+            <star-rating
+                [rating]="game().rating"
+                color="#3f4b64"
+                colorSelected="#facc15"
+                [size]="32">
+            </star-rating>
+        </div>
+        {{ game().name }}
+    </div>
+</a>
