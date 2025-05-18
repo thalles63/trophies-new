@@ -15,3 +15,163 @@
         </div>
     </div>
 </div>
+
+<tabs #tabs>
+    <tab
+        tabTitle="Game info"
+        #gameInfoTab>
+        <div class="modal-body game-info-body">
+            <div class="row">
+                <app-input
+                    [(value)]="game.name"
+                    label="Name"
+                    [inputSize]="6">
+                </app-input>
+
+                <app-input
+                    [(value)]="game.igdbId"
+                    label="IGDB id"
+                    [inputSize]="3">
+                </app-input>
+            </div>
+
+            <div class="row">
+                <app-textarea
+                    [(value)]="game.description"
+                    label="Description"
+                    [inputSize]="12">
+                </app-textarea>
+            </div>
+
+            <div class="row">
+                <app-input
+                    [(value)]="game.image"
+                    label="Cover image"
+                    [inputSize]="6">
+                </app-input>
+
+                <app-input
+                    [(value)]="game.screenshot"
+                    label="Background screenshot"
+                    [inputSize]="6">
+                </app-input>
+            </div>
+
+            <div class="row">
+                <app-select
+                    [(value)]="game.platform"
+                    bindValue="id"
+                    bindLabel="description"
+                    [items]="platforms"
+                    label="Platform"
+                    [inputSize]="3">
+                </app-select>
+
+                <app-select
+                    [(value)]="game.isCampaignComplete"
+                    bindValue="id"
+                    bindLabel="description"
+                    [items]="trueFalse"
+                    label="Is campaign complete?"
+                    [inputSize]="3">
+                </app-select>
+
+                <app-select
+                    [(value)]="game.isPlatinumed"
+                    bindValue="id"
+                    bindLabel="description"
+                    [items]="trueFalse"
+                    label="Is platinumed?"
+                    [inputSize]="3">
+                </app-select>
+
+                <app-input
+                    [(value)]="game.dateCompleted"
+                    label="Date completed"
+                    mask="00/00/0000 00:00:00"
+                    [inputSize]="3">
+                </app-input>
+            </div>
+
+            <div class="row">
+                <time-played
+                    [(value)]="game.timePlayed"
+                    label="Time played"
+                    [inputSize]="3">
+                </time-played>
+
+                <star-rating
+                    label="Rating"
+                    [(rating)]="game.rating"
+                    color="#3f4b64"
+                    colorSelected="#ea377a"
+                    [inputSize]="3"
+                    [size]="40"
+                    customClass="fix-margins-rating"
+                    [isSelectable]="true">
+                </star-rating>
+            </div>
+        </div>
+    </tab>
+
+    <tab tabTitle="Achievements">
+        <div class="modal-body achievements-body p-6">
+            @for (achievement of game.achievements; track $index; let last = $last) {
+                <div
+                    class="achievement-container"
+                    [class.last]="last"
+                    [class.achieved]="achievement.isAchieved">
+                    <div class="icon">
+                        @if (achievement.image) {
+                            <img
+                                [src]="achievement.image"
+                                alt="achievement icon" />
+                        } @else {
+                            <div class="achievement-no-icon">
+                                <trophy-icon color="#FFF"></trophy-icon>
+                            </div>
+                        }
+                    </div>
+                    <div class="achievement-informations">
+                        <div>
+                            <div>{{ achievement.name }}</div>
+                            <div class="achievement-description">{{ achievement.description || "-" }}</div>
+                        </div>
+
+                        <div class="achievements-buttons">
+                            <app-button
+                                type="secondary-outline"
+                                customClass="icon-button"
+                                (onClick)="editAchievement(achievement, $index)">
+                                <edit-icon
+                                    color="#FFF"
+                                    [size]="20">
+                                </edit-icon>
+                            </app-button>
+
+                            <app-button
+                                type="primary-outline"
+                                (onClick)="deleteAchievement(achievement, $index)"
+                                customClass="icon-button">
+                                <trash-icon
+                                    color="#FFF"
+                                    [size]="20">
+                                </trash-icon>
+                            </app-button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </tab>
+</tabs>
+
+<div class="modal-footer">
+    <app-button
+        type="secondary"
+        (onClick)="cancel()">
+        Cancel
+    </app-button>
+
+    <app-button (onClick)="save()"> Save </app-button>
+</div>

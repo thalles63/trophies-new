@@ -6,6 +6,8 @@ export interface Achievement {
     type: string;
     image: string;
     isAchieved: boolean;
-    dateAchieved: Date;
+    dateAchieved: string;
+    dateAchievedConverted?: string;
     percentageAchieved: number;
+    index: string;
 }

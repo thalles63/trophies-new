@@ -10,7 +10,7 @@ import { HomeService } from "./services/home.service";
     selector: "app-home",
     imports: [GameCardComponent],
     templateUrl: "./home.component.html",
-    styleUrl: "./home.component.css",
+    styleUrl: "./home.component.scss",
     providers: [HomeService]
 })
 export class HomeComponent implements OnInit {

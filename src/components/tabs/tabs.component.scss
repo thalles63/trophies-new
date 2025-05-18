@@ -1,0 +1,34 @@
+
+.tabs-header {
+    display: flex;
+    border-bottom: 1px solid #242832;
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+
+    .tab-title {
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        position: relative;
+
+        &:hover {
+            background-color: rgba(252, 99, 153, 0.19);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -7px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: #ea377a;
+            transition: all 0.3s ease;
+            transform: translate(-50%);
+        }
+    }
+
+    .tab-title.active::after {
+        width: calc(100% - 10px);
+    }
+}

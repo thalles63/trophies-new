@@ -1,0 +1,39 @@
+<div class="container-input {{ customClass }}">
+    <label
+        class="label"
+        [for]="name">
+        {{ label }}
+    </label>
+
+    <div class="fields-container">
+        <div class="field-container">
+            <input
+                type="text"
+                class="form-control"
+                (blur)="onFieldBlur()"
+                (ngModelChange)="onFieldChange()"
+                [name]="name"
+                autocomplete="off"
+                [disabled]="disabled"
+                [required]="required"
+                [(ngModel)]="value.hours" />
+
+            <div class="time-identification">h</div>
+        </div>
+
+        <div class="field-container">
+            <input
+                type="text"
+                class="form-control"
+                (blur)="onFieldBlur()"
+                (ngModelChange)="onFieldChange()"
+                [name]="name"
+                autocomplete="off"
+                [disabled]="disabled"
+                [required]="required"
+                [(ngModel)]="value.minutes" />
+
+            <div class="time-identification">m</div>
+        </div>
+    </div>
+</div>

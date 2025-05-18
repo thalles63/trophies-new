@@ -1,0 +1,28 @@
+<div class="container-input {{ customClass }}">
+    <label
+        class="label-select"
+        [for]="name">
+        {{ label }}
+    </label>
+
+    <ng-select
+        [hideSelected]="false"
+        [closeOnSelect]="true"
+        [required]="required"
+        [name]="name"
+        [items]="items"
+        [dropdownPosition]="'auto'"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        [disabled]="disabled"
+        [clearable]="false"
+        [searchable]="true"
+        [placeholder]="placeholder"
+        [(ngModel)]="value"
+        notFoundText="Item não encontrado"
+        [openOnEnter]="true"
+        (change)="onFieldChange()"
+        #input="ngModel"
+        #select>
+    </ng-select>
+</div>

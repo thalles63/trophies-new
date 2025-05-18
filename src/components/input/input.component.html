@@ -1,0 +1,22 @@
+<div class="container-input {{ customClass }}">
+    <label
+        class="label"
+        [for]="name">
+        {{ label }}
+    </label>
+
+    <input
+        type="text"
+        class="form-control"
+        (blur)="onFieldBlur()"
+        (ngModelChange)="onFieldChange($event)"
+        [name]="name"
+        autocomplete="off"
+        [disabled]="disabled"
+        [mask]="mask"
+        [dropSpecialCharacters]="false"
+        [placeholder]="placeholder"
+        [required]="required"
+        [(ngModel)]="value"
+        #input="ngModel" />
+</div>

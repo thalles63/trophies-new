@@ -1,0 +1,15 @@
+<div class="tabs-header">
+    @for (tab of tabComponents; track $index) {
+        <div
+            class="tab-title"
+            [class.active]="tab.active"
+            [class.disabled]="tab.disabled()"
+            (click)="setTabsInactive(); tab.handleTabClick()">
+            {{ tab.tabTitle() }}
+        </div>
+    }
+</div>
+
+<div class="tabs-body">
+    <ng-content></ng-content>
+</div>

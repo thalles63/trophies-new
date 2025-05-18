@@ -112,7 +112,7 @@
                     width: 45px;
                     height: 45px;
                     margin-right: 16px;
-                    filter: grayscale();
+                    filter: grayscale(1);
                 }
 
                 .achievement-no-icon {
@@ -132,4 +132,13 @@
             }
         }
     }
+}
+
+.achievement-earn-rate {
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    border-left: 1px solid rgb(162 177 229 / 11%);
+    margin-left: 16px;
+    width: 74px;
 }

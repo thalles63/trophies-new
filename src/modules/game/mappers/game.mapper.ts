@@ -1,4 +1,7 @@
 import { Injectable } from "@angular/core";
+import { GameStatusData, PlatformsData } from "../edit/game-edit.data";
+import { TimePlayed } from "../edit/time-played/time-played.interface";
+import { Achievement } from "../models/achievement.interface";
 import { Game } from "../models/game.interface";
 
 @Injectable({ providedIn: "root" })
@@ -13,46 +16,111 @@ export class GameMapper {
             rating: params.rating,
             platform: params.platform,
             platformText: this.getPlatformText(params.platform),
-            timePlayed: params.timePlayed,
-            timePlayedConverted: this.getConvertedTime(params.timePlayed),
+            timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
             isPlatinumed: params.isPlatinumed,
-            dateCompleted: params.dateCompleted,
-            isCampaignComplete: params.isPlatinumed,
-            achievements: params.achievements,
+            dateCompleted: this.convertDateToFieldFormat(params.dateCompleted),
+            isCampaignComplete: params.isCampaignComplete,
+            achievements: params.achievements.map(this.achievements).sortByField("dateAchieved"),
             status: params.status,
-            statusDescription: this.getStatusText(params.status)
+            statusDescription: this.getStatusText(params.status),
+            igdbId: params.igdbId
         };
     };
 
-    private getConvertedTime(seconds: number) {
+    public readonly achievements = (params: any): Achievement => {
+        return {
+            id: params.id,
+            platformId: params.platformId,
+            name: params.name,
+            description: params.description,
+            type: params.type,
+            image: params.image,
+            isAchieved: params.isAchieved,
+            dateAchieved: params.dateAchieved,
+            percentageAchieved: Number(params.percentageAchieved),
+            index: crypto.randomUUID()
+        };
+    };
+    public readonly findByIdDto = (params: Game) => {
+        return {
+            id: params.id,
+            name: params.name,
+            description: params.description,
+            image: params.image,
+            screenshot: params.screenshot,
+            rating: params.rating,
+            platform: params.platform,
+            timePlayed: this.convertTimePlayedToSeconds(params.timePlayed),
+            isPlatinumed: params.isPlatinumed,
+            dateCompleted: this.convertDateToISOFormat(params.dateCompleted),
+            isCampaignComplete: params.isCampaignComplete,
+            status: params.status,
+            igdbId: params.igdbId
+        };
+    };
+
+    public readonly achievementsDto = (params: Achievement) => {
+        return {
+            id: params.id,
+            platformId: params.platformId,
+            name: params.name,
+            description: params.description,
+            type: params.type,
+            image: params.image,
+            isAchieved: params.isAchieved,
+            dateAchieved: params.dateAchieved,
+            percentageAchieved: params.percentageAchieved
+        };
+    };
+
+    private convertSecondsToTimePlayed(seconds: number): TimePlayed {
         const hours = Math.floor(seconds / (60 * 60));
         seconds %= 60 * 60;
 
         const minutes = Math.floor(seconds / 60);
 
-        return `${hours} hours and ${minutes} minutes`;
+        return {
+            hours: hours,
+            minutes: minutes
+        };
+    }
+
+    private convertTimePlayedToSeconds(timePlayed: TimePlayed) {
+        return Number(timePlayed.hours) * 3600 + Number(timePlayed.minutes) * 60;
+    }
+
+    public convertDateToFieldFormat(dateTime: string) {
+        const date = new Date(dateTime);
+
+        return new Intl.DateTimeFormat("pt-BR", {
+            timeZone: "America/Sao_Paulo",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        })
+            .format(date)
+            .replace(",", "");
+    }
+
+    public convertDateToISOFormat(date: string) {
+        const [datePart, timePart] = date.split(" ");
+        const [day, month, year] = datePart.split("/").map(Number);
+        const [hour, minute, second] = timePart.split(":").map(Number);
+
+        const local = new Date(year, month - 1, day, hour, minute, second);
+
+        return new Date(local.getTime()).toISOString();
     }
 
     private getPlatformText(platform: number): string {
-        const platforms: any = {
-            1: "Pc",
-            2: "Playstation 5",
-            3: "Playstation 4",
-            4: "Xbox",
-            5: "Steam"
-        };
-
-        return platforms[platform];
+        return PlatformsData.find((p) => p.id === platform)?.description ?? "";
     }
 
     private getStatusText(status: number): string {
-        const statuses: any = {
-            1: "Playing",
-            2: "Complete",
-            3: "Shelved",
-            4: "Backlog"
-        };
-
-        return statuses[status];
+        return GameStatusData.find((s) => s.id === status)?.description ?? "";
     }
 }

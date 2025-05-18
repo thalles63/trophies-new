@@ -8,7 +8,7 @@ import { Game } from "../../game/models/game.interface";
     selector: "game-card",
     imports: [WarningIconComponent, RouterLink, StarRatingComponent],
     templateUrl: "./game-card.component.html",
-    styleUrl: "./game-card.component.css"
+    styleUrl: "./game-card.component.scss"
 })
 export class GameCardComponent {
     public game = input.required<Game>();

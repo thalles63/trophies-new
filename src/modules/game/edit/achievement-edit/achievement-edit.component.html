@@ -1,0 +1,83 @@
+<div class="modal-header"> Edit achievement </div>
+
+<div class="modal-body">
+    <div class="row">
+        <app-input
+            [(value)]="achievement.name"
+            label="Name"
+            [inputSize]="6">
+        </app-input>
+    </div>
+
+    <div class="row">
+        <app-input
+            [(value)]="achievement.description"
+            label="Description"
+            [inputSize]="12">
+        </app-input>
+    </div>
+
+    <div class="row">
+        <app-input
+            [(value)]="achievement.image"
+            label="Icon"
+            [inputSize]="12">
+        </app-input>
+    </div>
+
+    <div class="row">
+        <app-select
+            [(value)]="achievement.isAchieved"
+            bindValue="id"
+            bindLabel="description"
+            [items]="trueFalse"
+            label="Is achieved?"
+            [inputSize]="6">
+        </app-select>
+
+        <app-input
+            [(value)]="achievement.dateAchievedConverted"
+            label="Date achieved"
+            mask="00/00/0000 00:00:00"
+            [inputSize]="6">
+        </app-input>
+    </div>
+
+    <div class="row">
+        @if (game.platform === platformEnum.Xbox) {
+            <app-input
+                [(value)]="achievement.type"
+                label="Value"
+                [inputSize]="6">
+            </app-input>
+        }
+
+        @if (game.platform === platformEnum.Playstation4 || game.platform === platformEnum.Playstation5) {
+            <app-select
+                [(value)]="achievement.type"
+                bindValue="id"
+                bindLabel="description"
+                [items]="achievementTypes"
+                label="Value"
+                [inputSize]="6">
+            </app-select>
+        }
+
+        <app-input
+            [(value)]="achievement.percentageAchieved"
+            label="Percentage achieved"
+            [inputSize]="6">
+        </app-input>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <app-button
+        type="secondary"
+        (onClick)="cancel()">
+        Cancel
+    </app-button>
+
+    <app-button (onClick)="save()"> Save </app-button>
+</div>
+<!--   isAchieved: boolean; dateAchieved: Date; percentageAchieved: number; -->

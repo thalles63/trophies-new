@@ -1,0 +1,28 @@
+.fields-container {
+    display: flex;
+    gap: 16px;
+}
+
+.field-container {
+    position: relative;
+}
+
+.time-identification {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    height: 38px;
+    background-color: #30394c;
+    border-radius: 4px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    color: #8f9ca7
+}
+
+.container-input {
+    margin-bottom: 0 !important;
+}

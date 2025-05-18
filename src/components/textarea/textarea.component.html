@@ -1,0 +1,16 @@
+<div class="container-input {{ customClass }}">
+    <label
+        class="label"
+        [for]="name">
+        {{ label }}
+    </label>
+
+    <textarea
+        class="form-control"
+        (input)="onType()"
+        [name]="name"
+        [disabled]="disabled"
+        [required]="required"
+        [(ngModel)]="value">
+    </textarea>
+</div>

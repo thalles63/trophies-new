@@ -1,14 +1,25 @@
 import { NgStyle } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, HostBinding, Input, Output } from "@angular/core";
 
 @Component({
     selector: "star-rating",
     imports: [NgStyle],
     templateUrl: "./rating.component.html",
-    styleUrl: "./rating.component.css"
+    styleUrl: "./rating.component.scss"
 })
 export class StarRatingComponent {
+    @HostBinding("class") public get hostClass() {
+        if (!this.inputSize) {
+            return "";
+        }
+
+        return `col-lg-${this.inputSize}`;
+    }
+
     @Input() rating: number = 0;
+    @Input() label = "";
+    @Input() customClass = "";
+    @Input() inputSize = 0;
     @Input() color: string = "";
     @Input() colorSelected: string = "";
     @Input() size: number = 24;

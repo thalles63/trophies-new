@@ -18,16 +18,13 @@
             </div>
 
             <div>
-                <app-button
-                    label="Edit"
-                    (onClick)="edit()">
-                </app-button>
+                <app-button (onClick)="edit()"> Edit </app-button>
 
                 <div class="rating-container">
                     <star-rating
                         [rating]="game.rating"
                         color="#3f4b64"
-                        colorSelected="#facc15"
+                        colorSelected="#ea377a"
                         [size]="48">
                     </star-rating>
                 </div>
@@ -50,7 +47,7 @@
 
             <div>
                 <div class="game-information-label">Time played</div>
-                <div>{{ game.timePlayedConverted || "-" }}</div>
+                <div>{{ game.timePlayed.hours }} hours and {{ game.timePlayed.minutes }} minutes</div>
             </div>
 
             <div>
@@ -65,7 +62,7 @@
 
             <div>
                 <div class="game-information-label">Date completed</div>
-                <div>{{ (game.dateCompleted | date: "dd/MM/yyyy") || "-" }}</div>
+                <div>{{ game.dateCompleted || "-" }}</div>
             </div>
         </div>
     </div>
@@ -98,9 +95,14 @@
                             <div>{{ achievement.name }}</div>
                             <div class="achievement-description">{{ achievement.description || "-" }}</div>
                         </div>
-                        <div class="d-flex align-center direction-column">
-                            <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }}</div>
-                            <div class="achievement-time">{{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
+                        <div class="d-flex">
+                            <div class="d-flex align-center direction-column">
+                                <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }}</div>
+                                <div class="achievement-time">{{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
+                            </div>
+                            @if (achievement.percentageAchieved) {
+                                <div class="achievement-earn-rate">{{ achievement.percentageAchieved | number: "1.2-2" }} %</div>
+                            }
                         </div>
                     </div>
                 </div>

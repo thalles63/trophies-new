@@ -1,36 +1,44 @@
-<div
-    class="star-rating"
-    (mouseleave)="hovered = 0">
-    @for (star of stars; track $index) {
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            [attr.width]="size"
-            [attr.height]="size"
-            (mousemove)="onHover($event, $index + 1)"
-            (click)="onClick($index + 1)"
-            [ngStyle]="{ cursor: isSelectable ? 'pointer' : 'inherited', marginRight: '4px' }">
-            <defs>
-                <linearGradient
-                    [attr.id]="'half-gradient-' + $index"
-                    x1="0"
-                    x2="1"
-                    y1="0"
-                    y2="0">
-                    <stop
-                        offset="50%"
-                        [attr.stop-color]="colorSelected" />
-                    <stop
-                        offset="50%"
-                        [attr.stop-color]="color" />
-                </linearGradient>
-            </defs>
+<div class="container-input {{ customClass }}">
+    @if (label) {
+        <label class="label">
+            {{ label }}
+        </label>
+    }
 
-            <path
-                d="M12 17.27L18.18 21l-1.64-7.03
+    <div
+        class="star-rating"
+        (mouseleave)="hovered = 0">
+        @for (star of stars; track $index) {
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                [attr.width]="size"
+                [attr.height]="size"
+                (mousemove)="onHover($event, $index + 1)"
+                (click)="onClick($index + 1)"
+                [ngStyle]="{ cursor: isSelectable ? 'pointer' : 'inherited', marginRight: '4px' }">
+                <defs>
+                    <linearGradient
+                        [attr.id]="'half-gradient-' + $index"
+                        x1="0"
+                        x2="1"
+                        y1="0"
+                        y2="0">
+                        <stop
+                            offset="50%"
+                            [attr.stop-color]="colorSelected" />
+                        <stop
+                            offset="50%"
+                            [attr.stop-color]="color" />
+                    </linearGradient>
+                </defs>
+
+                <path
+                    d="M12 17.27L18.18 21l-1.64-7.03
                L22 9.24l-7.19-.61L12 2 9.19 8.63
                2 9.24l5.46 4.73L5.82 21z"
-                [attr.fill]="getFill($index + 1)" />
-        </svg>
-    }
+                    [attr.fill]="getFill($index + 1)" />
+            </svg>
+        }
+    </div>
 </div>

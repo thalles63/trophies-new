@@ -1,6 +1,6 @@
 <button
     type="button"
-    class="btn btn-{{ type() }}"
+    class="btn btn-{{ type() }} {{ customClass() }}"
     (click)="onClickHandler()">
-    {{ label() }}
+    <ng-content></ng-content>
 </button>

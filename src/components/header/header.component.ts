@@ -6,7 +6,7 @@ import { CoreState } from "../../common/store/core.state";
     selector: "app-header",
     imports: [],
     templateUrl: "./header.component.html",
-    styleUrl: "./header.component.css"
+    styleUrl: "./header.component.scss"
 })
 export class HeaderComponent {
     private readonly store = inject(Store);

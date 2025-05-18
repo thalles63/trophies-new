@@ -1,4 +1,4 @@
-import { DatePipe } from "@angular/common";
+import { DatePipe, DecimalPipe } from "@angular/common";
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
@@ -17,9 +17,9 @@ import { GameService } from "../services/game.service";
 
 @Component({
     selector: "game",
-    imports: [WarningIconComponent, ButtonComponent, StarRatingComponent, DatePipe, TrophyIconComponent, StatusComponent],
+    imports: [WarningIconComponent, ButtonComponent, StarRatingComponent, DatePipe, TrophyIconComponent, StatusComponent, DecimalPipe],
     templateUrl: "./game-detail.component.html",
-    styleUrl: "./game-detail.component.css",
+    styleUrl: "./game-detail.component.scss",
     providers: [GameService]
 })
 export class GameDetailComponent {
@@ -30,7 +30,7 @@ export class GameDetailComponent {
     private readonly gameMapper = inject(GameMapper);
     private readonly modalService = inject(NgbModal);
 
-    protected game = <Game>{};
+    protected game = <Game>{ timePlayed: {} };
     protected gameId: string | null = null;
 
     public ngOnInit(): void {
@@ -48,12 +48,21 @@ export class GameDetailComponent {
             .pipe(takeUntilDestroyed(this.destroyref))
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
+                console.log(this.game);
                 this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
             });
     }
 
     public edit() {
         const modalRef = this.modalService.open(GameEditComponent, { centered: true, size: "xl" });
-        modalRef.componentInstance.game = this.game;
+        modalRef.componentInstance.game = structuredClone(this.game);
+
+        modalRef.closed.pipe(takeUntilDestroyed(this.destroyref)).subscribe((result) => {
+            if (!result) {
+                return;
+            }
+
+            this.game = structuredClone(result);
+        });
     }
 }

@@ -1,3 +1,4 @@
+import { TimePlayed } from "../edit/time-played/time-played.interface";
 import { Achievement } from "./achievement.interface";
 
 export interface Game {
@@ -9,12 +10,12 @@ export interface Game {
     rating: number;
     platform: number;
     platformText?: string;
-    timePlayed: number;
-    timePlayedConverted: string;
+    timePlayed: TimePlayed;
     isPlatinumed: boolean;
     dateCompleted: string;
     isCampaignComplete: boolean;
     achievements: Achievement[];
     status: number;
     statusDescription: string;
+    igdbId: string;
 }

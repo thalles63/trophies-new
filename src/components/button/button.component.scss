@@ -1,0 +1,78 @@
+.btn {
+    border: 0;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 6px 24px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.btn-primary {
+    background-color: #ea377a;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #fc6399;
+}
+
+.btn-secondary {
+    background-color: #4a5e8d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #3b4760;
+}
+
+.icon-button {
+    padding: 11px;
+}
+
+.btn-primary-outline {
+    border: 1px solid #ea377a;
+    color: #ea377a;
+    background-color: transparent;
+}
+
+.btn-primary-outline:hover {
+    background-color: #fc6399;
+    color: #fff;
+}
+
+.btn-secondary-outline {
+    border: 1px solid #4a5e8d;
+    background-color: transparent;
+    color: #4a5e8d;
+}
+
+.btn-secondary-outline:hover {
+    background-color: #3b4760;
+    color: #fff;
+}
+
+:host ::ng-deep {
+    .btn-primary-outline {
+        svg {
+            color: #ea377a !important;
+        }
+    }
+
+    .btn-primary-outline:hover {
+        svg {
+            color: #fff !important;
+        }
+    }
+    .btn-secondary-outline {
+        svg {
+            color: #4a5e8d !important;
+        }
+    }
+
+    .btn-secondary-outline:hover {
+        svg {
+            color: #fff !important;
+        }
+    }
+}
