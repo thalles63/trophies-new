@@ -1,0 +1,82 @@
+.game-retrieved {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background-color: #242832;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+.game-retrieved.last {
+    margin-bottom: 0;
+}
+
+.game-retrieved:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.game-retrieved.selected {
+    border-color: transparent;
+    box-shadow: 0 6px 12px rgb(46 58 71 / 30%);
+    background-color: #333743;
+}
+
+.game-cover img {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-button {
+    position: absolute;
+    bottom: 17px;
+    right: 9px;
+    background-color: #ea377a;
+    padding: 7px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+    background-color: #fc6399;
+    }
+}
+
+.no-image {
+    background-color: #30394c;
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+:host ::ng-deep {
+    .skeleton-loader:last-child {
+        margin-bottom: 0 !important;
+    
+    }
+}

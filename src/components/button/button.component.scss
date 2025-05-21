@@ -17,6 +17,11 @@
     background-color: #fc6399;
 }
 
+.btn-primary:disabled {
+    opacity: .65;
+    cursor: initial;
+}
+
 .btn-secondary {
     background-color: #4a5e8d;
     color: #fff;

@@ -14,9 +14,10 @@ import { GameEditComponent } from "../edit/game-edit.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Game } from "../models/game.interface";
 import { GameService } from "../services/game.service";
+import { SyncGameWithIgdbComponent } from "./sync-igdb/sync-igdb.component";
 
 @Component({
-    selector: "game",
+    selector: "game-detail",
     imports: [WarningIconComponent, ButtonComponent, StarRatingComponent, DatePipe, TrophyIconComponent, StatusComponent, DecimalPipe],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
@@ -48,7 +49,6 @@ export class GameDetailComponent {
             .pipe(takeUntilDestroyed(this.destroyref))
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
-                console.log(this.game);
                 this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
             });
     }
@@ -63,6 +63,22 @@ export class GameDetailComponent {
             }
 
             this.game = structuredClone(result);
+            this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
+        });
+    }
+
+    public syncWithIgdb() {
+        const modalRef = this.modalService.open(SyncGameWithIgdbComponent, { centered: true, size: "lg" });
+        modalRef.componentInstance.game = this.game;
+        modalRef.componentInstance.gameName = this.game.name;
+
+        modalRef.closed.pipe(takeUntilDestroyed(this.destroyref)).subscribe((result) => {
+            if (!result) {
+                return;
+            }
+
+            this.game = structuredClone(result);
+            this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
         });
     }
 }

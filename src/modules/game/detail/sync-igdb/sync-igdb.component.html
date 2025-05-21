@@ -1,0 +1,64 @@
+<div class="modal-header"> Sync game with IGDB </div>
+
+<div class="modal-body">
+    <div class="row search-container">
+        <app-input
+            [(value)]="gameName"
+            label="Game name to search"
+            [inputSize]="12">
+        </app-input>
+
+        <a
+            class="search-button"
+            (click)="searchIgdb()">
+            <search-icon color="#FFF"></search-icon>
+        </a>
+    </div>
+
+    @if (isLoading) {
+        <ngx-skeleton-loader
+            count="5"
+            appearance="circle"
+            [theme]="{ height: '92px', width: '100%', borderRadius: '10px', margin: '0', marginBottom: '12px' }">
+        </ngx-skeleton-loader>
+    } @else {
+        @for (game of retrievedGames; track $index; let last = $last) {
+            <div
+                class="game-retrieved"
+                [class.last]="last"
+                [class.selected]="selectedGame.igdbId === game.igdbId"
+                (click)="selectGame(game)">
+                <div class="game-cover">
+                    @if (game.image) {
+                        <img
+                            [src]="game.image"
+                            alt="game cover" />
+                    } @else {
+                        <div class="no-image">
+                            <camera-icon color="#FFF"></camera-icon>
+                        </div>
+                    }
+                </div>
+                <div>
+                    <div class="game-title">
+                        {{ game.name }}
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="modal-footer">
+    <app-button
+        type="secondary"
+        (onClick)="cancel()">
+        Cancel
+    </app-button>
+
+    <app-button
+        (onClick)="sync()"
+        [disabled]="!selectedGame.name">
+        Sync
+    </app-button>
+</div>

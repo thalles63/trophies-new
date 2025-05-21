@@ -11,7 +11,7 @@ import { TrueFalseData } from "../game-edit.data";
 import { AchievementTypeData } from "./achievement-edit.data";
 
 @Component({
-    selector: "game",
+    selector: "game-edit",
     imports: [InputComponent, SelectComponent, ButtonComponent],
     templateUrl: "./achievement-edit.component.html",
     styleUrl: "./achievement-edit.component.scss"

@@ -9,6 +9,7 @@ import { Component, input, output } from "@angular/core";
 export class ButtonComponent {
     public type = input("primary");
     public customClass = input("");
+    public disabled = input(false);
     public onClick = output();
 
     public onClickHandler() {

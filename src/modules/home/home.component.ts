@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
 
     private listGames() {
         this.service
-            .listGames()
+            .listGames(2, 24)
             .pipe(takeUntilDestroyed(this.destroyref))
             .subscribe((result: any) => {
                 this.games = result.games;

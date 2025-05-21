@@ -29,10 +29,11 @@
                             }
                         ],
                         "styles": [
-                          "src/utils/css/columns.scss",
-                          "src/utils/css/modal.scss",
-                          "src/utils/css/styles.scss",
-                          "node_modules/@ng-select/ng-select/themes/default.theme.scss"
+                            "src/utils/css/columns.scss",
+                            "src/utils/css/modal.scss",
+                            "src/utils/css/styles.scss",
+                            "node_modules/@ng-select/ng-select/themes/default.theme.scss",
+                            "node_modules/notyf/notyf.min.css"
                         ],
                         "scripts": []
                     },

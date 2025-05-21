@@ -1,6 +1,7 @@
 <button
     type="button"
     class="btn btn-{{ type() }} {{ customClass() }}"
-    (click)="onClickHandler()">
+    (click)="onClickHandler()"
+    [disabled]="disabled()">
     <ng-content></ng-content>
 </button>

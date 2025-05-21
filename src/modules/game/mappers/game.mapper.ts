@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { SanitizeEmptyStrings } from "../../../common/functions/functions";
 import { GameStatusData, PlatformsData } from "../edit/game-edit.data";
 import { TimePlayed } from "../edit/time-played/time-played.interface";
 import { Achievement } from "../models/achievement.interface";
@@ -42,7 +43,7 @@ export class GameMapper {
         };
     };
     public readonly findByIdDto = (params: Game) => {
-        return {
+        return SanitizeEmptyStrings({
             id: params.id,
             name: params.name,
             description: params.description,
@@ -50,13 +51,13 @@ export class GameMapper {
             screenshot: params.screenshot,
             rating: params.rating,
             platform: params.platform,
-            timePlayed: this.convertTimePlayedToSeconds(params.timePlayed),
+            timePlayed: params.timePlayed ? this.convertTimePlayedToSeconds(params.timePlayed) : undefined,
             isPlatinumed: params.isPlatinumed,
-            dateCompleted: this.convertDateToISOFormat(params.dateCompleted),
+            dateCompleted: params.dateCompleted ? this.convertDateToISOFormat(params.dateCompleted) : undefined,
             isCampaignComplete: params.isCampaignComplete,
             status: params.status,
             igdbId: params.igdbId
-        };
+        });
     };
 
     public readonly achievementsDto = (params: Achievement) => {

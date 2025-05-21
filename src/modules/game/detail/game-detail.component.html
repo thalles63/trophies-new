@@ -18,7 +18,13 @@
             </div>
 
             <div>
-                <app-button (onClick)="edit()"> Edit </app-button>
+                @if (game.name) {
+                    @if (game.igdbId) {
+                        <app-button (onClick)="edit()"> Edit </app-button>
+                    } @else {
+                        <app-button (onClick)="syncWithIgdb()"> Sync with IGDB </app-button>
+                    }
+                }
 
                 <div class="rating-container">
                     <star-rating
