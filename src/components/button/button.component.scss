@@ -6,6 +6,10 @@
     padding: 6px 24px;
     font-size: 16px;
     font-weight: 700;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-primary {
@@ -79,5 +83,8 @@
         svg {
             color: #fff !important;
         }
+    }
+    .icon-margin {
+        margin-top: -2px;
     }
 }

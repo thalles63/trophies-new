@@ -11,7 +11,10 @@
         <a
             class="search-button"
             (click)="searchIgdb()">
-            <search-icon color="#FFF"></search-icon>
+            <icon
+                [icon]="iconEnum.Search"
+                [size]="24">
+            </icon>
         </a>
     </div>
 
@@ -35,7 +38,10 @@
                             alt="game cover" />
                     } @else {
                         <div class="no-image">
-                            <camera-icon color="#FFF"></camera-icon>
+                            <icon
+                                [icon]="iconEnum.Camera"
+                                [size]="14">
+                            </icon>
                         </div>
                     }
                 </div>
@@ -58,6 +64,7 @@
 
     <app-button
         (onClick)="sync()"
+        [isLoading]="isSaveLoading"
         [disabled]="!selectedGame.name">
         Sync
     </app-button>

@@ -4,14 +4,43 @@
             [src]="game.image"
             alt="game cover" />
     </div>
-    <div>
+    <div class="game-principal">
         <div class="game-title">
             {{ game.name }}
         </div>
 
-        <div class="d-flex align-center">
-            <status [type]="game.statusDescription"></status>
-            {{ game.statusDescription }}
+        <div class="status-container">
+            <app-button
+                type="secondary-outline"
+                customClass="playing {{ game.status === statusEnum.Playing ? 'selected' : '' }}"
+                (onClick)="setStatus(statusEnum.Playing)"
+                [icon]="iconEnum.Camera">
+                Playing
+            </app-button>
+
+            <app-button
+                type="secondary-outline"
+                customClass="completed {{ game.status === statusEnum.Completed ? 'selected' : '' }}"
+                (onClick)="setStatus(statusEnum.Completed)"
+                [icon]="iconEnum.Camera">
+                Completed
+            </app-button>
+
+            <app-button
+                type="secondary-outline"
+                customClass="shelved {{ game.status === statusEnum.Shelved ? 'selected' : '' }}"
+                (onClick)="setStatus(statusEnum.Shelved)"
+                [icon]="iconEnum.Camera">
+                Shelved
+            </app-button>
+
+            <app-button
+                type="secondary-outline"
+                customClass="backlog {{ game.status === statusEnum.Backlog ? 'selected' : '' }}"
+                (onClick)="setStatus(statusEnum.Backlog)"
+                [icon]="iconEnum.Camera">
+                Backlog
+            </app-button>
         </div>
     </div>
 </div>
@@ -128,7 +157,10 @@
                                 alt="achievement icon" />
                         } @else {
                             <div class="achievement-no-icon">
-                                <trophy-icon color="#FFF"></trophy-icon>
+                                <icon
+                                    [icon]="iconEnum.Trophy"
+                                    [size]="22">
+                                </icon>
                             </div>
                         }
                     </div>
@@ -143,20 +175,20 @@
                                 type="secondary-outline"
                                 customClass="icon-button"
                                 (onClick)="editAchievement(achievement, $index)">
-                                <edit-icon
-                                    color="#FFF"
-                                    [size]="20">
-                                </edit-icon>
+                                <icon
+                                    [icon]="iconEnum.Edit"
+                                    [size]="16">
+                                </icon>
                             </app-button>
 
                             <app-button
                                 type="primary-outline"
                                 (onClick)="deleteAchievement(achievement, $index)"
                                 customClass="icon-button">
-                                <trash-icon
-                                    color="#FFF"
-                                    [size]="20">
-                                </trash-icon>
+                                <icon
+                                    [icon]="iconEnum.Trash"
+                                    [size]="16">
+                                </icon>
                             </app-button>
                         </div>
                     </div>

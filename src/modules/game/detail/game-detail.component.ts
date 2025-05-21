@@ -4,10 +4,10 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
+import { IconEnum } from "../../../common/enums/icon.enum";
 import { UpdateBackgroundScreenshot } from "../../../common/store/core.action";
 import { ButtonComponent } from "../../../components/button/button.component";
-import { TrophyIconComponent } from "../../../components/icons/trophy/trophy-icon.component";
-import { WarningIconComponent } from "../../../components/icons/warning/warning-icon.component";
+import { IconComponent } from "../../../components/icon/icon.component";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
 import { StatusComponent } from "../../../components/status/status.component";
 import { GameEditComponent } from "../edit/game-edit.component";
@@ -18,7 +18,7 @@ import { SyncGameWithIgdbComponent } from "./sync-igdb/sync-igdb.component";
 
 @Component({
     selector: "game-detail",
-    imports: [WarningIconComponent, ButtonComponent, StarRatingComponent, DatePipe, TrophyIconComponent, StatusComponent, DecimalPipe],
+    imports: [ButtonComponent, StarRatingComponent, DatePipe, StatusComponent, DecimalPipe, IconComponent],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
     providers: [GameService]
@@ -33,6 +33,7 @@ export class GameDetailComponent {
 
     protected game = <Game>{ timePlayed: {} };
     protected gameId: string | null = null;
+    protected iconEnum = IconEnum;
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");

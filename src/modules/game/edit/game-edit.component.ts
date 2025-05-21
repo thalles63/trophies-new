@@ -1,14 +1,13 @@
 import { AfterViewInit, Component, DestroyRef, inject, Input, ViewChild } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { IconEnum } from "../../../common/enums/icon.enum";
+import { StatusEnum } from "../../../common/enums/status.enum";
 import { ButtonComponent } from "../../../components/button/button.component";
-import { EditIconComponent } from "../../../components/icons/edit/edit-icon.component";
-import { TrashIconComponent } from "../../../components/icons/trash/trash-icon.component";
-import { TrophyIconComponent } from "../../../components/icons/trophy/trophy-icon.component";
+import { IconComponent } from "../../../components/icon/icon.component";
 import { InputComponent } from "../../../components/input/input.component";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
 import { SelectComponent } from "../../../components/select/select.component";
-import { StatusComponent } from "../../../components/status/status.component";
 import { TabComponent } from "../../../components/tabs/tab/tab.component";
 import { TabsComponent } from "../../../components/tabs/tabs.component";
 import { TextareaComponent } from "../../../components/textarea/textarea.component";
@@ -17,13 +16,12 @@ import { Achievement } from "../models/achievement.interface";
 import { Game } from "../models/game.interface";
 import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
-import { PlatformsData, TrueFalseData } from "./game-edit.data";
+import { GameStatusData, PlatformsData, TrueFalseData } from "./game-edit.data";
 import { TimePlayedComponent } from "./time-played/time-played.component";
 
 @Component({
     selector: "game",
     imports: [
-        StatusComponent,
         TabsComponent,
         TabComponent,
         InputComponent,
@@ -32,9 +30,7 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         StarRatingComponent,
         TimePlayedComponent,
         ButtonComponent,
-        TrophyIconComponent,
-        EditIconComponent,
-        TrashIconComponent
+        IconComponent
     ],
     templateUrl: "./game-edit.component.html",
     styleUrl: "./game-edit.component.scss",
@@ -51,7 +47,9 @@ export class GameEditComponent implements AfterViewInit {
     @ViewChild("tabs", { static: false }) protected readonly tabs!: TabsComponent;
     @ViewChild("gameInfoTab", { static: false }) private readonly gameInfoTab!: TabComponent;
 
+    protected statusEnum = StatusEnum;
     protected platforms = PlatformsData;
+    protected iconEnum = IconEnum;
     protected trueFalse = TrueFalseData;
     protected achievementsToUpdateInApi = <Achievement[]>[];
     protected achievementsToDeleteInApi = <Achievement[]>[];
@@ -123,5 +121,10 @@ export class GameEditComponent implements AfterViewInit {
         }
 
         this.game.achievements.splice(listIndex, 1);
+    }
+
+    public setStatus(status: number) {
+        this.game.status = status;
+        this.game.statusDescription = GameStatusData.find((s) => s.id === status)!.description;
     }
 }

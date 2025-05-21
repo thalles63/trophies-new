@@ -1,0 +1,10 @@
+{
+    "website": false,
+    "outSVGReact": false,
+    "outSVGPath": false,
+    "fontName": "icons",
+    "css": {
+        "include": "\\.(css)$"
+    },
+    "emptyDist": true
+}

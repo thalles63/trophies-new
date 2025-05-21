@@ -31,7 +31,7 @@ export const GameStatusData = [
     },
     {
         id: StatusEnum.Completed,
-        description: "Complete"
+        description: "Completed"
     },
     {
         id: StatusEnum.Shelved,

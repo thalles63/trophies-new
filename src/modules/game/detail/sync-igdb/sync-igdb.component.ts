@@ -2,17 +2,17 @@ import { Component, DestroyRef, inject, Input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
+import { IconEnum } from "../../../../common/enums/icon.enum";
 import { NotificationService } from "../../../../common/services/notification.service";
 import { ButtonComponent } from "../../../../components/button/button.component";
-import { CameraIconComponent } from "../../../../components/icons/camera/camera-icon.component";
-import { SearchIconComponent } from "../../../../components/icons/search/search-icon.component";
+import { IconComponent } from "../../../../components/icon/icon.component";
 import { InputComponent } from "../../../../components/input/input.component";
 import { Game } from "../../models/game.interface";
 import { GameService } from "../../services/game.service";
 
 @Component({
     selector: "sync-igdb",
-    imports: [InputComponent, ButtonComponent, SearchIconComponent, NgxSkeletonLoaderModule, CameraIconComponent],
+    imports: [InputComponent, ButtonComponent, NgxSkeletonLoaderModule, IconComponent],
     templateUrl: "./sync-igdb.component.html",
     styleUrl: "./sync-igdb.component.scss",
     providers: [GameService]
@@ -28,6 +28,8 @@ export class SyncGameWithIgdbComponent {
     protected selectedGame = <Game>{};
     protected retrievedGames = <Game[]>[];
     protected isLoading = false;
+    protected isSaveLoading = false;
+    protected iconEnum = IconEnum;
 
     public searchIgdb() {
         this.isLoading = true;
@@ -53,6 +55,7 @@ export class SyncGameWithIgdbComponent {
 
     public sync() {
         this.selectedGame.id = this.game.id;
+        this.isSaveLoading = true;
 
         this.service
             .update(this.selectedGame)

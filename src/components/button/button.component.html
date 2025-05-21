@@ -2,6 +2,15 @@
     type="button"
     class="btn btn-{{ type() }} {{ customClass() }}"
     (click)="onClickHandler()"
-    [disabled]="disabled()">
+    [disabled]="disabled() || isLoading()">
+    @if (isLoading()) {
+        <!-- [isLoading]="true" -->
+        <icon [icon]="iconEnum.Loading"> </icon>
+    } @else if (icon()) {
+        <icon
+            [icon]="icon()"
+            customClass="icon-margin">
+        </icon>
+    }
     <ng-content></ng-content>
 </button>

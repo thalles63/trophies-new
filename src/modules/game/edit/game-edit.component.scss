@@ -115,3 +115,32 @@
 .p-6 {
     padding: 6px;
 }
+
+.status-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+:host ::ng-deep {
+    .btn.playing.selected, .btn.playing:hover {
+        background-color: #4b7bd4;
+        border-color: #4b7bd4;
+        color: #FFF;
+    }
+    .btn.completed.selected, .btn.completed:hover {
+        background-color: #00bc7d;
+        border-color: #00bc7d;
+        color: #FFF;
+    }
+    .btn.shelved.selected, .btn.shelved:hover {
+        background-color: #e69b3e;
+        border-color: #e69b3e;
+        color: #FFF;
+    }
+    .btn.backlog.selected, .btn.backlog:hover {
+        background-color: #ea377a;
+        border-color: #ea377a;
+        color: #FFF;
+    }
+}

@@ -8,10 +8,10 @@
                         alt="game" />
                 } @else if (game.name && !game.image) {
                     <div class="d-flex direction-column align-center">
-                        <warning-icon
-                            [size]="32"
-                            color="#e1e1e1">
-                        </warning-icon>
+                        <icon
+                            [icon]="iconEnum.Warning"
+                            [size]="24">
+                        </icon>
                         Sync this game with IGDB
                     </div>
                 }
@@ -92,7 +92,10 @@
                                 alt="achievement icon" />
                         } @else {
                             <div class="achievement-no-icon">
-                                <trophy-icon color="#FFF"></trophy-icon>
+                                <icon
+                                    [icon]="iconEnum.Trophy"
+                                    [size]="22">
+                                </icon>
                             </div>
                         }
                     </div>
