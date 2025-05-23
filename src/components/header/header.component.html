@@ -7,4 +7,13 @@
     <div class="gradient"></div>
 </div>
 
-<header> </header>
+<header class="container">
+    <a
+        class="system-title"
+        [routerLink]="['/']"
+        (click)="clearGameListPaging()">
+        Thalles Games
+    </a>
+
+    <app-button (onClick)="addGame()">Add new game</app-button>
+</header>

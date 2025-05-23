@@ -4,8 +4,10 @@
     (click)="onClickHandler()"
     [disabled]="disabled() || isLoading()">
     @if (isLoading()) {
-        <!-- [isLoading]="true" -->
-        <icon [icon]="iconEnum.Loading"> </icon>
+        <icon
+            [icon]="iconEnum.Loading"
+            customClass="loading-spinner">
+        </icon>
     } @else if (icon()) {
         <icon
             [icon]="icon()"

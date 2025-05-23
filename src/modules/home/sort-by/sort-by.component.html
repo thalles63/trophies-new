@@ -1,0 +1,14 @@
+<div class="sort-container">
+    <span>Sort by</span>
+    <span class="sort-field">{{ selectedSort.description }}</span>
+
+    <div class="sorts-list">
+        @for (sort of sorts; track $index) {
+            <div
+                (click)="selectSort(sort)"
+                class="sort-item">
+                {{ sort.description }}
+            </div>
+        }
+    </div>
+</div>

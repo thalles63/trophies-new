@@ -1,8 +1,10 @@
 <div class="modal-header">
     <div class="game-cover">
-        <img
-            [src]="game.image"
-            alt="game cover" />
+        @if (game.image) {
+            <img
+                [src]="game.image"
+                alt="game cover" />
+        }
     </div>
     <div class="game-principal">
         <div class="game-title">
@@ -51,17 +53,22 @@
         #gameInfoTab>
         <div class="modal-body game-info-body">
             <div class="row">
-                <app-input
-                    [(value)]="game.name"
-                    label="Name"
-                    [inputSize]="6">
-                </app-input>
+                <div class="search-container col-lg-6">
+                    <app-input
+                        [(value)]="game.name"
+                        label="Name"
+                        [inputSize]="12">
+                    </app-input>
 
-                <app-input
-                    [(value)]="game.igdbId"
-                    label="IGDB id"
-                    [inputSize]="3">
-                </app-input>
+                    <a
+                        class="search-button"
+                        (click)="openSearchIgdbModal()">
+                        <icon
+                            [icon]="iconEnum.Search"
+                            [size]="24">
+                        </icon>
+                    </a>
+                </div>
             </div>
 
             <div class="row">
@@ -183,7 +190,7 @@
 
                             <app-button
                                 type="primary-outline"
-                                (onClick)="deleteAchievement(achievement, $index)"
+                                (onClick)="confirmDeleteAchievement(achievement, $index)"
                                 customClass="icon-button">
                                 <icon
                                     [icon]="iconEnum.Trash"
@@ -199,11 +206,26 @@
 </tabs>
 
 <div class="modal-footer">
-    <app-button
-        type="secondary"
-        (onClick)="cancel()">
-        Cancel
-    </app-button>
+    @if (gameInfoTab.active) {
+        <app-button
+            type="primary-outline"
+            (onClick)="confirmDeleteGame()">
+            Delete game
+        </app-button>
+    } @else {
+        <app-button (onClick)="addNewAchievement()"> Add new achievement </app-button>
+    }
+    <div class="footer-buttons-right">
+        <app-button
+            type="secondary"
+            (onClick)="cancel()">
+            Cancel
+        </app-button>
 
-    <app-button (onClick)="save()"> Save </app-button>
+        <app-button
+            (onClick)="save()"
+            [isLoading]="isSaveLoading">
+            Save
+        </app-button>
+    </div>
 </div>

@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { IconEnum } from "../../../common/enums/icon.enum";
-import { UpdateBackgroundScreenshot } from "../../../common/store/core.action";
+import { UpdateBackgroundScreenshotAction } from "../../../common/store/core.action";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { IconComponent } from "../../../components/icon/icon.component";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
@@ -14,7 +14,6 @@ import { GameEditComponent } from "../edit/game-edit.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Game } from "../models/game.interface";
 import { GameService } from "../services/game.service";
-import { SyncGameWithIgdbComponent } from "./sync-igdb/sync-igdb.component";
 
 @Component({
     selector: "game-detail",
@@ -25,7 +24,7 @@ import { SyncGameWithIgdbComponent } from "./sync-igdb/sync-igdb.component";
 })
 export class GameDetailComponent {
     private readonly service = inject(GameService);
-    private readonly destroyref = inject(DestroyRef);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly store = inject(Store);
     private readonly gameMapper = inject(GameMapper);
@@ -37,6 +36,12 @@ export class GameDetailComponent {
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
+
+        if (!this.gameId) {
+            this.openModal();
+            return;
+        }
+
         this.findGameById();
     }
 
@@ -47,39 +52,24 @@ export class GameDetailComponent {
 
         this.service
             .getById(this.gameId)
-            .pipe(takeUntilDestroyed(this.destroyref))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
-                this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
+                this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
             });
     }
 
-    public edit() {
+    public openModal() {
         const modalRef = this.modalService.open(GameEditComponent, { centered: true, size: "xl" });
-        modalRef.componentInstance.game = structuredClone(this.game);
+        modalRef.componentInstance.game = this.game.id ? structuredClone(this.game) : { timePlayed: {} };
 
-        modalRef.closed.pipe(takeUntilDestroyed(this.destroyref)).subscribe((result) => {
+        modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             if (!result) {
                 return;
             }
 
             this.game = structuredClone(result);
-            this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
-        });
-    }
-
-    public syncWithIgdb() {
-        const modalRef = this.modalService.open(SyncGameWithIgdbComponent, { centered: true, size: "lg" });
-        modalRef.componentInstance.game = this.game;
-        modalRef.componentInstance.gameName = this.game.name;
-
-        modalRef.closed.pipe(takeUntilDestroyed(this.destroyref)).subscribe((result) => {
-            if (!result) {
-                return;
-            }
-
-            this.game = structuredClone(result);
-            this.store.dispatch(new UpdateBackgroundScreenshot(this.game.screenshot));
+            this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
         });
     }
 }

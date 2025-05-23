@@ -1,14 +1,20 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
-import { UpdateBackgroundScreenshot } from "../../common/store/core.action";
+import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
+import { PaginationInfo } from "../../common/models/pagination.interface";
+import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../common/store/core.action";
+import { CoreState } from "../../common/store/core.state";
 import { Game } from "../game/models/game.interface";
 import { GameCardComponent } from "./game-card/game-card.component";
+import { GameListSortBy } from "./home.data";
 import { HomeService } from "./services/home.service";
+import { SortByComponent } from "./sort-by/sort-by.component";
 
 @Component({
     selector: "app-home",
-    imports: [GameCardComponent],
+    imports: [GameCardComponent, NgbPagination, NgbPaginationFirst, NgbPaginationLast, NgxSkeletonLoaderModule, SortByComponent],
     templateUrl: "./home.component.html",
     styleUrl: "./home.component.scss",
     providers: [HomeService]
@@ -19,18 +25,46 @@ export class HomeComponent implements OnInit {
     private readonly store = inject(Store);
 
     protected games = <Game[]>[];
+    protected paginationInfo = <PaginationInfo>{};
+    protected isLoading = false;
+    protected gameListSortBy = GameListSortBy;
 
     public ngOnInit(): void {
-        this.store.dispatch(new UpdateBackgroundScreenshot(undefined));
-        this.listGames();
+        this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
+        this.listenForFilterChanges();
     }
 
-    private listGames() {
+    private listenForFilterChanges() {
+        this.store
+            .select(CoreState.filter)
+            .pipe(takeUntilDestroyed(this.destroyref))
+            .subscribe((filters) => {
+                this.paginationInfo.page = filters.page!;
+                this.paginationInfo.sort = filters.sort!;
+                this.paginationInfo.limit = filters.limit!;
+
+                this.listGames();
+            });
+    }
+
+    public listGames() {
+        this.isLoading = true;
+
         this.service
-            .listGames(5, 24)
+            .listGames(this.paginationInfo.page, this.paginationInfo.limit, this.paginationInfo.sort)
             .pipe(takeUntilDestroyed(this.destroyref))
             .subscribe((result: any) => {
                 this.games = result.games;
+                this.paginationInfo = result.pagination;
+                this.isLoading = false;
             });
+    }
+
+    public setPageOnState(page: number) {
+        this.store.dispatch(new UpdateGamesListingFilterAction({ page }));
+    }
+
+    public setSortOnState(sort: number) {
+        this.store.dispatch(new UpdateGamesListingFilterAction({ sort, page: 1 }));
     }
 }

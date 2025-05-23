@@ -1,23 +1,6 @@
 <div class="modal-header"> Sync game with IGDB </div>
 
 <div class="modal-body">
-    <div class="row search-container">
-        <app-input
-            [(value)]="gameName"
-            label="Game name to search"
-            [inputSize]="12">
-        </app-input>
-
-        <a
-            class="search-button"
-            (click)="searchIgdb()">
-            <icon
-                [icon]="iconEnum.Search"
-                [size]="24">
-            </icon>
-        </a>
-    </div>
-
     @if (isLoading) {
         <ngx-skeleton-loader
             count="5"
@@ -63,9 +46,9 @@
     </app-button>
 
     <app-button
-        (onClick)="sync()"
+        (onClick)="confirm()"
         [isLoading]="isSaveLoading"
         [disabled]="!selectedGame.name">
-        Sync
+        Select game
     </app-button>
 </div>

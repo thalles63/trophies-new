@@ -23,6 +23,14 @@
                 [size]="32">
             </star-rating>
         </div>
-        {{ game().name }}
+        <div>
+            <div>{{ game().name }}</div>
+            @if (game().lastUnlock && pageSort() === pageSortEnum.LastPlayed) {
+                <div class="last-played">
+                    <div>Last Played</div>
+                    {{ game().lastUnlock | date: "dd/MM/yyyy HH:mm:ss" }}
+                </div>
+            }
+        </div>
     </div>
 </a>

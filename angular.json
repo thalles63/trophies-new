@@ -32,6 +32,7 @@
                             "src/utils/fonts/icons.css",
                             "src/utils/css/columns.scss",
                             "src/utils/css/modal.scss",
+                            "src/utils/css/pagination.scss",
                             "src/utils/css/styles.scss",
                             "node_modules/@ng-select/ng-select/themes/default.theme.scss",
                             "node_modules/notyf/notyf.min.css"

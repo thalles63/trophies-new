@@ -31,6 +31,10 @@ export class AchievementEditComponent {
             this.achievement.dateAchieved = this.mapper.convertDateToISOFormat(this.achievement.dateAchievedConverted);
         }
 
+        if (!this.achievement.index) {
+            this.achievement.index = crypto.randomUUID();
+        }
+
         this.activeModal.close(this.achievement);
     }
 

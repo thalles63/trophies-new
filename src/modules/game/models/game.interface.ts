@@ -13,6 +13,7 @@ export interface Game {
     timePlayed: TimePlayed;
     isPlatinumed: boolean;
     dateCompleted: string;
+    lastUnlock: string;
     isCampaignComplete: boolean;
     achievements: Achievement[];
     status: number;

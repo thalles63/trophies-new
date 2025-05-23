@@ -1,5 +1,37 @@
-<div class="d-flex flex-wrap gap-8">
-    @for (game of games; track $index) {
-        <game-card [game]="game"> </game-card>
-    }
-</div>
+<sort-by
+    [sort]="paginationInfo.sort"
+    [sorts]="gameListSortBy"
+    (onSelect)="setSortOnState($event)">
+</sort-by>
+
+@if (isLoading) {
+    <ngx-skeleton-loader
+        [count]="paginationInfo.limit"
+        appearance="circle"
+        [theme]="{ height: '302px', width: '227px', borderRadius: '5px', margin: '0' }">
+    </ngx-skeleton-loader>
+} @else {
+    <div class="d-flex flex-wrap gap-8">
+        @for (game of games; track $index) {
+            <game-card
+                [game]="game"
+                [pageSort]="paginationInfo.sort">
+            </game-card>
+        }
+    </div>
+}
+@if (paginationInfo.total) {
+    <ngb-pagination
+        [page]="paginationInfo.page"
+        [collectionSize]="paginationInfo.total"
+        [pageSize]="paginationInfo.limit"
+        (pageChange)="setPageOnState($event)"
+        [maxSize]="5"
+        [rotate]="true"
+        [ellipses]="false"
+        [boundaryLinks]="true"
+        [directionLinks]="false">
+        <ng-template ngbPaginationFirst>First</ng-template>
+        <ng-template ngbPaginationLast>Last</ng-template>
+    </ngb-pagination>
+}

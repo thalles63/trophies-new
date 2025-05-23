@@ -1,3 +1,11 @@
 .gap-8 {
     gap: 8px;
 }
+
+:host ::ng-deep {
+    ngx-skeleton-loader {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+}

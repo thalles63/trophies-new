@@ -10,4 +10,5 @@ export interface Achievement {
     dateAchievedConverted?: string;
     percentageAchieved: number;
     index: string;
+    action?: number;
 }

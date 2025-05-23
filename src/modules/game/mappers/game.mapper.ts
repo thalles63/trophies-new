@@ -19,10 +19,11 @@ export class GameMapper {
             platformText: this.getPlatformText(params.platform),
             timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
             isPlatinumed: params.isPlatinumed,
-            dateCompleted: this.convertDateToFieldFormat(params.dateCompleted),
+            dateCompleted: params.dateCompleted ? this.convertDateToFieldFormat(params.dateCompleted) : "",
             isCampaignComplete: params.isCampaignComplete,
             achievements: params.achievements.map(this.achievements).sortByField("dateAchieved"),
             status: params.status,
+            lastUnlock: params.lastUnlock,
             statusDescription: this.getStatusText(params.status),
             igdbId: params.igdbId
         };

@@ -22,7 +22,7 @@ export class SelectComponent {
     @Input() public inputSize = 12;
     @Input() public label = "";
     @Input() public name = crypto.randomUUID();
-    @Input() public placeholder = `Selecione...`;
+    @Input() public placeholder = `Select...`;
     @Input() public required = false;
     @Input() public items = <any[]>[];
     @Output() public valueChange = new EventEmitter();
