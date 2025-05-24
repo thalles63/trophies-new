@@ -1,21 +1,29 @@
 <div class="container">
     <div class="left-container">
         <div class="game-bar">
-            <div class="cover">
-                @if (game.name && game.image) {
-                    <img
-                        [src]="game.image"
-                        alt="game" />
-                } @else if (game.name && !game.image) {
-                    <div class="d-flex direction-column align-center">
-                        <icon
-                            [icon]="iconEnum.Warning"
-                            [size]="24">
-                        </icon>
-                        Sync this game with IGDB
-                    </div>
-                }
-            </div>
+            @if (isLoading) {
+                <ngx-skeleton-loader
+                    [count]="1"
+                    appearance="circle"
+                    [theme]="{ height: '302px', width: '227px', borderRadius: '5px', margin: '0', position: 'absolute', top: '-279px', left: '17px' }">
+                </ngx-skeleton-loader>
+            } @else {
+                <div class="cover">
+                    @if (game.name && game.image) {
+                        <img
+                            [src]="game.image"
+                            alt="game" />
+                    } @else if (game.name && !game.image) {
+                        <div class="d-flex direction-column align-center">
+                            <icon
+                                [icon]="iconEnum.Warning"
+                                [size]="24">
+                            </icon>
+                            Sync this game with IGDB
+                        </div>
+                    }
+                </div>
+            }
 
             <div>
                 @if (game.name) {
@@ -36,85 +44,157 @@
         <div class="game-information">
             <div>
                 <div class="game-information-label">Status</div>
-                <div class="d-flex align-center">
-                    <status [type]="game.statusDescription"></status>
-                    {{ game.statusDescription }}
-                </div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
+                } @else {
+                    <div class="d-flex align-center">
+                        <status [type]="game.statusDescription"></status>
+                        {{ game.statusDescription }}
+                    </div>
+                }
             </div>
 
             <div>
                 <div class="game-information-label">Platform</div>
-                <div>{{ game.platformText }}</div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
+                } @else {
+                    <div>{{ game.platformText }}</div>
+                }
             </div>
 
             <div>
                 <div class="game-information-label">Time played</div>
-                @if (game.timePlayed.hours || game.timePlayed.minutes) {
-                    <div>{{ game.timePlayed.hours }} hours and {{ game.timePlayed.minutes }} minutes</div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
                 } @else {
-                    -
+                    @if (game.timePlayed.hours || game.timePlayed.minutes) {
+                        <div>{{ game.timePlayed.hours }} hours and {{ game.timePlayed.minutes }} minutes</div>
+                    } @else {
+                        -
+                    }
                 }
             </div>
 
             <div>
                 <div class="game-information-label">Is campaign complete?</div>
-                <div>{{ game.isCampaignComplete ? "Yes" : "No" }}</div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
+                } @else {
+                    <div>{{ game.isCampaignComplete ? "Yes" : "No" }}</div>
+                }
             </div>
 
             <div>
                 <div class="game-information-label">Is platinumed?</div>
-                <div>{{ game.isPlatinumed ? "Yes" : "No" }}</div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
+                } @else {
+                    <div>{{ game.isPlatinumed ? "Yes" : "No" }}</div>
+                }
             </div>
 
             <div>
                 <div class="game-information-label">Date completed</div>
-                <div>{{ game.dateCompleted || "-" }}</div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
+                } @else {
+                    <div>{{ game.dateCompleted || "-" }}</div>
+                }
             </div>
         </div>
     </div>
     <div class="right-container">
-        <div class="game-title">{{ game.name }}</div>
+        @if (isLoading) {
+            <ngx-skeleton-loader
+                [count]="1"
+                appearance="circle"
+                [theme]="{ height: '50px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
+            </ngx-skeleton-loader>
+        } @else {
+            <div class="game-title">{{ game.name }}</div>
+        }
 
-        <div class="game-description">{{ game.description }}</div>
+        @if (isLoading) {
+            <ngx-skeleton-loader
+                [count]="1"
+                appearance="circle"
+                [theme]="{ height: '86px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
+            </ngx-skeleton-loader>
+        } @else {
+            <div class="game-description">{{ game.description }}</div>
+        }
 
         <div class="achievements-container">
             <div class="achievements-title">Achievements</div>
 
-            @for (achievement of game.achievements; track $index; let last = $last) {
-                <div
-                    class="achievement-container"
-                    [class.last]="last"
-                    [class.achieved]="achievement.isAchieved">
-                    <div class="icon">
-                        @if (achievement.image) {
-                            <img
-                                [src]="achievement.image"
-                                alt="achievement icon" />
-                        } @else {
-                            <div class="achievement-no-icon">
-                                <icon
-                                    [icon]="iconEnum.Trophy"
-                                    [size]="22">
-                                </icon>
-                            </div>
-                        }
-                    </div>
-                    <div class="achievement-informations">
-                        <div>
-                            <div>{{ achievement.name }}</div>
-                            <div class="achievement-description">{{ achievement.description || "-" }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="d-flex align-center direction-column">
-                                <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }}</div>
-                                <div class="achievement-time">{{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
-                            </div>
-                            @if (achievement.percentageAchieved) {
-                                <div class="achievement-earn-rate">{{ achievement.percentageAchieved | number: "1.2-2" }} %</div>
+            @if (isLoading) {
+                <ngx-skeleton-loader
+                    [count]="9"
+                    appearance="circle"
+                    [theme]="{ height: '56px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
+                </ngx-skeleton-loader>
+            } @else {
+                @for (achievement of game.achievements; track $index; let last = $last) {
+                    <div
+                        class="achievement-container"
+                        [class.last]="last"
+                        [class.achieved]="achievement.isAchieved">
+                        <div class="icon">
+                            @if (achievement.image) {
+                                <img
+                                    [src]="achievement.image"
+                                    alt="achievement icon" />
+                            } @else {
+                                <div class="achievement-no-icon">
+                                    <icon
+                                        [icon]="iconEnum.Trophy"
+                                        [size]="22">
+                                    </icon>
+                                </div>
                             }
                         </div>
+                        <div class="achievement-informations">
+                            <div>
+                                <div>{{ achievement.name }}</div>
+                                <div class="achievement-description">{{ achievement.description || "-" }}</div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="d-flex align-center direction-column">
+                                    <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }}</div>
+                                    <div class="achievement-time">{{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
+                                </div>
+                                @if (achievement.percentageAchieved) {
+                                    <div class="achievement-earn-rate">{{ achievement.percentageAchieved | number: "1.2-2" }} %</div>
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             }
         </div>
     </div>

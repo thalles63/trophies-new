@@ -34,7 +34,7 @@ export class HeaderComponent {
     }
 
     public clearGameListPaging() {
-        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1 }));
+        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2 }));
     }
 
     public toggleOptions() {

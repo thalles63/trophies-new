@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
-import { UpdateBackgroundScreenshotAction } from "../../../common/store/core.action";
+import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { PlatformsData } from "../../game/edit/game-edit.data";
 import { SyncService } from "./sync.service";
 
@@ -25,6 +25,8 @@ export class SyncComponent implements OnInit {
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
+        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2 }));
+
         this.platformToSync = this.activatedRoute.snapshot.data["platform"];
         this.platformText = PlatformsData.find((p) => p.id === Number(this.platformToSync))?.description!;
 

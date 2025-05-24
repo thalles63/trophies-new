@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
+import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { UpdateBackgroundScreenshotAction } from "../../../common/store/core.action";
 import { ButtonComponent } from "../../../components/button/button.component";
@@ -17,7 +18,7 @@ import { GameService } from "../services/game.service";
 
 @Component({
     selector: "game-detail",
-    imports: [ButtonComponent, StarRatingComponent, DatePipe, StatusComponent, DecimalPipe, IconComponent],
+    imports: [ButtonComponent, StarRatingComponent, DatePipe, StatusComponent, DecimalPipe, IconComponent, NgxSkeletonLoaderModule],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
     providers: [GameService]
@@ -33,6 +34,7 @@ export class GameDetailComponent {
     protected game = <Game>{ timePlayed: {} };
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
+    protected isLoading = false;
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -50,12 +52,15 @@ export class GameDetailComponent {
             return;
         }
 
+        this.isLoading = true;
+
         this.service
             .getById(this.gameId)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
+                this.isLoading = false;
             });
     }
 
