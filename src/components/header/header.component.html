@@ -15,5 +15,31 @@
         Thalles Games
     </a>
 
-    <app-button (onClick)="addGame()">Add new game</app-button>
+    <a
+        class="options-button"
+        (click)="toggleOptions()"
+        [class.opened]="menuOpened">
+        <div class="options-title">Options</div>
+        <div class="dropdown-icon">
+            <icon [icon]="icon.AngleDown"></icon>
+        </div>
+
+        @if (menuOpened) {
+            <div class="options">
+                <div (click)="syncPlaystation()">Sync Playstation</div>
+                <div (click)="syncXbox()">Sync Xbox</div>
+                <div
+                    (click)="syncSteam()"
+                    class="border-bottom">
+                    Sync Steam
+                </div>
+                <div
+                    (click)="addGame()"
+                    class="border-bottom">
+                    Add game
+                </div>
+                <div>Config PSN Token</div>
+            </div>
+        }
+    </a>
 </header>

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { SanitizeEmptyStrings } from "../../../common/functions/functions";
 import { GameStatusData, PlatformsData } from "../edit/game-edit.data";
 import { TimePlayed } from "../edit/time-played/time-played.interface";
@@ -21,7 +22,10 @@ export class GameMapper {
             isPlatinumed: params.isPlatinumed,
             dateCompleted: params.dateCompleted ? this.convertDateToFieldFormat(params.dateCompleted) : "",
             isCampaignComplete: params.isCampaignComplete,
-            achievements: params.achievements.map(this.achievements).sortByField("dateAchieved"),
+            achievements: params.achievements.map(this.achievements).sortByField([
+                { fieldName: "isAchieved", direction: SortDirection.Ascending },
+                { fieldName: "dateAchieved", direction: SortDirection.Descending }
+            ]),
             status: params.status,
             lastUnlock: params.lastUnlock,
             statusDescription: this.getStatusText(params.status),

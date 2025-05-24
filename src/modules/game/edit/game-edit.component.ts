@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AchievementActionEnum } from "../../../common/enums/achievement-action.enum";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
+import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
 import { NotificationService } from "../../../common/services/notification.service";
 import { ButtonComponent } from "../../../components/button/button.component";
@@ -108,7 +109,10 @@ export class GameEditComponent implements AfterViewInit {
 
             this.achievementsModified.replaceOrUnshift(result);
             this.game.achievements.push(result);
-            this.game.achievements = this.game.achievements.sortByField("dateAchieved");
+            this.game.achievements = this.game.achievements.sortByField([
+                { fieldName: "isAchieved", direction: SortDirection.Ascending },
+                { fieldName: "dateAchieved", direction: SortDirection.Descending }
+            ]);
         });
     }
 
@@ -244,7 +248,10 @@ export class GameEditComponent implements AfterViewInit {
 
             this.achievementsModified.replaceOrUnshift(result);
             this.game.achievements[index] = result;
-            this.game.achievements = this.game.achievements.sortByField("dateAchieved");
+            this.game.achievements = this.game.achievements.sortByField([
+                { fieldName: "isAchieved", direction: SortDirection.Ascending },
+                { fieldName: "dateAchieved", direction: SortDirection.Descending }
+            ]);
         });
     }
 

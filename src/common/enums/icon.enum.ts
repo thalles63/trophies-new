@@ -1,6 +1,8 @@
 export enum IconEnum {
+    AngleDown = "icons-angle-down",
     Camera = "icons-camera",
     Edit = "icons-edit",
+    Gamepad = "icons-gamepad",
     Loading = "icons-loading",
     Search = "icons-search",
     Trash = "icons-trash",

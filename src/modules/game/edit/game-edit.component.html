@@ -15,32 +15,28 @@
             <app-button
                 type="secondary-outline"
                 customClass="playing {{ game.status === statusEnum.Playing ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Playing)"
-                [icon]="iconEnum.Camera">
+                (onClick)="setStatus(statusEnum.Playing)">
                 Playing
             </app-button>
 
             <app-button
                 type="secondary-outline"
                 customClass="completed {{ game.status === statusEnum.Completed ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Completed)"
-                [icon]="iconEnum.Camera">
+                (onClick)="setStatus(statusEnum.Completed)">
                 Completed
             </app-button>
 
             <app-button
                 type="secondary-outline"
                 customClass="shelved {{ game.status === statusEnum.Shelved ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Shelved)"
-                [icon]="iconEnum.Camera">
+                (onClick)="setStatus(statusEnum.Shelved)">
                 Shelved
             </app-button>
 
             <app-button
                 type="secondary-outline"
                 customClass="backlog {{ game.status === statusEnum.Backlog ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Backlog)"
-                [icon]="iconEnum.Camera">
+                (onClick)="setStatus(statusEnum.Backlog)">
                 Backlog
             </app-button>
         </div>

@@ -12,6 +12,7 @@ export class ButtonComponent {
     public type = input("primary");
     public customClass = input("");
     public icon = input<IconEnum>();
+    public iconSize = input<number>(14);
     public disabled = input(false);
     public isLoading = input(false);
     public onClick = output();
