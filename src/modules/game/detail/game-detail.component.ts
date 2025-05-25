@@ -6,6 +6,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../common/enums/icon.enum";
+import { UserInfo } from "../../../common/helpers/user-info";
 import { UpdateBackgroundScreenshotAction } from "../../../common/store/core.action";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { IconComponent } from "../../../components/icon/icon.component";
@@ -37,6 +38,7 @@ export class GameDetailComponent {
     protected isLoading = false;
     protected fromManualRegister = false;
     protected readMoreActive = false;
+    protected isUserLoggedIn = UserInfo.isLoggedIn();
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");

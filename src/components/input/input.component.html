@@ -6,7 +6,7 @@
     </label>
 
     <input
-        type="text"
+        [type]="type"
         class="form-control"
         (blur)="onFieldBlur()"
         (ngModelChange)="onFieldChange($event)"

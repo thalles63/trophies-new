@@ -1,0 +1,25 @@
+import { HttpClient, HttpRequest } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
+
+@Injectable({ providedIn: "root" })
+export class AuthService {
+    private readonly http = inject(HttpClient);
+
+    private readonly API_URL = `${environment.API_URL}/auth`;
+
+    public login(username: string, password: string) {
+        return this.http.post<{ token: string }>(`${this.API_URL}/login`, {
+            email: username,
+            password
+        });
+    }
+
+    public addAuthHeader(request: HttpRequest<unknown>, accessToken: string | null) {
+        const headers = { Authorization: `Bearer ${accessToken}` };
+
+        return request.clone({
+            setHeaders: headers
+        });
+    }
+}

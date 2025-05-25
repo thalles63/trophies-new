@@ -20,6 +20,7 @@ export class InputComponent {
     @Input() public disabled = false;
     @Input() public inputSize = 12;
     @Input() public label = "";
+    @Input() public type = "text";
     @Input() public customClass = "";
     @Input() public name = crypto.randomUUID();
     @Input() public placeholder = "";

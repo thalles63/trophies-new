@@ -26,11 +26,13 @@
             }
 
             <div>
-                @if (game.name) {
+                @if (game.name && isUserLoggedIn) {
                     <app-button (onClick)="openModal()"> Edit </app-button>
                 }
 
-                <div class="rating-container">
+                <div
+                    class="rating-container"
+                    [class.mt-0]="!isUserLoggedIn">
                     <star-rating
                         [rating]="game.rating"
                         color="#3f4b64"
