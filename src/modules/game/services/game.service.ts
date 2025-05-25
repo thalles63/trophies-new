@@ -27,6 +27,10 @@ export class GameService {
         return this.http.get<any>(`${this.API_URL}/search-igdb?gameName=${gameName}`);
     }
 
+    public searchSteam(gameName: string) {
+        return this.http.get<any>(`${this.API_URL}/search-steam?gameName=${gameName}`);
+    }
+
     public delete(gameId: string) {
         return this.http.delete<void>(`${this.API_URL}/${gameId}`);
     }

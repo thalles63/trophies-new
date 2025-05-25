@@ -148,7 +148,9 @@
 
     @if (!this.isManualRegister()) {
         <tab tabTitle="Achievements">
-            <div class="modal-body achievements-body p-6">
+            <div
+                class="modal-body achievements-body p-6"
+                [class.no-achievements]="!game.achievements.length">
                 @for (achievement of game.achievements; track $index; let last = $last) {
                     <div
                         class="achievement-container"
@@ -196,6 +198,12 @@
                                 </app-button>
                             </div>
                         </div>
+                    </div>
+                }
+
+                @if (!game.achievements.length) {
+                    <div>
+                        <app-button (onClick)="searchAchievements()">Search game achievements</app-button>
                     </div>
                 }
             </div>

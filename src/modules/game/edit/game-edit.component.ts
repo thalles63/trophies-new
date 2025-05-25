@@ -26,6 +26,7 @@ import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
 import { GameStatusData, PlatformsData, TrueFalseData } from "./game-edit.data";
 import { SearchGameInIgdbComponent } from "./search-igdb/search-igdb.component";
+import { SearchGameInSteamComponent } from "./search-steam/search-steam.component";
 import { TimePlayedComponent } from "./time-played/time-played.component";
 
 @Component({
@@ -282,6 +283,25 @@ export class GameEditComponent implements AfterViewInit {
 
     public isManualRegister() {
         return !this.game.id;
+    }
+
+    public searchAchievements() {
+        if (!this.game.name) {
+            this.notificationService.error("Invalid game name");
+            return;
+        }
+
+        const modalRef = this.modalService.open(SearchGameInSteamComponent, { centered: true, size: "lg" });
+        modalRef.componentInstance.gameId = this.game.id;
+        modalRef.componentInstance.gameName = this.game.name;
+
+        modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+            if (!result) {
+                return;
+            }
+
+            this.game.achievements = result;
+        });
     }
 
     public editAchievement(achievement: Achievement, index: number) {

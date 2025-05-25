@@ -35,6 +35,12 @@
 
 .achievements-body.modal-body {
     overflow: auto;
+
+    &.no-achievements {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
 }
 
 ::-webkit-scrollbar {

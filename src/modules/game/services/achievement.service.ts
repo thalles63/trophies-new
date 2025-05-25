@@ -24,4 +24,8 @@ export class AchievementsService {
     public updateAchievements(achievements: Achievement[]) {
         return this.http.put(`${this.API_URL}/multiple`, achievements.map(this.mapper.achievementsDto));
     }
+
+    public saveFromSteam(selectedGameId: string, gameId: string) {
+        return this.http.post<Achievement[]>(`${this.API_URL}/save-from-steam`, { platformId: selectedGameId, id: gameId });
+    }
 }
