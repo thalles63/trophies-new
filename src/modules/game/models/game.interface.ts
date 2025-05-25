@@ -19,4 +19,5 @@ export interface Game {
     status: number;
     statusDescription: string;
     igdbId: string;
+    isManualRegister: boolean;
 }

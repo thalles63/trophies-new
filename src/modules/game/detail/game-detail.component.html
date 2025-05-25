@@ -146,7 +146,30 @@
                 [theme]="{ height: '86px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
             </ngx-skeleton-loader>
         } @else {
-            <div class="game-description">{{ game.description }}</div>
+            <div
+                class="game-description"
+                [class.opened]="readMoreActive"
+                #readMoreContainer>
+                {{ game.description }}
+            </div>
+
+            <div class="d-flex">
+                @if (readMoreContainer.offsetHeight < readMoreContainer.scrollHeight && !readMoreActive) {
+                    <div
+                        class="read-more-buttons"
+                        (click)="toggleReadMore()">
+                        Read more
+                    </div>
+                }
+
+                @if (readMoreActive) {
+                    <div
+                        class="read-more-buttons"
+                        (click)="toggleReadMore()">
+                        Read less
+                    </div>
+                }
+            </div>
         }
 
         <div class="achievements-container">

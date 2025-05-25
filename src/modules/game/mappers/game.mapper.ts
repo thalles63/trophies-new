@@ -29,7 +29,8 @@ export class GameMapper {
             status: params.status,
             lastUnlock: params.lastUnlock,
             statusDescription: this.getStatusText(params.status),
-            igdbId: params.igdbId
+            igdbId: params.igdbId,
+            isManualRegister: params.isManualRegister
         };
     };
 
@@ -61,7 +62,8 @@ export class GameMapper {
             dateCompleted: params.dateCompleted ? this.convertDateToISOFormat(params.dateCompleted) : undefined,
             isCampaignComplete: params.isCampaignComplete,
             status: params.status,
-            igdbId: params.igdbId
+            igdbId: params.igdbId,
+            isManualRegister: params.isManualRegister
         });
     };
 

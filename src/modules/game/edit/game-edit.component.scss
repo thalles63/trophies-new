@@ -137,27 +137,31 @@
 :host ::ng-deep {
     .btn.playing.selected,
     .btn.playing:hover {
-        background-color: #4b7bd4;
         border-color: #4b7bd4;
         color: #fff;
+        border-bottom: 3px solid #4b7bd4;
+        background-color: transparent;
     }
     .btn.completed.selected,
     .btn.completed:hover {
-        background-color: #00bc7d;
         border-color: #00bc7d;
         color: #fff;
+        border-bottom: 3px solid #00bc7d;
+        background-color: transparent;
     }
     .btn.shelved.selected,
     .btn.shelved:hover {
-        background-color: #e69b3e;
         border-color: #e69b3e;
         color: #fff;
+        border-bottom: 3px solid #e69b3e;
+        background-color: transparent;
     }
     .btn.backlog.selected,
     .btn.backlog:hover {
-        background-color: #ea377a;
         border-color: #ea377a;
         color: #fff;
+        border-bottom: 3px solid #ea377a;
+        background-color: transparent;
     }
 }
 
@@ -180,4 +184,8 @@
     &:hover {
         background-color: #fc6399;
     }
+}
+
+.align-end {
+    justify-content: flex-end;
 }

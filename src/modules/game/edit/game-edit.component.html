@@ -146,68 +146,75 @@
         </div>
     </tab>
 
-    <tab tabTitle="Achievements">
-        <div class="modal-body achievements-body p-6">
-            @for (achievement of game.achievements; track $index; let last = $last) {
-                <div
-                    class="achievement-container"
-                    [class.last]="last"
-                    [class.achieved]="achievement.isAchieved">
-                    <div class="icon">
-                        @if (achievement.image) {
-                            <img
-                                [src]="achievement.image"
-                                alt="achievement icon" />
-                        } @else {
-                            <div class="achievement-no-icon">
-                                <icon
-                                    [icon]="iconEnum.Trophy"
-                                    [size]="22">
-                                </icon>
+    @if (!this.isManualRegister()) {
+        <tab tabTitle="Achievements">
+            <div class="modal-body achievements-body p-6">
+                @for (achievement of game.achievements; track $index; let last = $last) {
+                    <div
+                        class="achievement-container"
+                        [class.last]="last"
+                        [class.achieved]="achievement.isAchieved">
+                        <div class="icon">
+                            @if (achievement.image) {
+                                <img
+                                    [src]="achievement.image"
+                                    alt="achievement icon" />
+                            } @else {
+                                <div class="achievement-no-icon">
+                                    <icon
+                                        [icon]="iconEnum.Trophy"
+                                        [size]="22">
+                                    </icon>
+                                </div>
+                            }
+                        </div>
+                        <div class="achievement-informations">
+                            <div>
+                                <div>{{ achievement.name }}</div>
+                                <div class="achievement-description">{{ achievement.description || "-" }}</div>
                             </div>
-                        }
-                    </div>
-                    <div class="achievement-informations">
-                        <div>
-                            <div>{{ achievement.name }}</div>
-                            <div class="achievement-description">{{ achievement.description || "-" }}</div>
-                        </div>
 
-                        <div class="achievements-buttons">
-                            <app-button
-                                type="secondary-outline"
-                                customClass="icon-button"
-                                (onClick)="editAchievement(achievement, $index)">
-                                <icon
-                                    [icon]="iconEnum.Edit"
-                                    [size]="16">
-                                </icon>
-                            </app-button>
+                            <div class="achievements-buttons">
+                                <app-button
+                                    type="secondary-outline"
+                                    customClass="icon-button"
+                                    (onClick)="editAchievement(achievement, $index)">
+                                    <icon
+                                        [icon]="iconEnum.Edit"
+                                        [size]="16">
+                                    </icon>
+                                </app-button>
 
-                            <app-button
-                                type="primary-outline"
-                                (onClick)="confirmDeleteAchievement(achievement, $index)"
-                                customClass="icon-button">
-                                <icon
-                                    [icon]="iconEnum.Trash"
-                                    [size]="16">
-                                </icon>
-                            </app-button>
+                                <app-button
+                                    type="primary-outline"
+                                    (onClick)="confirmDeleteAchievement(achievement, $index)"
+                                    customClass="icon-button">
+                                    <icon
+                                        [icon]="iconEnum.Trash"
+                                        [size]="16">
+                                    </icon>
+                                </app-button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-    </tab>
+                }
+            </div>
+        </tab>
+    }
 </tabs>
 
-<div class="modal-footer">
+<div
+    class="modal-footer"
+    [class.align-end]="this.isManualRegister() && gameInfoTab.active">
     @if (gameInfoTab.active) {
-        <app-button
-            type="primary-outline"
-            (onClick)="confirmDeleteGame()">
-            Delete game
-        </app-button>
+        @if (!this.isManualRegister()) {
+            <app-button
+                type="primary-outline"
+                (onClick)="confirmDeleteGame()"
+                [isLoading]="isDeleteLoading">
+                Delete game
+            </app-button>
+        }
     } @else {
         <app-button (onClick)="addNewAchievement()"> Add new achievement </app-button>
     }

@@ -35,9 +35,12 @@ export class GameDetailComponent {
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected isLoading = false;
+    protected fromManualRegister = false;
+    protected readMoreActive = false;
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
+        this.fromManualRegister = { ...history.state }.fromManualRegister;
 
         if (!this.gameId) {
             this.openModal();
@@ -61,12 +64,17 @@ export class GameDetailComponent {
                 this.game = this.gameMapper.findById(result);
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
                 this.isLoading = false;
+
+                if (this.fromManualRegister) {
+                    this.openModal();
+                }
             });
     }
 
     public openModal() {
         const modalRef = this.modalService.open(GameEditComponent, { centered: true, size: "xl" });
-        modalRef.componentInstance.game = this.game.id ? structuredClone(this.game) : { timePlayed: {} };
+        modalRef.componentInstance.game = this.game.id ? structuredClone(this.game) : { timePlayed: {}, achievements: [] };
+        modalRef.componentInstance.manualRegister = !this.game.id;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             if (!result) {
@@ -76,5 +84,9 @@ export class GameDetailComponent {
             this.game = structuredClone(result);
             this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
         });
+    }
+
+    public toggleReadMore() {
+        this.readMoreActive = !this.readMoreActive;
     }
 }
