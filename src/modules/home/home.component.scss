@@ -9,3 +9,22 @@
         flex-wrap: wrap;
     }
 }
+
+.status-filter {
+    display: flex;
+    gap: 8px;
+
+    div {
+        padding: 4px 8px;
+        border: 1px solid #30394c;
+        border-radius: 4px;
+        margin-bottom: 6px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    div.selected,
+    div:hover {
+        background-color: #4a5e8d;
+    }
+}

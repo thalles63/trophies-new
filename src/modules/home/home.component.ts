@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
+import { StatusEnum } from "../../common/enums/status.enum";
 import { PaginationInfo } from "../../common/models/pagination.interface";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
     protected paginationInfo = <PaginationInfo>{};
     protected isLoading = false;
     protected gameListSortBy = GameListSortBy;
+    protected statusEnum = StatusEnum;
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
@@ -42,6 +44,7 @@ export class HomeComponent implements OnInit {
                 this.paginationInfo.page = filters.page!;
                 this.paginationInfo.sort = filters.sort!;
                 this.paginationInfo.limit = filters.limit!;
+                this.paginationInfo.status = filters.status!;
 
                 this.listGames();
             });
@@ -51,11 +54,11 @@ export class HomeComponent implements OnInit {
         this.isLoading = true;
 
         this.service
-            .listGames(this.paginationInfo.page, this.paginationInfo.limit, this.paginationInfo.sort)
+            .listGames(this.paginationInfo.page, this.paginationInfo.limit, this.paginationInfo.sort, this.paginationInfo.status)
             .pipe(takeUntilDestroyed(this.destroyref))
             .subscribe((result: any) => {
                 this.games = result.games;
-                this.paginationInfo = result.pagination;
+                this.paginationInfo = { ...this.paginationInfo, ...result.pagination };
                 this.isLoading = false;
             });
     }
@@ -66,5 +69,11 @@ export class HomeComponent implements OnInit {
 
     public setSortOnState(sort: number) {
         this.store.dispatch(new UpdateGamesListingFilterAction({ sort, page: 1 }));
+    }
+
+    public setStatus(status: number) {
+        this.paginationInfo.status = status;
+        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, status: this.paginationInfo.status }));
+        this.listGames();
     }
 }

@@ -25,7 +25,7 @@ export class SyncComponent implements OnInit {
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
-        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2 }));
+        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2, status: 5 }));
 
         this.platformToSync = this.activatedRoute.snapshot.data["platform"];
         this.platformText = PlatformsData.find((p) => p.id === Number(this.platformToSync))?.description!;

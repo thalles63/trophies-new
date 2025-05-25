@@ -34,12 +34,11 @@ export class HeaderComponent {
     }
 
     public addGame() {
-        this.clearGameListPaging();
         this.router.navigate(["/game"]);
     }
 
     public clearGameListPaging() {
-        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2 }));
+        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2, status: 5 }));
     }
 
     public toggleOptions() {

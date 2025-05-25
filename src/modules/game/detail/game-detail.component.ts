@@ -7,7 +7,7 @@ import { Store } from "@ngxs/store";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
-import { UpdateBackgroundScreenshotAction } from "../../../common/store/core.action";
+import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { IconComponent } from "../../../components/icon/icon.component";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
@@ -45,6 +45,7 @@ export class GameDetailComponent {
         this.fromManualRegister = { ...history.state }.fromManualRegister;
 
         if (!this.gameId) {
+            this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2, status: 5 }));
             this.openModal();
             return;
         }

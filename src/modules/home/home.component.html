@@ -1,8 +1,38 @@
-<sort-by
-    [sort]="paginationInfo.sort"
-    [sorts]="gameListSortBy"
-    (onSelect)="setSortOnState($event)">
-</sort-by>
+<div class="d-flex space-between">
+    <div class="status-filter">
+        <div
+            (click)="setStatus(statusEnum.PlayingCompleted)"
+            [class.selected]="paginationInfo.status === statusEnum.PlayingCompleted">
+            Playing + Completed
+        </div>
+        <div
+            (click)="setStatus(statusEnum.Playing)"
+            [class.selected]="paginationInfo.status === statusEnum.Playing">
+            Playing
+        </div>
+        <div
+            (click)="setStatus(statusEnum.Completed)"
+            [class.selected]="paginationInfo.status === statusEnum.Completed">
+            Completed
+        </div>
+        <div
+            (click)="setStatus(statusEnum.Shelved)"
+            [class.selected]="paginationInfo.status === statusEnum.Shelved">
+            Shelved
+        </div>
+        <div
+            (click)="setStatus(statusEnum.Backlog)"
+            [class.selected]="paginationInfo.status === statusEnum.Backlog"
+            >Backlog
+        </div>
+    </div>
+
+    <sort-by
+        [sort]="paginationInfo.sort"
+        [sorts]="gameListSortBy"
+        (onSelect)="setSortOnState($event)">
+    </sort-by>
+</div>
 
 @if (isLoading) {
     <ngx-skeleton-loader

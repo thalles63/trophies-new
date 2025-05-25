@@ -12,7 +12,7 @@ interface CoreStateModel {
     name: new StateToken<CoreStateModel>("core"),
     defaults: {
         backgroundScreenshot: undefined,
-        filter: { page: 1, sort: 2, limit: 18 }
+        filter: { page: 1, sort: 2, limit: 18, status: 5 }
     }
 })
 @Injectable()

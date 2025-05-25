@@ -9,12 +9,13 @@ export class HomeService {
 
     private readonly API_URL = `${environment.API_URL}/game`;
 
-    public listGames(page: number, size: number, sort: number) {
+    public listGames(page: number, size: number, sort: number, status: number) {
         return this.http.get<{ games: Game[] }>(`${this.API_URL}`, {
             params: {
                 page,
                 limit: size,
-                sort
+                sort,
+                status
             }
         });
     }
