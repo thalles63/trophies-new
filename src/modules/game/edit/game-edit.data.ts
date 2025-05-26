@@ -15,6 +15,10 @@ export const PlatformsData = [
         description: "Playstation 4"
     },
     {
+        id: PlatformEnum.Playstation3,
+        description: "Playstation 3"
+    },
+    {
         id: PlatformEnum.Xbox,
         description: "Xbox"
     },
