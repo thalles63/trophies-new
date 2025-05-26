@@ -26,7 +26,7 @@ export class GameMapper {
                 { fieldName: "dateAchieved", direction: SortDirection.Descending }
             ]),
             status: params.status,
-            lastUnlock: this.convertDateToFieldFormat(params.lastUnlock),
+            lastUnlock: params.lastUnlock,
             statusDescription: this.getStatusText(params.status),
             igdbId: params.igdbId,
             isManualRegister: params.isManualRegister

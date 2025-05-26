@@ -126,7 +126,7 @@
                     </ngx-skeleton-loader>
                 } @else {
                     @if (game.isPlatinumed || game.isCampaignComplete) {
-                        <div>{{ game.lastUnlock || "-" }}</div>
+                        <div>{{ (game.lastUnlock | date: "dd/MM/yyyy HH:mm:ss") || "-" }}</div>
                     } @else {
                         <div>-</div>
                     }

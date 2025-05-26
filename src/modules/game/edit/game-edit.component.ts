@@ -87,6 +87,7 @@ export class GameEditComponent implements AfterViewInit {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((result) => {
                 this.isSaveLoading = false;
+                this.game.lastUnlock = result.lastUnlock;
                 this.activeModal.close(this.game);
             });
     }
