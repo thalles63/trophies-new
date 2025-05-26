@@ -66,21 +66,6 @@
     overflow: auto;
 }
 
-::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
-    background: #252835;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #484d64;
-    -webkit-border-radius: 1ex;
-}
-
-::-webkit-scrollbar-corner {
-    background: #252835;
-}
-
 .modal-header {
     font-size: 1.5rem;
     font-weight: 700;
