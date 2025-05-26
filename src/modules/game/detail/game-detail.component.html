@@ -125,7 +125,11 @@
                         [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
                     </ngx-skeleton-loader>
                 } @else {
-                    <div>{{ game.dateCompleted || "-" }}</div>
+                    @if (game.isPlatinumed || game.isCampaignComplete) {
+                        <div>{{ game.lastUnlock || "-" }}</div>
+                    } @else {
+                        <div>-</div>
+                    }
                 }
             </div>
         </div>

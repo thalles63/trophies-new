@@ -20,14 +20,13 @@ export class GameMapper {
             platformText: this.getPlatformText(params.platform),
             timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
             isPlatinumed: params.isPlatinumed,
-            dateCompleted: params.dateCompleted ? this.convertDateToFieldFormat(params.dateCompleted) : "",
             isCampaignComplete: params.isCampaignComplete,
             achievements: params.achievements.map(this.achievements).sortByField([
                 { fieldName: "isAchieved", direction: SortDirection.Ascending },
                 { fieldName: "dateAchieved", direction: SortDirection.Descending }
             ]),
             status: params.status,
-            lastUnlock: params.lastUnlock,
+            lastUnlock: this.convertDateToFieldFormat(params.lastUnlock),
             statusDescription: this.getStatusText(params.status),
             igdbId: params.igdbId,
             isManualRegister: params.isManualRegister
@@ -59,7 +58,6 @@ export class GameMapper {
             platform: params.platform,
             timePlayed: params.timePlayed ? this.convertTimePlayedToSeconds(params.timePlayed) : undefined,
             isPlatinumed: params.isPlatinumed,
-            dateCompleted: params.dateCompleted ? this.convertDateToISOFormat(params.dateCompleted) : undefined,
             isCampaignComplete: params.isCampaignComplete,
             status: params.status,
             igdbId: params.igdbId,

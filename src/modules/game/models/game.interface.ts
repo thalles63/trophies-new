@@ -12,7 +12,6 @@ export interface Game {
     platformText?: string;
     timePlayed: TimePlayed;
     isPlatinumed: boolean;
-    dateCompleted: string;
     lastUnlock: string;
     isCampaignComplete: boolean;
     achievements: Achievement[];
