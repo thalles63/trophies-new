@@ -196,7 +196,9 @@
 
                 @if (!game.achievements.length) {
                     <div>
-                        <app-button (onClick)="searchAchievements()">Search game achievements</app-button>
+                        <app-button (onClick)="searchAchievementsInSteam()">Search achievements in Steam</app-button>
+                        <div> or </div>
+                        <app-button (onClick)="searchAchievementsInPsnProfiles()">Search achievements in PSN Profiles</app-button>
                     </div>
                 }
             </div>

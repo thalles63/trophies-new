@@ -1,0 +1,26 @@
+<div class="modal-header"> Get achievements from Psn profiles </div>
+
+<div class="modal-body">
+    <div class="row">
+        <app-input
+            [(value)]="gameUrl"
+            label="Game url in PSN Profiles"
+            [inputSize]="12">
+        </app-input>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <app-button
+        type="secondary"
+        (onClick)="cancel()">
+        Cancel
+    </app-button>
+
+    <app-button
+        (onClick)="save()"
+        [isLoading]="isSaveLoading"
+        [disabled]="!gameUrl">
+        Select game
+    </app-button>
+</div>

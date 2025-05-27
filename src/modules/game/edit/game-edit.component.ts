@@ -26,6 +26,7 @@ import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
 import { GameStatusData, PlatformsData, TrueFalseData } from "./game-edit.data";
 import { SearchGameInIgdbComponent } from "./search-igdb/search-igdb.component";
+import { SearchGameInPsnComponent } from "./search-psn/search-psn.component";
 import { SearchGameInSteamComponent } from "./search-steam/search-steam.component";
 import { TimePlayedComponent } from "./time-played/time-played.component";
 
@@ -286,7 +287,7 @@ export class GameEditComponent implements AfterViewInit {
         return !this.game.id;
     }
 
-    public searchAchievements() {
+    public searchAchievementsInSteam() {
         if (!this.game.name) {
             this.notificationService.error("Invalid game name");
             return;
@@ -295,6 +296,19 @@ export class GameEditComponent implements AfterViewInit {
         const modalRef = this.modalService.open(SearchGameInSteamComponent, { centered: true, size: "lg" });
         modalRef.componentInstance.gameId = this.game.id;
         modalRef.componentInstance.gameName = this.game.name;
+
+        modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+            if (!result) {
+                return;
+            }
+
+            this.game.achievements = result;
+        });
+    }
+
+    public searchAchievementsInPsnProfiles() {
+        const modalRef = this.modalService.open(SearchGameInPsnComponent, { centered: true, size: "lg" });
+        modalRef.componentInstance.gameId = this.game.id;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             if (!result) {

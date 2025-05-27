@@ -28,4 +28,8 @@ export class AchievementsService {
     public saveFromSteam(selectedGameId: string, gameId: string) {
         return this.http.post<Achievement[]>(`${this.API_URL}/save-from-steam`, { platformId: selectedGameId, id: gameId });
     }
+
+    public saveFromPsn(gameUrl: string, gameId: string) {
+        return this.http.post<Achievement[]>(`${this.API_URL}/save-from-psn`, { gameUrl, gameId });
+    }
 }
