@@ -125,6 +125,10 @@
     gap: 4px;
 }
 
+.text-center {
+    text-align: center;
+}
+
 :host ::ng-deep {
     .btn.playing.selected,
     .btn.playing:hover {
