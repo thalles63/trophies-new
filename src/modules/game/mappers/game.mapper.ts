@@ -23,7 +23,8 @@ export class GameMapper {
             isCampaignComplete: params.isCampaignComplete,
             achievements: params.achievements.map(this.achievements).sortByField([
                 { fieldName: "isAchieved", direction: SortDirection.Ascending },
-                { fieldName: "dateAchieved", direction: SortDirection.Descending }
+                { fieldName: "dateAchieved", direction: SortDirection.Descending },
+                { fieldName: "percentageAchieved", direction: SortDirection.Ascending }
             ]),
             status: params.status,
             lastUnlock: params.lastUnlock,
