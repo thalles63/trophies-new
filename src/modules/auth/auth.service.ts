@@ -1,10 +1,14 @@
 import { HttpClient, HttpRequest } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { UserInfo } from "../../common/helpers/user-info";
+import { UpdateIfUserIsLoggedInAction } from "../../common/store/core.action";
 import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
     private readonly http = inject(HttpClient);
+    private readonly store = inject(Store);
 
     private readonly API_URL = `${environment.API_URL}/auth`;
 
@@ -21,5 +25,10 @@ export class AuthService {
         return request.clone({
             setHeaders: headers
         });
+    }
+
+    public logout() {
+        UserInfo.clearLoginToken();
+        this.store.dispatch(new UpdateIfUserIsLoggedInAction(false));
     }
 }

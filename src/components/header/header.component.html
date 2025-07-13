@@ -39,7 +39,8 @@
                         class="border-bottom">
                         Add game
                     </div>
-                    <div>Config PSN Token</div>
+                    <div (click)="openConfigModal()">Config PSN Token</div>
+                    <div (click)="logout()">Logout</div>
                 } @else {
                     <div (click)="openLoginModal()">Login</div>
                 }

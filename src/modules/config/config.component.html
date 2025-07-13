@@ -1,0 +1,44 @@
+<div class="modal-header"> Configuration </div>
+
+<div class="modal-body">
+    <div>
+        To update your NPSSO do login in
+        <a
+            class="link"
+            href="https://www.playstation.com/"
+            target="_blank">
+            this page
+        </a>
+    </div>
+    <div>
+        After that get the NPSSO token from
+        <a
+            class="link"
+            href="https://ca.account.sony.com/api/v1/ssocookie"
+            target="_blank">
+            this page
+        </a>
+    </div>
+    <br />
+    <div class="row">
+        <app-input
+            [(value)]="npsso"
+            label="NPSSO Token"
+            [inputSize]="12">
+        </app-input>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <app-button
+        type="secondary"
+        (onClick)="cancel()">
+        Cancel
+    </app-button>
+
+    <app-button
+        (onClick)="save()"
+        [isLoading]="isLoginLoading">
+        Save
+    </app-button>
+</div>

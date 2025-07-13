@@ -9,3 +9,8 @@ export class UpdateGamesListingFilterAction {
     public static readonly type = "[App Core] Update the filter to load games";
     public constructor(public payload: Partial<PaginationInfo>) {}
 }
+
+export class UpdateIfUserIsLoggedInAction {
+    public static readonly type = "[App Core] Update if the logged user";
+    public constructor(public payload: boolean) {}
+}

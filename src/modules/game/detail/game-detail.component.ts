@@ -8,6 +8,7 @@ import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
+import { CoreState } from "../../../common/store/core.state";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { IconComponent } from "../../../components/icon/icon.component";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
@@ -39,6 +40,7 @@ export class GameDetailComponent {
     protected fromManualRegister = false;
     protected readMoreActive = false;
     protected isUserLoggedIn = UserInfo.isLoggedIn();
+    protected isLoggedInUser$ = this.store.select(CoreState.isLoggedInUser);
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -51,6 +53,13 @@ export class GameDetailComponent {
         }
 
         this.findGameById();
+        this.listenForUserLogin();
+    }
+
+    private listenForUserLogin() {
+        this.isLoggedInUser$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isLoggedInUser) => {
+            this.isUserLoggedIn = !!isLoggedInUser;
+        });
     }
 
     private findGameById() {

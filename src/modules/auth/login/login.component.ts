@@ -1,8 +1,10 @@
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Store } from "@ngxs/store";
 import { UserInfo } from "../../../common/helpers/user-info";
 import { NotificationService } from "../../../common/services/notification.service";
+import { UpdateIfUserIsLoggedInAction } from "../../../common/store/core.action";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { InputComponent } from "../../../components/input/input.component";
 import { AuthService } from "../auth.service";
@@ -18,6 +20,7 @@ export class LoginComponent {
     private readonly authService = inject(AuthService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly notificationService = inject(NotificationService);
+    private readonly store = inject(Store);
 
     protected isLoginLoading = false;
     protected username = "";
@@ -38,10 +41,16 @@ export class LoginComponent {
         this.authService
             .login(this.username, this.password)
             .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((result) => {
-                this.isLoginLoading = false;
-                UserInfo.setLoginToken(result.token);
-                this.activeModal.close();
+            .subscribe({
+                next: (result) => {
+                    this.isLoginLoading = false;
+                    UserInfo.setLoginToken(result.token);
+                    this.store.dispatch(new UpdateIfUserIsLoggedInAction(true));
+                    this.activeModal.close();
+                },
+                error: () => {
+                    this.isLoginLoading = false;
+                }
             });
     }
 }

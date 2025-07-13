@@ -9,6 +9,10 @@ export class UserInfo {
         localStorage.setItem(this.authTokenKey, token);
     }
 
+    public static clearLoginToken() {
+        localStorage.removeItem(this.authTokenKey);
+    }
+
     public static getToken() {
         return localStorage.getItem(this.authTokenKey);
     }
