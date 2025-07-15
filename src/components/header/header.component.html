@@ -29,10 +29,11 @@
                 @if (isUserLoggedIn) {
                     <div (click)="syncPlaystation()">Sync Playstation</div>
                     <div (click)="syncXbox()">Sync Xbox</div>
+                    <div (click)="syncSteam()"> Sync Steam </div>
                     <div
-                        (click)="syncSteam()"
+                        (click)="syncRetroAchievements()"
                         class="border-bottom">
-                        Sync Steam
+                        Sync Retro Achievements
                     </div>
                     <div
                         (click)="addGame()"

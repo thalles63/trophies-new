@@ -20,4 +20,6 @@ export interface Game {
     igdbId: string;
     isManualRegister: boolean;
     platformId?: string;
+    retroConsole: number;
+    retroConsoleText?: string;
 }

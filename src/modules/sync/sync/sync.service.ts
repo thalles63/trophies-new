@@ -19,4 +19,8 @@ export class SyncService {
     public syncWithSteam() {
         return this.http.post(`${this.API_URL}/steam`, {});
     }
+
+    public syncWithRetroAchievements() {
+        return this.http.post(`${this.API_URL}/retro-achievements`, {});
+    }
 }

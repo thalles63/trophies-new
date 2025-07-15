@@ -23,6 +23,13 @@ const routes: Routes = [
         data: {
             platform: PlatformEnum.Steam
         }
+    },
+    {
+        path: "retro-achievements",
+        component: SyncComponent,
+        data: {
+            platform: PlatformEnum.RetroAchievements
+        }
     }
 ];
 

@@ -47,6 +47,10 @@ export class SyncComponent implements OnInit {
         if (Number(this.platformToSync) === PlatformEnum.Steam) {
             this.syncWithSteam();
         }
+
+        if (Number(this.platformToSync) === PlatformEnum.RetroAchievements) {
+            this.syncWithRetroAchievements();
+        }
     }
 
     private syncWithPlaystation() {
@@ -70,6 +74,15 @@ export class SyncComponent implements OnInit {
     private syncWithSteam() {
         this.service
             .syncWithSteam()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.router.navigate(["/"]);
+            });
+    }
+
+    private syncWithRetroAchievements() {
+        this.service
+            .syncWithRetroAchievements()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
                 this.router.navigate(["/"]);

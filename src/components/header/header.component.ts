@@ -73,6 +73,10 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(["/sync/steam"]);
     }
 
+    public syncRetroAchievements() {
+        this.router.navigate(["/sync/retro-achievements"]);
+    }
+
     public openLoginModal() {
         this.modalService.open(LoginComponent, { centered: true, size: "md" });
     }

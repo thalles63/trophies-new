@@ -6,6 +6,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../common/enums/icon.enum";
+import { PlatformEnum } from "../../../common/enums/platform.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { CoreState } from "../../../common/store/core.state";
@@ -36,6 +37,7 @@ export class GameDetailComponent {
     protected game = <Game>{ timePlayed: {} };
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
+    protected platformEnum = PlatformEnum;
     protected isLoading = false;
     protected fromManualRegister = false;
     protected readMoreActive = false;

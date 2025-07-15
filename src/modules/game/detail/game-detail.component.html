@@ -73,6 +73,21 @@
                 }
             </div>
 
+            @if (game.platform === platformEnum.RetroAchievements) {
+                <div>
+                    <div class="game-information-label">Console</div>
+                    @if (isLoading) {
+                        <ngx-skeleton-loader
+                            [count]="1"
+                            appearance="circle"
+                            [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                        </ngx-skeleton-loader>
+                    } @else {
+                        <div>{{ game.retroConsoleText }}</div>
+                    }
+                </div>
+            }
+
             <div>
                 <div class="game-information-label">Time played</div>
                 @if (isLoading) {
