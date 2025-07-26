@@ -24,9 +24,9 @@ export class GameMapper {
             isPlatinumed: params.isPlatinumed,
             isCampaignComplete: params.isCampaignComplete,
             achievements: params.achievements.map(this.achievements).sortByField([
-                { fieldName: "isAchieved", direction: SortDirection.Ascending },
-                { fieldName: "dateAchieved", direction: SortDirection.Descending },
-                { fieldName: "percentageAchieved", direction: SortDirection.Ascending }
+                { fieldName: "isAchieved", direction: SortDirection.Descending },
+                { fieldName: "dateAchieved", direction: SortDirection.Ascending },
+                { fieldName: "percentageAchieved", direction: SortDirection.Descending }
             ]),
             status: params.status,
             lastUnlock: params.lastUnlock,
