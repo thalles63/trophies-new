@@ -73,6 +73,19 @@
                 }
             </div>
 
+            <div>
+                <div class="game-information-label">Released in</div>
+                @if (isLoading) {
+                    <ngx-skeleton-loader
+                        [count]="1"
+                        appearance="circle"
+                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
+                    </ngx-skeleton-loader>
+                } @else {
+                    <div>{{ (game.releaseDate | date: "dd/MM/yyyy") || "-" }}</div>
+                }
+            </div>
+
             @if (game.platform === platformEnum.RetroAchievements) {
                 <div>
                     <div class="game-information-label">Console</div>
@@ -192,6 +205,62 @@
                 }
             </div>
         }
+
+        <div class="game-general-information">
+            <div>
+                <div class="game-information-label">Genres</div>
+
+                @for (genre of game.genresDescription; track $index; let last = $last) {
+                    <a
+                        class="link"
+                        href="#">
+                        <span>{{ genre.name }}</span>
+                    </a>
+
+                    @if (!last) {
+                        <span>,&nbsp;</span>
+                    }
+                }
+
+                @if (!game.genresDescription?.length) {
+                    -
+                }
+            </div>
+
+            <div>
+                <div class="game-information-label">Themes</div>
+
+                @for (theme of game.themesDescription; track $index; let last = $last) {
+                    <a
+                        class="link"
+                        href="#">
+                        <span>{{ theme.name }}</span>
+                    </a>
+
+                    @if (!last) {
+                        <span>,&nbsp;</span>
+                    }
+                }
+
+                @if (!game.themesDescription?.length) {
+                    -
+                }
+            </div>
+        </div>
+
+        <div class="game-general-information">
+            <div>
+                <div class="game-information-label">Published by</div>
+
+                <div>{{ game.publisher || "-" }}</div>
+            </div>
+
+            <div>
+                <div class="game-information-label">Developed by</div>
+
+                <div>{{ game.developer || "-" }}</div>
+            </div>
+        </div>
 
         <div class="achievements-title">Achievements</div>
 

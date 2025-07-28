@@ -49,15 +49,38 @@
             div {
                 margin-bottom: 6px;
             }
-
-            .game-information-label {
-                font-size: 14px;
-                font-weight: 700;
-                margin-bottom: 0;
-                color: #8f9ca7;
-            }
         }
     }
+
+    .link {
+        color: #ea377a;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .game-general-information {
+        display: flex;
+        color: #ccdbf1;
+        width: 100%;
+        margin: 20px 0;
+
+        & > div {
+            flex: 1 0 50%;
+        }
+
+        .game-information-label{
+            width: 50%;
+        }
+    }
+        
+        .game-information-label {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 0;
+            color: #8f9ca7;
+        }
     .right-container {
         width: 79%;
         padding: 0 16px;

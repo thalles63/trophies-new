@@ -22,4 +22,11 @@ export interface Game {
     platformId?: string;
     retroConsole: number;
     retroConsoleText?: string;
+    releaseDate: string;
+    genres: string[];
+    genresDescription: any[];
+    themes: string[];
+    themesDescription: any[];
+    developer: string;
+    publisher: string;
 }

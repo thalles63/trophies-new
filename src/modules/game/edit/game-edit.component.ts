@@ -89,6 +89,10 @@ export class GameEditComponent implements AfterViewInit {
             .subscribe((result) => {
                 this.isSaveLoading = false;
                 this.game.lastUnlock = result.lastUnlock;
+                this.game.themes = result.themes.map((theme: any) => theme.id);
+                this.game.themesDescription = result.themes;
+                this.game.genres = result.genres.map((genre: any) => genre.id);
+                this.game.genresDescription = result.genres;
                 this.activeModal.close(this.game);
             });
     }
@@ -175,7 +179,11 @@ export class GameEditComponent implements AfterViewInit {
         this.game.screenshot = igdbInfo.screenshot;
         this.game.image = igdbInfo.image;
         this.game.description = igdbInfo.description;
-        this.game.name = igdbInfo.name;
+        this.game.releaseDate = igdbInfo.releaseDate;
+        this.game.genres = igdbInfo.genres;
+        this.game.themes = igdbInfo.themes;
+        this.game.developer = igdbInfo.developer;
+        this.game.publisher = igdbInfo.publisher;
 
         if (![PlatformEnum.Playstation4, PlatformEnum.Playstation5].includes(this.game.platform)) {
             this.game.igdbId = igdbInfo.igdbId;

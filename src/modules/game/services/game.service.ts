@@ -16,11 +16,11 @@ export class GameService {
     }
 
     public save(game: Game) {
-        return this.http.post<Game>(`${this.API_URL}`, this.mapper.findByIdDto(game));
+        return this.http.post<Game>(`${this.API_URL}`, this.mapper.dto(game));
     }
 
     public update(game: Game) {
-        return this.http.put<Game>(`${this.API_URL}/${game.id}`, { game: this.mapper.findByIdDto(game) });
+        return this.http.put<Game>(`${this.API_URL}/${game.id}`, { game: this.mapper.dto(game) });
     }
 
     public searchIgdb(gameName: string) {

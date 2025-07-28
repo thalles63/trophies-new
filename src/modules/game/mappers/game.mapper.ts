@@ -32,7 +32,14 @@ export class GameMapper {
             lastUnlock: params.lastUnlock,
             statusDescription: this.getStatusText(params.status),
             igdbId: params.igdbId,
-            isManualRegister: params.isManualRegister
+            isManualRegister: params.isManualRegister,
+            releaseDate: params.releaseDate,
+            genres: params.genres.map((genre: any) => genre.id),
+            genresDescription: params.genres ?? [],
+            themes: params.themes.map((theme: any) => theme.id),
+            themesDescription: params.themes ?? [],
+            developer: params.developer,
+            publisher: params.publisher
         };
     };
 
@@ -50,7 +57,7 @@ export class GameMapper {
             index: crypto.randomUUID()
         };
     };
-    public readonly findByIdDto = (params: Game) => {
+    public readonly dto = (params: Game) => {
         return SanitizeEmptyStrings({
             id: params.id,
             name: params.name,
@@ -64,7 +71,12 @@ export class GameMapper {
             isCampaignComplete: params.isCampaignComplete,
             status: params.status,
             igdbId: params.igdbId,
-            isManualRegister: params.isManualRegister
+            isManualRegister: params.isManualRegister,
+            releaseDate: params.releaseDate,
+            genres: params.genres,
+            themes: params.themes,
+            developer: params.developer,
+            publisher: params.publisher
         });
     };
 
