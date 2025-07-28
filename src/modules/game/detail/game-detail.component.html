@@ -176,26 +176,26 @@
 
             <div class="d-flex">
                 @if (readMoreContainer.offsetHeight < readMoreContainer.scrollHeight && !readMoreActive) {
-                    <div
+                    <a
                         class="read-more-buttons"
                         (click)="toggleReadMore()">
                         Read more
-                    </div>
+                    </a>
                 }
 
                 @if (readMoreActive) {
-                    <div
+                    <a
                         class="read-more-buttons"
                         (click)="toggleReadMore()">
                         Read less
-                    </div>
+                    </a>
                 }
             </div>
         }
 
-        <div class="achievements-container">
-            <div class="achievements-title">Achievements</div>
+        <div class="achievements-title">Achievements</div>
 
+        <div class="achievements-container">
             @if (isLoading) {
                 <ngx-skeleton-loader
                     [count]="9"
@@ -223,18 +223,17 @@
                             }
                         </div>
                         <div class="achievement-informations">
-                            <div>
-                                <div>{{ achievement.name }}</div>
-                                <div class="achievement-description">{{ achievement.description || "-" }}</div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="d-flex align-center direction-column">
-                                    <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }}</div>
-                                    <div class="achievement-time">{{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
-                                </div>
+                            <div class="achievement-date">
+                                <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }} - {{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
                                 @if (achievement.percentageAchieved) {
-                                    <div class="achievement-earn-rate">{{ achievement.percentageAchieved | number: "1.2-2" }} %</div>
+                                    <span>{{ achievement.percentageAchieved | number: "1.2-2" }} %</span>
                                 }
+                            </div>
+                            <div class="achievement-name">{{ achievement.name }}</div>
+                            <div
+                                class="achievement-description"
+                                [title]="achievement.description">
+                                {{ achievement.description || "-" }}
                             </div>
                         </div>
                     </div>

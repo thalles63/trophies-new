@@ -125,8 +125,9 @@ export class GameEditComponent implements AfterViewInit {
             this.achievementsModified.replaceOrUnshift(result);
             this.game.achievements.push(result);
             this.game.achievements = this.game.achievements.sortByField([
-                { fieldName: "isAchieved", direction: SortDirection.Ascending },
-                { fieldName: "dateAchieved", direction: SortDirection.Descending }
+                { fieldName: "isAchieved", direction: SortDirection.Descending },
+                { fieldName: "dateAchieved", direction: SortDirection.Ascending },
+                { fieldName: "percentageAchieved", direction: SortDirection.Descending }
             ]);
         });
     }
@@ -341,8 +342,9 @@ export class GameEditComponent implements AfterViewInit {
             this.achievementsModified.replaceOrUnshift(result);
             this.game.achievements[index] = result;
             this.game.achievements = this.game.achievements.sortByField([
-                { fieldName: "isAchieved", direction: SortDirection.Ascending },
-                { fieldName: "dateAchieved", direction: SortDirection.Descending }
+                { fieldName: "isAchieved", direction: SortDirection.Descending },
+                { fieldName: "dateAchieved", direction: SortDirection.Ascending },
+                { fieldName: "percentageAchieved", direction: SortDirection.Descending }
             ]);
         });
     }
