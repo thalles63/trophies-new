@@ -1,6 +1,7 @@
 import { DatePipe, DecimalPipe } from "@angular/common";
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
@@ -33,8 +34,9 @@ export class GameDetailComponent {
     private readonly store = inject(Store);
     private readonly gameMapper = inject(GameMapper);
     private readonly modalService = inject(NgbModal);
+    private readonly titleService = inject(Title);
 
-    protected game = <Game>{ timePlayed: {} };
+    protected game = <Game>{ timePlayed: {}, genresDescription: <any>[], themesDescription: <any>[] };
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
@@ -77,6 +79,7 @@ export class GameDetailComponent {
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
+                this.titleService.setTitle("Trophies - " + this.game.name);
                 this.isLoading = false;
 
                 if (this.fromManualRegister) {

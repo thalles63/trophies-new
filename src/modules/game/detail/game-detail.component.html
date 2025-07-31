@@ -210,19 +210,21 @@
             <div>
                 <div class="game-information-label">Genres</div>
 
-                @for (genre of game.genresDescription; track $index; let last = $last) {
-                    <a
-                        class="link"
-                        href="#">
-                        <span>{{ genre.name }}</span>
-                    </a>
+                <div class="d-flex flex-wrap">
+                    @for (genre of game.genresDescription; track $index; let last = $last) {
+                        <a
+                            class="link"
+                            href="#">
+                            <span>{{ genre.name }}</span>
+                        </a>
 
-                    @if (!last) {
-                        <span>,&nbsp;</span>
+                        @if (!last) {
+                            <span>,&nbsp;</span>
+                        }
                     }
-                }
+                </div>
 
-                @if (!game.genresDescription?.length) {
+                @if (!game.genresDescription.length) {
                     -
                 }
             </div>
@@ -230,19 +232,21 @@
             <div>
                 <div class="game-information-label">Themes</div>
 
-                @for (theme of game.themesDescription; track $index; let last = $last) {
-                    <a
-                        class="link"
-                        href="#">
-                        <span>{{ theme.name }}</span>
-                    </a>
+                <div class="d-flex flex-wrap">
+                    @for (theme of game.themesDescription; track $index; let last = $last) {
+                        <a
+                            class="link"
+                            href="#">
+                            <span>{{ theme.name }}</span>
+                        </a>
 
-                    @if (!last) {
-                        <span>,&nbsp;</span>
+                        @if (!last) {
+                            <span>,&nbsp;</span>
+                        }
                     }
-                }
+                </div>
 
-                @if (!game.themesDescription?.length) {
+                @if (!game.themesDescription.length) {
                     -
                 }
             </div>

@@ -28,3 +28,28 @@
         background-color: #4a5e8d;
     }
 }
+
+
+@media(max-width: 536px) {
+    game-card {
+        width: calc(50% - 4px) !important;
+        min-height: 260px !important;
+    }
+
+    :host ::ng-deep {
+        game-card .image-container {
+            width: auto !important; 
+            height: auto !important;
+            min-height: 260px !important;
+
+            img {
+                height: auto !important;
+            min-height: 260px !important;
+            }
+        }
+    }
+
+    .status-filter {
+        flex-wrap: wrap;
+    }
+}

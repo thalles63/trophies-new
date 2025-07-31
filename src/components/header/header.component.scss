@@ -110,3 +110,17 @@ header {
         }
     }
 }
+
+@media(max-width: 536px) {
+    .screenshot-container {
+        height: 325px;
+        opacity: .5;
+
+        img {
+            height: 100%;
+            width: auto;
+            max-width: none;
+            transform: none;
+        }
+    }
+}

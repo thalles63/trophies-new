@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Title } from "@angular/platform-browser";
 import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
     private readonly service = inject(HomeService);
     private readonly destroyref = inject(DestroyRef);
     private readonly store = inject(Store);
+    private readonly titleService = inject(Title);
 
     protected games = <Game[]>[];
     protected paginationInfo = <PaginationInfo>{};
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit {
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
         this.listenForFilterChanges();
+        this.titleService.setTitle("Trophies");
     }
 
     private listenForFilterChanges() {

@@ -1,10 +1,6 @@
 <a
     class="image-container"
     [routerLink]="['game', game().id]">
-    @if (game().status === statusEnum.Completed) {
-        <div class="complete-badge"> Completed </div>
-    }
-
     @if (game().image) {
         <img
             [src]="game().image"

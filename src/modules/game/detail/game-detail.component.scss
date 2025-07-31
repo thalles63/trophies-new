@@ -219,3 +219,33 @@
 .mt-0 {
     margin-top: 0 !important;
 }
+
+@media(max-width: 536px) {
+    .container {
+        flex-wrap: wrap !important;
+    }
+
+    .left-container, .right-container {
+        width: 100% !important;
+    }
+
+    .game-bar .cover {
+        left: calc(50% - 113px) !important; 
+    }
+
+    :host ::ng-deep {
+        .rating-container .container-input {
+            display: flex !important;
+            justify-content: center !important;
+        }
+    }
+
+    .right-container {
+        margin-top: 24px !important;
+    }
+
+    .achievement-container {
+        flex: 1 0 100% !important;
+        max-width: 100% !important;
+    }
+}
