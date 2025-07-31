@@ -30,6 +30,6 @@ export class AchievementsService {
     }
 
     public saveFromPsn(gameUrl: string, gameId: string) {
-        return this.http.post<Achievement[]>(`${this.API_URL}/save-from-psn`, { gameUrl, gameId });
+        return this.http.post<Achievement[]>(`${this.API_URL}/sync-all-with-psn`, { gameUrl, gameId });
     }
 }

@@ -315,7 +315,7 @@ export class GameEditComponent implements AfterViewInit {
         });
     }
 
-    public searchAchievementsInPsnProfiles() {
+    public syncAchievementsWithPsnProfiles() {
         const modalRef = this.modalService.open(SearchGameInPsnComponent, { centered: true, size: "lg" });
         modalRef.componentInstance.gameId = this.game.id;
 

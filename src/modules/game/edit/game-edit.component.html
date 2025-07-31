@@ -198,7 +198,7 @@
                     <div>
                         <app-button (onClick)="searchAchievementsInSteam()">Search in Steam</app-button>
                         <div class="text-center"> or </div>
-                        <app-button (onClick)="searchAchievementsInPsnProfiles()">Search in PSN Profiles</app-button>
+                        <app-button (onClick)="syncAchievementsWithPsnProfiles()">Search in PSN Profiles</app-button>
                     </div>
                 }
             </div>
@@ -219,7 +219,13 @@
             </app-button>
         }
     } @else {
-        <app-button (onClick)="addNewAchievement()"> Add new achievement </app-button>
+        <div class="footer-buttons-right">
+            <app-button (onClick)="addNewAchievement()"> Add new achievement </app-button>
+
+            @if (game.achievements.length) {
+                <app-button (onClick)="syncAchievementsWithPsnProfiles()">Sync with PSN Profiles</app-button>
+            }
+        </div>
     }
     <div class="footer-buttons-right">
         <app-button

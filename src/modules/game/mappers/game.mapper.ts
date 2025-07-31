@@ -34,9 +34,9 @@ export class GameMapper {
             igdbId: params.igdbId,
             isManualRegister: params.isManualRegister,
             releaseDate: params.releaseDate,
-            genres: params.genres.map((genre: any) => genre.id),
+            genres: params.genres.map((genre: any) => genre.slug),
             genresDescription: params.genres ?? [],
-            themes: params.themes.map((theme: any) => theme.id),
+            themes: params.themes.map((theme: any) => theme.slug),
             themesDescription: params.themes ?? [],
             developer: params.developer,
             publisher: params.publisher
