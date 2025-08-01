@@ -1,30 +1,35 @@
 <div class="d-flex space-between">
     <div class="status-filter">
-        <div
+        <a
             (click)="setStatus(statusEnum.PlayingCompleted)"
             [class.selected]="paginationInfo.status === statusEnum.PlayingCompleted">
-            Playing + Completed
-        </div>
-        <div
+            <span class="filter-label">All Games</span>
+            <span class="filter-counter">{{ gamesCount.all }}</span>
+        </a>
+        <a
             (click)="setStatus(statusEnum.Playing)"
             [class.selected]="paginationInfo.status === statusEnum.Playing">
-            Playing
-        </div>
-        <div
+            <span class="filter-label">Playing</span>
+            <span class="filter-counter">{{ gamesCount.playing }}</span>
+        </a>
+        <a
             (click)="setStatus(statusEnum.Completed)"
             [class.selected]="paginationInfo.status === statusEnum.Completed">
-            Completed
-        </div>
-        <div
+            <span class="filter-label">Completed</span>
+            <span class="filter-counter">{{ gamesCount.completed }}</span>
+        </a>
+        <a
             (click)="setStatus(statusEnum.Shelved)"
             [class.selected]="paginationInfo.status === statusEnum.Shelved">
-            Shelved
-        </div>
-        <div
+            <span class="filter-label">Shelved</span>
+            <span class="filter-counter">{{ gamesCount.shelved }}</span>
+        </a>
+        <a
             (click)="setStatus(statusEnum.Backlog)"
-            [class.selected]="paginationInfo.status === statusEnum.Backlog"
-            >Backlog
-        </div>
+            [class.selected]="paginationInfo.status === statusEnum.Backlog">
+            <span class="filter-label">Backlog</span>
+            <span class="filter-counter">{{ gamesCount.backlog }}</span>
+        </a>
     </div>
 
     <sort-by

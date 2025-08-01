@@ -13,19 +13,50 @@
 .status-filter {
     display: flex;
     gap: 8px;
+    margin-bottom: 16px;
 
-    div {
-        padding: 4px 8px;
-        border: 1px solid #30394c;
-        border-radius: 4px;
-        margin-bottom: 6px;
-        cursor: pointer;
-        white-space: nowrap;
+    a {
+        position: relative;
+        display: flex;
     }
 
-    div.selected,
-    div:hover {
-        background-color: #4a5e8d;
+    .filter-label {
+        cursor: pointer;
+        margin: 0;
+        font-weight: 400;
+        padding: 2px 0;
+        border-bottom: 2px solid transparent;
+        font-size: 20px;
+        text-align: center;
+        white-space: nowrap;
+        opacity: .4;
+        transition: all .4s;
+    }
+
+    a.selected .filter-label {
+        opacity: 1;
+        border-bottom: 2px solid #ffffff;
+    }
+
+    a:hover .filter-label {
+        border-bottom: 2px solid #ffffff;
+    }
+
+    .filter-counter {
+        position: relative;
+        top: 0;
+        height: 20px;
+        margin-left: 4px;
+        margin-right: 24px;
+        min-width: 25px;
+        text-align: left;
+        font-size: 13px;
+        opacity: .4;
+        cursor: pointer;
+    }
+
+    a.selected .filter-counter {
+        opacity: 1;
     }
 }
 

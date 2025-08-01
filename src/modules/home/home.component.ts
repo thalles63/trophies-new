@@ -4,10 +4,12 @@ import { Title } from "@angular/platform-browser";
 import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
+import { Subscription } from "rxjs";
 import { StatusEnum } from "../../common/enums/status.enum";
 import { PaginationInfo } from "../../common/models/pagination.interface";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
+import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { Game } from "../game/models/game.interface";
 import { GameCardComponent } from "./game-card/game-card.component";
 import { GameListSortBy } from "./home.data";
@@ -28,15 +30,18 @@ export class HomeComponent implements OnInit {
     private readonly titleService = inject(Title);
 
     protected games = <Game[]>[];
+    protected gamesCount = <GameCountByStatus>{};
     protected paginationInfo = <PaginationInfo>{};
     protected isLoading = false;
     protected gameListSortBy = GameListSortBy;
     protected statusEnum = StatusEnum;
+    protected requisition?: Subscription;
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
         this.listenForFilterChanges();
         this.titleService.setTitle("Trophies");
+        this.getGamesCountByStatus();
     }
 
     private listenForFilterChanges() {
@@ -55,14 +60,32 @@ export class HomeComponent implements OnInit {
 
     public listGames() {
         this.isLoading = true;
+        this.games = [];
 
-        this.service
+        if (this.requisition) {
+            this.requisition.unsubscribe();
+        }
+
+        this.requisition = this.service
             .listGames(this.paginationInfo.page, this.paginationInfo.limit, this.paginationInfo.sort, this.paginationInfo.status)
+            .subscribe({
+                next: (result: any) => {
+                    this.games = result.games;
+                    this.paginationInfo = { ...this.paginationInfo, ...result.pagination };
+                    this.isLoading = false;
+                },
+                error: (err) => {
+                    console.error("Erro:", err);
+                }
+            });
+    }
+
+    private getGamesCountByStatus() {
+        this.service
+            .getGamesCountByStatus()
             .pipe(takeUntilDestroyed(this.destroyref))
             .subscribe((result: any) => {
-                this.games = result.games;
-                this.paginationInfo = { ...this.paginationInfo, ...result.pagination };
-                this.isLoading = false;
+                this.gamesCount = result;
             });
     }
 

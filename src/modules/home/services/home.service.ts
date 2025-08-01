@@ -19,4 +19,8 @@ export class HomeService {
             }
         });
     }
+
+    public getGamesCountByStatus() {
+        return this.http.get<any>(`${this.API_URL}/count`);
+    }
 }
