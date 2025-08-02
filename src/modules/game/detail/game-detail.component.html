@@ -311,6 +311,10 @@
                         </div>
                     </div>
                 }
+
+                @if (!game.achievements.length) {
+                    <div class="no-achievements">This game does not have achievements.</div>
+                }
             }
         </div>
     </div>

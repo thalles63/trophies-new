@@ -15,37 +15,42 @@
         Thalles Games
     </a>
 
-    <a
-        class="options-button"
-        (click)="toggleOptions()"
-        [class.opened]="menuOpened">
-        <div class="options-title">Options</div>
-        <div class="dropdown-icon">
-            <icon [icon]="icon.AngleDown"></icon>
-        </div>
+    @if (isUserLoggedIn) {
+        <a
+            class="options-button"
+            (click)="toggleOptions()"
+            [class.opened]="menuOpened">
+            <div class="user-icon">T</div>
+            <div class="options-title">User Options</div>
+            <div class="dropdown-icon">
+                <icon [icon]="icon.AngleDown"></icon>
+            </div>
 
-        @if (menuOpened) {
-            <div class="options">
-                @if (isUserLoggedIn) {
-                    <div (click)="syncPlaystation()">Sync Playstation</div>
-                    <div (click)="syncXbox()">Sync Xbox</div>
-                    <div (click)="syncSteam()"> Sync Steam </div>
-                    <div
+            @if (menuOpened) {
+                <div class="options">
+                    <a (click)="syncPlaystation()">Sync Playstation</a>
+                    <a (click)="syncXbox()">Sync Xbox</a>
+                    <a (click)="syncSteam()"> Sync Steam </a>
+                    <a
                         (click)="syncRetroAchievements()"
                         class="border-bottom">
                         Sync Retro Achievements
-                    </div>
-                    <div
+                    </a>
+                    <a
                         (click)="addGame()"
                         class="border-bottom">
                         Add game
-                    </div>
-                    <div (click)="openConfigModal()">Config PSN Token</div>
-                    <div (click)="logout()">Logout</div>
-                } @else {
-                    <div (click)="openLoginModal()">Login</div>
-                }
-            </div>
-        }
-    </a>
+                    </a>
+                    <a (click)="openConfigModal()">Config PSN Token</a>
+                    <a (click)="logout()">Logout</a>
+                </div>
+            }
+        </a>
+    } @else {
+        <a
+            class="login"
+            (click)="openLoginModal()"
+            >Log in</a
+        >
+    }
 </header>

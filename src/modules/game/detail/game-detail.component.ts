@@ -17,6 +17,7 @@ import { StarRatingComponent } from "../../../components/rating/rating.component
 import { StatusComponent } from "../../../components/status/status.component";
 import { GameEditComponent } from "../edit/game-edit.component";
 import { GameMapper } from "../mappers/game.mapper";
+import { Achievement } from "../models/achievement.interface";
 import { Game } from "../models/game.interface";
 import { GameService } from "../services/game.service";
 
@@ -36,7 +37,7 @@ export class GameDetailComponent {
     private readonly modalService = inject(NgbModal);
     private readonly titleService = inject(Title);
 
-    protected game = <Game>{ timePlayed: {}, genresDescription: <any>[], themesDescription: <any>[] };
+    protected game = <Game>{ achievements: <Achievement[]>[], timePlayed: {}, genresDescription: <any>[], themesDescription: <any>[] };
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
