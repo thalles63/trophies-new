@@ -15,7 +15,7 @@ export class GameMapper {
             description: params.description,
             image: params.image,
             screenshot: params.screenshot,
-            rating: params.rating,
+            rating: Number(params.rating),
             platform: params.platform,
             platformText: this.getPlatformText(params.platform),
             retroConsole: params.retroConsole,
@@ -23,7 +23,7 @@ export class GameMapper {
             timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
             isPlatinumed: params.isPlatinumed,
             isCampaignComplete: params.isCampaignComplete,
-            achievements: params.achievements.map(this.achievements).sortByField([
+            achievements: params.achievements?.map(this.achievements).sortByField([
                 { fieldName: "isAchieved", direction: SortDirection.Descending },
                 { fieldName: "dateAchieved", direction: SortDirection.Ascending },
                 { fieldName: "percentageAchieved", direction: SortDirection.Descending }
@@ -34,9 +34,9 @@ export class GameMapper {
             igdbId: params.igdbId,
             isManualRegister: params.isManualRegister,
             releaseDate: params.releaseDate,
-            genres: params.genres.map((genre: any) => genre.slug),
+            genres: params.genres?.map((genre: any) => genre.slug),
             genresDescription: params.genres ?? [],
-            themes: params.themes.map((theme: any) => theme.slug),
+            themes: params.themes?.map((theme: any) => theme.slug),
             themesDescription: params.themes ?? [],
             developer: params.developer,
             publisher: params.publisher

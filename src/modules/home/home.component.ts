@@ -9,6 +9,7 @@ import { StatusEnum } from "../../common/enums/status.enum";
 import { PaginationInfo } from "../../common/models/pagination.interface";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
+import { GameMapper } from "../game/mappers/game.mapper";
 import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { Game } from "../game/models/game.interface";
 import { GameCardComponent } from "./game-card/game-card.component";
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
     private readonly destroyref = inject(DestroyRef);
     private readonly store = inject(Store);
     private readonly titleService = inject(Title);
+    private readonly mapper = inject(GameMapper);
 
     protected games = <Game[]>[];
     protected gamesCount = <GameCountByStatus>{};
@@ -70,7 +72,7 @@ export class HomeComponent implements OnInit {
             .listGames(this.paginationInfo.page, this.paginationInfo.limit, this.paginationInfo.sort, this.paginationInfo.status)
             .subscribe({
                 next: (result: any) => {
-                    this.games = result.games;
+                    this.games = result.games.map(this.mapper.findById);
                     this.paginationInfo = { ...this.paginationInfo, ...result.pagination };
                     this.isLoading = false;
                 },
