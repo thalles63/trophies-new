@@ -1,25 +1,35 @@
+import { AsyncPipe } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
-import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { Subscription } from "rxjs";
 import { StatusEnum } from "../../common/enums/status.enum";
 import { PaginationInfo } from "../../common/models/pagination.interface";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
+import { LoaderState } from "../../common/store/loader.state";
+import { GameDetailGameImageSkeletonComponent } from "../game/detail/game-image-skeleton/game-image-skeleton.component";
+import { GameDetailGameImageComponent } from "../game/detail/game-image/game-image.component";
 import { GameMapper } from "../game/mappers/game.mapper";
 import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { Game } from "../game/models/game.interface";
-import { GameCardComponent } from "./game-card/game-card.component";
 import { GameListSortBy } from "./home.data";
 import { HomeService } from "./services/home.service";
 import { SortByComponent } from "./sort-by/sort-by.component";
 
 @Component({
     selector: "app-home",
-    imports: [GameCardComponent, NgbPagination, NgbPaginationFirst, NgbPaginationLast, NgxSkeletonLoaderModule, SortByComponent],
+    imports: [
+        GameDetailGameImageComponent,
+        GameDetailGameImageSkeletonComponent,
+        NgbPagination,
+        NgbPaginationFirst,
+        NgbPaginationLast,
+        SortByComponent,
+        AsyncPipe
+    ],
     templateUrl: "./home.component.html",
     styleUrl: "./home.component.scss",
     providers: [HomeService]
@@ -38,6 +48,8 @@ export class HomeComponent implements OnInit {
     protected gameListSortBy = GameListSortBy;
     protected statusEnum = StatusEnum;
     protected requisition?: Subscription;
+    protected isLoading$ = inject(Store).select(LoaderState.isLoading);
+    protected skeletonArray = [];
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
@@ -63,6 +75,7 @@ export class HomeComponent implements OnInit {
     public listGames() {
         this.isLoading = true;
         this.games = [];
+        this.skeletonArray = [].constructor(18);
 
         if (this.requisition) {
             this.requisition.unsubscribe();
@@ -72,6 +85,7 @@ export class HomeComponent implements OnInit {
             .listGames(this.paginationInfo.page, this.paginationInfo.limit, this.paginationInfo.sort, this.paginationInfo.status)
             .subscribe({
                 next: (result: any) => {
+                    this.skeletonArray = [];
                     this.games = result.games.map(this.mapper.findById);
                     this.paginationInfo = { ...this.paginationInfo, ...result.pagination };
                     this.isLoading = false;

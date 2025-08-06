@@ -67,5 +67,9 @@ export const RetroConsoleData = [
     {
         id: RetroConsoleEnum.Snes,
         description: "Super Nintendo"
+    },
+    {
+        id: RetroConsoleEnum.Playstation,
+        description: "Playstation"
     }
 ];

@@ -1,33 +1,22 @@
 <div class="container">
     <div class="left-container">
         <div class="game-bar">
-            @if (isLoading) {
-                <ngx-skeleton-loader
-                    [count]="1"
-                    appearance="circle"
-                    [theme]="{ height: '302px', width: '227px', borderRadius: '5px', margin: '0', position: 'absolute', top: '-279px', left: '17px' }">
-                </ngx-skeleton-loader>
+            @if (isLoading$ | async) {
+                <game-image-skeleton [showDetails]="false"></game-image-skeleton>
             } @else {
-                <div class="cover">
-                    @if (game.name && game.image) {
-                        <img
-                            [src]="game.image"
-                            alt="game" />
-                    } @else if (game.name && !game.image) {
-                        <div class="d-flex direction-column align-center">
-                            <icon
-                                [icon]="iconEnum.Warning"
-                                [size]="24">
-                            </icon>
-                            Sync this game with IGDB
-                        </div>
-                    }
-                </div>
+                <game-image
+                    [game]="game"
+                    [showDetails]="false">
+                </game-image>
             }
 
             <div>
-                @if (game.name && isUserLoggedIn) {
-                    <app-button (onClick)="openModal()"> Edit </app-button>
+                @if (isUserLoggedIn) {
+                    <app-button
+                        (onClick)="openModal()"
+                        [disabled]="!game.name">
+                        Edit
+                    </app-button>
                 }
 
                 <div
@@ -44,142 +33,63 @@
         </div>
 
         <div class="game-information">
-            <div>
-                <div class="game-information-label">Status</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    <div class="d-flex align-center">
-                        <status [type]="game.statusDescription"></status>
-                        {{ game.statusDescription }}
-                    </div>
-                }
-            </div>
+            <app-label
+                label="Status"
+                [textTemplate]="statusText">
+            </app-label>
 
-            <div>
-                <div class="game-information-label">Platform</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    <div>{{ game.platformText }}</div>
-                }
-            </div>
+            <ng-template #statusText>
+                <div class="d-flex align-center">
+                    <status [type]="game.statusDescription"></status>
+                    {{ game.statusDescription }}
+                </div>
+            </ng-template>
 
-            <div>
-                <div class="game-information-label">Released in</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    <div>{{ (game.releaseDate | date: "dd/MM/yyyy") || "-" }}</div>
-                }
-            </div>
+            <app-label
+                label="Platform"
+                [text]="game.platformText">
+            </app-label>
 
             @if (game.platform === platformEnum.RetroAchievements) {
-                <div>
-                    <div class="game-information-label">Console</div>
-                    @if (isLoading) {
-                        <ngx-skeleton-loader
-                            [count]="1"
-                            appearance="circle"
-                            [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                        </ngx-skeleton-loader>
-                    } @else {
-                        <div>{{ game.retroConsoleText }}</div>
-                    }
-                </div>
+                <app-label
+                    label="Console"
+                    [text]="game.retroConsoleText">
+                </app-label>
             }
 
-            <div>
-                <div class="game-information-label">Time played</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    @if (game.timePlayed.hours || game.timePlayed.minutes) {
-                        <div>{{ game.timePlayed.hours }} hours and {{ game.timePlayed.minutes }} minutes</div>
-                    } @else {
-                        -
-                    }
-                }
-            </div>
+            <app-label
+                label="Released in"
+                [text]="game.releaseDate | date: 'dd/MM/yyyy'">
+            </app-label>
 
-            <div>
-                <div class="game-information-label">Is campaign complete?</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    <div>{{ game.isCampaignComplete ? "Yes" : "No" }}</div>
-                }
-            </div>
+            <app-label
+                label="Time played"
+                [text]="game.timePlayed.hours ? game.timePlayed.hours + ' hours and ' + game.timePlayed.minutes + ' minutes' : '-'">
+            </app-label>
 
-            <div>
-                <div class="game-information-label">Is platinumed?</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    <div>{{ game.isPlatinumed ? "Yes" : "No" }}</div>
-                }
-            </div>
+            <app-label
+                label="Is campaign complete?"
+                [text]="game.isCampaignComplete ? 'Yes' : 'No'">
+            </app-label>
 
-            <div>
-                <div class="game-information-label">Date completed</div>
-                @if (isLoading) {
-                    <ngx-skeleton-loader
-                        [count]="1"
-                        appearance="circle"
-                        [theme]="{ height: '24px', width: '100%', borderRadius: '5px', margin: '0' }">
-                    </ngx-skeleton-loader>
-                } @else {
-                    @if (game.isPlatinumed || game.isCampaignComplete) {
-                        <div>{{ (game.lastUnlock | date: "dd/MM/yyyy HH:mm:ss") || "-" }}</div>
-                    } @else {
-                        <div>-</div>
-                    }
-                }
-            </div>
+            <app-label
+                label="Is platinumed?"
+                [text]="game.isPlatinumed ? 'Yes' : 'No'">
+            </app-label>
+
+            <app-label
+                label="Date completed"
+                [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastUnlock | date: 'dd/MM/yyyy HH:mm:ss') : '-'">
+            </app-label>
         </div>
     </div>
     <div class="right-container">
-        @if (isLoading) {
-            <ngx-skeleton-loader
-                [count]="1"
-                appearance="circle"
-                [theme]="{ height: '50px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
-            </ngx-skeleton-loader>
+        @if (isLoading$ | async) {
+            <div class="loading-skeleton title-skeleton"></div>
+            <div class="loading-skeleton description-skeleton"></div>
         } @else {
             <div class="game-title">{{ game.name }}</div>
-        }
 
-        @if (isLoading) {
-            <ngx-skeleton-loader
-                [count]="1"
-                appearance="circle"
-                [theme]="{ height: '86px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
-            </ngx-skeleton-loader>
-        } @else {
             <div
                 class="game-description"
                 [class.opened]="readMoreActive"
@@ -206,10 +116,14 @@
             </div>
         }
 
-        <div class="game-general-information">
-            <div>
-                <div class="game-information-label">Genres</div>
+        <row customClass="mt-20i">
+            <app-label
+                label="Genres"
+                [textTemplate]="genreTemplate"
+                [inputSize]="6">
+            </app-label>
 
+            <ng-template #genreTemplate>
                 <div class="d-flex flex-wrap">
                     @for (genre of game.genresDescription; track $index; let last = $last) {
                         <a
@@ -222,16 +136,20 @@
                             <span>,&nbsp;</span>
                         }
                     }
+
+                    @if (!game.genresDescription.length) {
+                        -
+                    }
                 </div>
+            </ng-template>
 
-                @if (!game.genresDescription.length) {
-                    -
-                }
-            </div>
+            <app-label
+                label="Themes"
+                [textTemplate]="themeTemplate"
+                [inputSize]="6">
+            </app-label>
 
-            <div>
-                <div class="game-information-label">Themes</div>
-
+            <ng-template #themeTemplate>
                 <div class="d-flex flex-wrap">
                     @for (theme of game.themesDescription; track $index; let last = $last) {
                         <a
@@ -244,78 +162,44 @@
                             <span>,&nbsp;</span>
                         }
                     }
+
+                    @if (!game.themesDescription.length) {
+                        -
+                    }
                 </div>
+            </ng-template>
+        </row>
 
-                @if (!game.themesDescription.length) {
-                    -
-                }
-            </div>
-        </div>
+        <row customClass="mt-10i">
+            <app-label
+                label="Published by"
+                [text]="game.publisher"
+                [inputSize]="6">
+            </app-label>
 
-        <div class="game-general-information">
-            <div>
-                <div class="game-information-label">Published by</div>
-
-                <div>{{ game.publisher || "-" }}</div>
-            </div>
-
-            <div>
-                <div class="game-information-label">Developed by</div>
-
-                <div>{{ game.developer || "-" }}</div>
-            </div>
-        </div>
+            <app-label
+                label="Developed by"
+                [text]="game.developer"
+                [inputSize]="6">
+            </app-label>
+        </row>
 
         <div class="achievements-title">Achievements</div>
 
-        <div class="achievements-container">
-            @if (isLoading) {
-                <ngx-skeleton-loader
-                    [count]="9"
-                    appearance="circle"
-                    [theme]="{ height: '56px', width: '100%', borderRadius: '5px', margin: '0', marginTop: '5px', marginBottom: '5px' }">
-                </ngx-skeleton-loader>
-            } @else {
-                @for (achievement of game.achievements; track $index; let last = $last) {
-                    <div
-                        class="achievement-container"
-                        [class.last]="last"
-                        [class.achieved]="achievement.isAchieved">
-                        <div class="icon">
-                            @if (achievement.image) {
-                                <img
-                                    [src]="achievement.image"
-                                    alt="achievement icon" />
-                            } @else {
-                                <div class="achievement-no-icon">
-                                    <icon
-                                        [icon]="iconEnum.Trophy"
-                                        [size]="22">
-                                    </icon>
-                                </div>
-                            }
-                        </div>
-                        <div class="achievement-informations">
-                            <div class="achievement-date">
-                                <div>{{ achievement.dateAchieved | date: "dd/MM/YYYY" }} - {{ achievement.dateAchieved | date: "HH:mm:ss" }}</div>
-                                @if (achievement.percentageAchieved) {
-                                    <span>{{ achievement.percentageAchieved | number: "1.2-2" }} %</span>
-                                }
-                            </div>
-                            <div class="achievement-name">{{ achievement.name }}</div>
-                            <div
-                                class="achievement-description"
-                                [title]="achievement.description">
-                                {{ achievement.description || "-" }}
-                            </div>
-                        </div>
-                    </div>
-                }
-
-                @if (!game.achievements.length) {
-                    <div class="no-achievements">This game does not have achievements.</div>
+        <row>
+            @if (isLoading$ | async) {
+                @for (_ of [].constructor(30); track $index) {
+                    <game-achievement-skeleton></game-achievement-skeleton>
                 }
             }
-        </div>
+
+            @for (achievement of game.achievements; track $index) {
+                <game-achievement [achievement]="achievement"> </game-achievement>
+            }
+        </row>
+
+        @if (!game.achievements.length && !(isLoading$ | async)) {
+            <div class="no-achievements">This game does not have achievements.</div>
+        }
     </div>
 </div>

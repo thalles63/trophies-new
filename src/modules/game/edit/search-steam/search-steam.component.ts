@@ -1,7 +1,6 @@
 import { AfterContentInit, Component, DestroyRef, inject, Input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../../common/enums/icon.enum";
 import { NotificationService } from "../../../../common/services/notification.service";
 import { ButtonComponent } from "../../../../components/button/button.component";
@@ -12,7 +11,7 @@ import { GameService } from "../../services/game.service";
 
 @Component({
     selector: "sync-steam",
-    imports: [ButtonComponent, NgxSkeletonLoaderModule, IconComponent],
+    imports: [ButtonComponent, IconComponent],
     templateUrl: "./search-steam.component.html",
     styleUrl: "./search-steam.component.scss",
     providers: [GameService, AchievementsService]

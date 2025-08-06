@@ -2,14 +2,6 @@
     gap: 8px;
 }
 
-:host ::ng-deep {
-    ngx-skeleton-loader {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-}
-
 .status-filter {
     display: flex;
     gap: 8px;
@@ -61,26 +53,12 @@
 }
 
 
-@media(max-width: 536px) {
-    game-card {
-        width: calc(50% - 4px) !important;
-        min-height: 260px !important;
-    }
-
-    :host ::ng-deep {
-        game-card .image-container {
-            width: auto !important; 
-            height: auto !important;
-            min-height: 260px !important;
-
-            img {
-                height: auto !important;
-            min-height: 260px !important;
-            }
-        }
-    }
-
+@media(max-width: 575px) {
     .status-filter {
         flex-wrap: wrap;
+    }
+
+    game-image {
+        width: calc(50% - 4px);
     }
 }

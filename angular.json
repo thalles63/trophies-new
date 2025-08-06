@@ -31,6 +31,7 @@
                         "styles": [
                             "src/utils/fonts/icons.css",
                             "src/utils/css/columns.scss",
+                            "src/utils/css/loading-skeleton.scss",
                             "src/utils/css/modal.scss",
                             "src/utils/css/pagination.scss",
                             "src/utils/css/styles.scss",

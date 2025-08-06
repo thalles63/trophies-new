@@ -1,29 +1,46 @@
-import { DatePipe, DecimalPipe } from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
-import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { CoreState } from "../../../common/store/core.state";
+import { LoaderState } from "../../../common/store/loader.state";
 import { ButtonComponent } from "../../../components/button/button.component";
-import { IconComponent } from "../../../components/icon/icon.component";
+import { LabelComponent } from "../../../components/label/label.component";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
+import { RowComponent } from "../../../components/row/row.component";
 import { StatusComponent } from "../../../components/status/status.component";
 import { GameEditComponent } from "../edit/game-edit.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Achievement } from "../models/achievement.interface";
 import { Game } from "../models/game.interface";
 import { GameService } from "../services/game.service";
+import { GameDetailAchievementSkeletonComponent } from "./achievement-skeleton/achievement-skeleton.component";
+import { GameDetailAchievementComponent } from "./achievement/achievement.component";
+import { GameDetailGameImageSkeletonComponent } from "./game-image-skeleton/game-image-skeleton.component";
+import { GameDetailGameImageComponent } from "./game-image/game-image.component";
 
 @Component({
     selector: "game-detail",
-    imports: [ButtonComponent, StarRatingComponent, DatePipe, StatusComponent, DecimalPipe, IconComponent, NgxSkeletonLoaderModule],
+    imports: [
+        ButtonComponent,
+        StarRatingComponent,
+        DatePipe,
+        StatusComponent,
+        LabelComponent,
+        RowComponent,
+        GameDetailAchievementComponent,
+        GameDetailAchievementSkeletonComponent,
+        GameDetailGameImageComponent,
+        GameDetailGameImageSkeletonComponent,
+        AsyncPipe
+    ],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
     providers: [GameService]
@@ -41,11 +58,11 @@ export class GameDetailComponent {
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
-    protected isLoading = false;
     protected fromManualRegister = false;
     protected readMoreActive = false;
     protected isUserLoggedIn = UserInfo.isLoggedIn();
     protected isLoggedInUser$ = this.store.select(CoreState.isLoggedInUser);
+    protected isLoading$ = inject(Store).select(LoaderState.isLoading);
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -72,8 +89,6 @@ export class GameDetailComponent {
             return;
         }
 
-        this.isLoading = true;
-
         this.service
             .getById(this.gameId)
             .pipe(takeUntilDestroyed(this.destroyRef))
@@ -81,7 +96,6 @@ export class GameDetailComponent {
                 this.game = this.gameMapper.findById(result);
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
                 this.titleService.setTitle("Trophies - " + this.game.name);
-                this.isLoading = false;
 
                 if (this.fromManualRegister) {
                     this.openModal();

@@ -1,0 +1,5 @@
+<div
+    class="http-loading"
+    [class.active]="(numberOfLoadersActive$ | async) || 0 > 0">
+    <span>LOADING</span>
+</div>

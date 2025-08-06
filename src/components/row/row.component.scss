@@ -1,0 +1,22 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+    margin-right: -12px;
+    margin-left: -12px;
+    flex: 1 0 100%;
+    align-items: flex-start;
+}
+
+:host ::ng-deep {
+    .row {
+        & > * {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 100%;
+            padding-right: 12px;
+            padding-left: 12px;
+            margin-top: 0;
+        }
+    }
+}

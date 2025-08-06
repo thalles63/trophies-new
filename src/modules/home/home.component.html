@@ -39,23 +39,19 @@
     </sort-by>
 </div>
 
-@if (isLoading) {
-    <ngx-skeleton-loader
-        [count]="paginationInfo.limit"
-        appearance="circle"
-        [theme]="{ height: '302px', width: '227px', borderRadius: '5px', margin: '0' }">
-    </ngx-skeleton-loader>
-} @else {
-    <div class="d-flex flex-wrap gap-8">
-        @for (game of games; track $index) {
-            <game-card
-                [game]="game"
-                [pageSort]="paginationInfo.sort">
-            </game-card>
+<div class="d-flex flex-wrap gap-8">
+    @for (game of games; track $index) {
+        <game-image [game]="game"> </game-image>
+    }
+
+    @if (isLoading$ | async) {
+        @for (_ of skeletonArray; track $index) {
+            <game-image-skeleton></game-image-skeleton>
         }
-    </div>
-}
-@if (paginationInfo.total) {
+    }
+</div>
+
+@if (paginationInfo.total && games.length) {
     <ngb-pagination
         [page]="paginationInfo.page"
         [collectionSize]="paginationInfo.total"

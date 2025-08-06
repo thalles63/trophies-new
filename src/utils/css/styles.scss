@@ -107,18 +107,6 @@ a:active {
     opacity: 0;
 }
 
-ngx-skeleton-loader {
-    display: grid;
-}
-
-.skeleton-loader {
-    background-color: #242832 !important;
-
-    &::before {
-        background-image: linear-gradient(90deg, #fff0, #1b1e2799, #fff0) !important;
-    }
-}
-
 ::-webkit-scrollbar {
     height: 8px;
     width: 8px;
@@ -132,4 +120,12 @@ ngx-skeleton-loader {
 
 ::-webkit-scrollbar-corner {
     background: #252835;
+}
+
+.mt-20i {
+    margin-top: 20px !important;
+}
+
+.mt-10i {
+    margin-top: 10px !important;
 }

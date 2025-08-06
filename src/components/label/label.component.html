@@ -1,0 +1,12 @@
+<div class="label-title">{{ label() }}</div>
+<div class="label-text">
+    @if (isLoading$ | async) {
+        <div class="loading-skeleton"></div>
+    } @else {
+        @if (textTemplate()) {
+            <ng-container *ngTemplateOutlet="textTemplate()"></ng-container>
+        } @else {
+            {{ text() || "-" }}
+        }
+    }
+</div>

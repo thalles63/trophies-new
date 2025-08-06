@@ -25,7 +25,6 @@
         "@ngxs/store": "^19.0.0",
         "@popperjs/core": "^2.11.8",
         "ngx-mask": "^19.0.7",
-        "ngx-skeleton-loader": "^11.1.0",
         "notyf": "^3.10.0",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",

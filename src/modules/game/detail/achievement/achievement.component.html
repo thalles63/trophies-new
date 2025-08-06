@@ -1,0 +1,34 @@
+<div
+    class="achievement-container"
+    [class.achieved]="achievement().isAchieved">
+    <div class="icon">
+        @if (achievement().image) {
+            <img
+                [src]="achievement().image"
+                alt="achievement icon" />
+        } @else {
+            <div class="achievement-no-icon">
+                <icon
+                    [icon]="iconEnum.Trophy"
+                    [size]="22">
+                </icon>
+            </div>
+        }
+    </div>
+    <div class="achievement-informations">
+        <div class="achievement-date">
+            <div>{{ achievement().dateAchieved | date: "dd/MM/YYYY" }} - {{ achievement().dateAchieved | date: "HH:mm:ss" }}</div>
+            @if (achievement().percentageAchieved) {
+                <span>{{ achievement().percentageAchieved | number: "1.2-2" }} %</span>
+            }
+        </div>
+
+        <div class="achievement-name">{{ achievement().name }}</div>
+
+        <div
+            class="achievement-description"
+            [title]="achievement().description">
+            {{ achievement().description || "-" }}
+        </div>
+    </div>
+</div>

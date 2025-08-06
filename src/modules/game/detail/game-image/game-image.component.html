@@ -1,0 +1,71 @@
+<div
+    class="image-container"
+    [class.no-click]="!showDetails()"
+    [routerLink]="showDetails() ? ['game', game().id] : undefined">
+    <div class="cover">
+        @if (game().name && game().image) {
+            <img
+                [src]="game().image"
+                alt="game" />
+        } @else if (game().name && !game().image) {
+            <div class="d-flex direction-column align-center">
+                <icon
+                    [icon]="iconEnum.Warning"
+                    [size]="24">
+                </icon>
+                Sync this game with IGDB
+            </div>
+        }
+    </div>
+
+    @if (showDetails()) {
+        <div class="card-info">
+            <div>
+                <div class="info-label">Status</div>
+                <div class="info-text">
+                    <status [type]="game().statusDescription"></status>
+                    <span>{{ game().statusDescription }}</span>
+                </div>
+            </div>
+
+            @if (game().lastUnlock) {
+                <div>
+                    <div class="info-label">Last Played</div>
+                    <div class="info-text">{{ game().lastUnlock | date: "dd/MM/yyyy HH:mm:ss" }}</div>
+                </div>
+            }
+
+            @if (game().rating) {
+                <div>
+                    <div class="info-label">Rating</div>
+                    <div class="stars">
+                        <star-rating
+                            [rating]="game().rating"
+                            color="#3f4b64"
+                            colorSelected="#ea377a"
+                            [size]="32">
+                        </star-rating>
+                    </div>
+                </div>
+            }
+
+            @if (game().platform !== platformEnum.RetroAchievements) {
+                <div>
+                    <div class="info-label">Platform</div>
+                    <div class="info-text">
+                        <span>{{ game().platformText }}</span>
+                    </div>
+                </div>
+            }
+
+            @if (game().platform === platformEnum.RetroAchievements) {
+                <div>
+                    <div class="info-label">Console</div>
+                    <div class="info-text">
+                        <span>{{ game().retroConsoleText }}</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

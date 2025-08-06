@@ -55,12 +55,6 @@
     justify-content: center;
 }
 
-:host ::ng-deep {
-    .skeleton-loader:last-child {
-        margin-bottom: 0 !important;
-    }
-}
-
 .modal-body {
     max-height: 535px;
     overflow: auto;
