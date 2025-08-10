@@ -4,5 +4,4 @@ export interface PaginationInfo {
     pages: number;
     total: number;
     sort: number;
-    status: number;
 }

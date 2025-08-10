@@ -1,4 +1,4 @@
-import { PaginationInfo } from "../models/pagination.interface";
+import { GameFilter } from "../../modules/game/models/game-filter.interface";
 
 export class UpdateBackgroundScreenshotAction {
     public static readonly type = "[App Core] Update the screenshot in the background";
@@ -7,7 +7,7 @@ export class UpdateBackgroundScreenshotAction {
 
 export class UpdateGamesListingFilterAction {
     public static readonly type = "[App Core] Update the filter to load games";
-    public constructor(public payload: Partial<PaginationInfo>) {}
+    public constructor(public payload: GameFilter) {}
 }
 
 export class UpdateIfUserIsLoggedInAction {

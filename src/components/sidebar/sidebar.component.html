@@ -1,0 +1,17 @@
+<div class="sidebar">
+    <div
+        class="sidebar__menu size-md"
+        [class.active]="!!shouldShowSidebar()">
+        <div class="sidebar__heading"> Filters </div>
+
+        <div class="sidebar__body">
+            <ng-content></ng-content>
+        </div>
+    </div>
+
+    <a
+        class="sidebar__backdrop"
+        [class.active]="!!shouldShowSidebar()"
+        (click)="toggleSidebar(false); onBackdropClickHandler()">
+    </a>
+</div>

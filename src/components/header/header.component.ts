@@ -4,12 +4,15 @@ import { Router, RouterLink } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { IconEnum } from "../../common/enums/icon.enum";
+import { SortDirection } from "../../common/enums/sort-direction.enum";
+import { StatusEnum } from "../../common/enums/status.enum";
 import { UserInfo } from "../../common/helpers/user-info";
 import { UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
 import { AuthService } from "../../modules/auth/auth.service";
 import { LoginComponent } from "../../modules/auth/login/login.component";
 import { ConfigComponent } from "../../modules/config/config.component";
+import { GameFilter } from "../../modules/game/models/game-filter.interface";
 import { IconComponent } from "../icon/icon.component";
 
 @Component({
@@ -54,7 +57,9 @@ export class HeaderComponent implements OnInit {
     }
 
     public clearGameListPaging() {
-        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2, status: 5 }));
+        this.store.dispatch(
+            new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted })
+        );
     }
 
     public toggleOptions() {

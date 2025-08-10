@@ -1,20 +1,18 @@
-import { AsyncPipe, NgTemplateOutlet } from "@angular/common";
-import { Component, HostBinding, inject, input } from "@angular/core";
-import { Store } from "@ngxs/store";
-import { LoaderState } from "../../common/store/loader.state";
+import { NgTemplateOutlet } from "@angular/common";
+import { Component, HostBinding, input } from "@angular/core";
 
 @Component({
     selector: "app-label",
     templateUrl: "./label.component.html",
     styleUrl: "./label.component.scss",
-    imports: [NgTemplateOutlet, AsyncPipe]
+    imports: [NgTemplateOutlet]
 })
 export class LabelComponent {
     public text = input<string | undefined | null>("");
     public textTemplate = input<any>();
     public label = input.required<string>();
     public inputSize = input<number>(12);
-    protected isLoading$ = inject(Store).select(LoaderState.isLoading);
+    public isLoading = input(false);
 
     @HostBinding("class") public get hostClass() {
         return `col-lg-${this.inputSize()}`;

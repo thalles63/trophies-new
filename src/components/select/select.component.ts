@@ -18,6 +18,7 @@ export class SelectComponent {
     @Input({ required: true }) public value: any;
     @Input() public bindValue!: string;
     @Input() public customClass = "";
+    @Input() public clearable = false;
     @Input() public disabled = false;
     @Input() public inputSize = 12;
     @Input() public label = "";

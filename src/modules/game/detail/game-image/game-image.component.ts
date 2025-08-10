@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { IconEnum } from "../../../../common/enums/icon.enum";
 import { PlatformEnum } from "../../../../common/enums/platform.enum";
@@ -18,6 +18,11 @@ import { Game } from "../../models/game.interface";
 export class GameDetailGameImageComponent {
     public game = input.required<Game>();
     public showDetails = input(true);
+    public onClick = output();
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
+
+    public onClickHandler() {
+        this.onClick.emit();
+    }
 }

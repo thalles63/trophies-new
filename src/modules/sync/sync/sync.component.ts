@@ -3,8 +3,11 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngxs/store";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
+import { SortDirection } from "../../../common/enums/sort-direction.enum";
+import { StatusEnum } from "../../../common/enums/status.enum";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { PlatformsData } from "../../game/edit/game-edit.data";
+import { GameFilter } from "../../game/models/game-filter.interface";
 import { SyncService } from "./sync.service";
 
 @Component({
@@ -25,7 +28,9 @@ export class SyncComponent implements OnInit {
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
-        this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2, status: 5 }));
+        this.store.dispatch(
+            new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted })
+        );
 
         this.platformToSync = this.activatedRoute.snapshot.data["platform"];
         this.platformText = PlatformsData.find((p) => p.id === Number(this.platformToSync))?.description!;

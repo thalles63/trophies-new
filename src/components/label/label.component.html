@@ -1,6 +1,6 @@
 <div class="label-title">{{ label() }}</div>
 <div class="label-text">
-    @if (isLoading$ | async) {
+    @if (isLoading()) {
         <div class="loading-skeleton"></div>
     } @else {
         @if (textTemplate()) {

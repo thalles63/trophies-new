@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, StateToken } from "@ngxs/store";
+import { GameFilter } from "../../modules/game/models/game-filter.interface";
+import { SortDirection } from "../enums/sort-direction.enum";
+import { StatusEnum } from "../enums/status.enum";
 import { UserInfo } from "../helpers/user-info";
-import { PaginationInfo } from "../models/pagination.interface";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction, UpdateIfUserIsLoggedInAction } from "./core.action";
 
 interface CoreStateModel {
     backgroundScreenshot?: string;
-    filter: Partial<PaginationInfo>;
+    filter: GameFilter;
     isLoggedInUser: boolean;
 }
 
@@ -14,7 +16,7 @@ interface CoreStateModel {
     name: new StateToken<CoreStateModel>("core"),
     defaults: {
         backgroundScreenshot: undefined,
-        filter: { page: 1, sort: 2, limit: 18, status: 5 },
+        filter: <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted },
         isLoggedInUser: !!UserInfo.getToken()
     }
 })
@@ -26,7 +28,7 @@ export class CoreState {
     }
 
     @Selector()
-    public static filter(state: CoreStateModel): Partial<PaginationInfo> {
+    public static filter(state: CoreStateModel): GameFilter {
         return state.filter;
     }
 
@@ -41,8 +43,8 @@ export class CoreState {
     }
 
     @Action(UpdateGamesListingFilterAction)
-    public updateGamesListingFilterAction({ getState, patchState }: StateContext<CoreStateModel>, { payload }: UpdateGamesListingFilterAction) {
-        patchState({ filter: { ...getState().filter, ...payload } });
+    public updateGamesListingFilterAction({ patchState }: StateContext<CoreStateModel>, { payload }: UpdateGamesListingFilterAction) {
+        patchState({ filter: payload });
     }
 
     @Action(UpdateIfUserIsLoggedInAction)

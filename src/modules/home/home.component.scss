@@ -21,8 +21,8 @@
         font-size: 20px;
         text-align: center;
         white-space: nowrap;
-        opacity: .4;
-        transition: all .4s;
+        opacity: 0.4;
+        transition: all 0.4s;
     }
 
     a.selected .filter-label {
@@ -43,7 +43,7 @@
         min-width: 25px;
         text-align: left;
         font-size: 13px;
-        opacity: .4;
+        opacity: 0.4;
         cursor: pointer;
     }
 
@@ -52,8 +52,26 @@
     }
 }
 
+.filters-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    color: #ea377a;
 
-@media(max-width: 575px) {
+    a {
+        color: #ea377a !important;
+    }
+
+    .link {
+        font-weight: 700;
+        margin-left: 6px;
+        font-size: 18px;
+    }
+}
+
+
+@media (max-width: 575px) {
     .status-filter {
         flex-wrap: wrap;
     }

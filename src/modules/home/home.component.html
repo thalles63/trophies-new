@@ -2,46 +2,153 @@
     <div class="status-filter">
         <a
             (click)="setStatus(statusEnum.PlayingCompleted)"
-            [class.selected]="paginationInfo.status === statusEnum.PlayingCompleted">
+            [class.selected]="filter.status === statusEnum.PlayingCompleted">
             <span class="filter-label">All Games</span>
             <span class="filter-counter">{{ gamesCount.all }}</span>
         </a>
         <a
             (click)="setStatus(statusEnum.Playing)"
-            [class.selected]="paginationInfo.status === statusEnum.Playing">
+            [class.selected]="filter.status === statusEnum.Playing">
             <span class="filter-label">Playing</span>
             <span class="filter-counter">{{ gamesCount.playing }}</span>
         </a>
         <a
             (click)="setStatus(statusEnum.Completed)"
-            [class.selected]="paginationInfo.status === statusEnum.Completed">
+            [class.selected]="filter.status === statusEnum.Completed">
             <span class="filter-label">Completed</span>
             <span class="filter-counter">{{ gamesCount.completed }}</span>
         </a>
         <a
             (click)="setStatus(statusEnum.Shelved)"
-            [class.selected]="paginationInfo.status === statusEnum.Shelved">
+            [class.selected]="filter.status === statusEnum.Shelved">
             <span class="filter-label">Shelved</span>
             <span class="filter-counter">{{ gamesCount.shelved }}</span>
         </a>
         <a
             (click)="setStatus(statusEnum.Backlog)"
-            [class.selected]="paginationInfo.status === statusEnum.Backlog">
+            [class.selected]="filter.status === statusEnum.Backlog">
             <span class="filter-label">Backlog</span>
             <span class="filter-counter">{{ gamesCount.backlog }}</span>
         </a>
     </div>
 
-    <sort-by
-        [sort]="paginationInfo.sort"
-        [sorts]="gameListSortBy"
-        (onSelect)="setSortOnState($event)">
-    </sort-by>
+    <a
+        class="filters-container"
+        (click)="openSidebar()">
+        <icon
+            [icon]="icons.Filter"
+            [size]="20">
+        </icon>
+
+        <a class="link"> Filters </a>
+    </a>
 </div>
+
+<sidebar
+    [(active)]="isSidebarOpened"
+    (onBackdropClick)="revertFilters()">
+    <row>
+        <app-input
+            [(value)]="filter.name"
+            label="Game name">
+        </app-input>
+
+        <app-select
+            [(value)]="filter.platform"
+            bindValue="id"
+            bindLabel="description"
+            [items]="platforms"
+            [clearable]="true"
+            label="Platform">
+        </app-select>
+
+        @if (filter.platform === platformEnum.RetroAchievements) {
+            <app-select
+                [(value)]="filter.retroConsole"
+                bindValue="id"
+                bindLabel="description"
+                [items]="consoles"
+                [clearable]="true"
+                label="Console">
+            </app-select>
+        }
+
+        <app-select
+            [(value)]="filter.isCampaignComplete"
+            bindValue="id"
+            bindLabel="description"
+            [items]="trueFalse"
+            [clearable]="true"
+            label="Is campaign complete?">
+        </app-select>
+
+        <app-select
+            [(value)]="filter.isPlatinumed"
+            bindValue="id"
+            bindLabel="description"
+            [items]="trueFalse"
+            [clearable]="true"
+            label="Is platinumed?">
+        </app-select>
+
+        <app-select
+            [(value)]="filter.genre"
+            bindValue="id"
+            bindLabel="description"
+            [items]="trueFalse"
+            [clearable]="true"
+            label="Genre">
+        </app-select>
+
+        <app-select
+            [(value)]="filter.theme"
+            bindValue="id"
+            bindLabel="description"
+            [items]="trueFalse"
+            [clearable]="true"
+            label="Theme">
+        </app-select>
+
+        <app-input
+            [(value)]="filter.releaseYear"
+            label="Release year">
+        </app-input>
+
+        <app-input
+            [(value)]="filter.completionYear"
+            label="Year of game completion">
+        </app-input>
+
+        <star-rating
+            label="Rating"
+            [(rating)]="filter.rating"
+            color="#3f4b64"
+            colorSelected="#ea377a"
+            [size]="40"
+            customClass="fix-margins-rating mb-10"
+            [isSelectable]="true">
+        </star-rating>
+    </row>
+
+    <app-button
+        customClass="mt-10 mb-10"
+        (onClick)="listGames()">
+        Filter
+    </app-button>
+
+    <app-button
+        [type]="'secondary-outline'"
+        (onClick)="clearFilter()">
+        Clear
+    </app-button>
+</sidebar>
 
 <div class="d-flex flex-wrap gap-8">
     @for (game of games; track $index) {
-        <game-image [game]="game"> </game-image>
+        <game-image
+            [game]="game"
+            (onClick)="saveFilter()">
+        </game-image>
     }
 
     @if (isLoading$ | async) {
@@ -51,11 +158,11 @@
     }
 </div>
 
-@if (paginationInfo.total && games.length) {
+@if (filter.total && games.length && filter.pages > 1) {
     <ngb-pagination
-        [page]="paginationInfo.page"
-        [collectionSize]="paginationInfo.total"
-        [pageSize]="paginationInfo.limit"
+        [page]="filter.page"
+        [collectionSize]="filter.total"
+        [pageSize]="filter.limit"
         (pageChange)="setPageOnState($event)"
         [maxSize]="5"
         [rotate]="true"

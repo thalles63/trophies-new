@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
@@ -7,6 +7,8 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
+import { SortDirection } from "../../../common/enums/sort-direction.enum";
+import { StatusEnum } from "../../../common/enums/status.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { CoreState } from "../../../common/store/core.state";
@@ -19,6 +21,7 @@ import { StatusComponent } from "../../../components/status/status.component";
 import { GameEditComponent } from "../edit/game-edit.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Achievement } from "../models/achievement.interface";
+import { GameFilter } from "../models/game-filter.interface";
 import { Game } from "../models/game.interface";
 import { GameService } from "../services/game.service";
 import { GameDetailAchievementSkeletonComponent } from "./achievement-skeleton/achievement-skeleton.component";
@@ -38,8 +41,7 @@ import { GameDetailGameImageComponent } from "./game-image/game-image.component"
         GameDetailAchievementComponent,
         GameDetailAchievementSkeletonComponent,
         GameDetailGameImageComponent,
-        GameDetailGameImageSkeletonComponent,
-        AsyncPipe
+        GameDetailGameImageSkeletonComponent
     ],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
@@ -62,25 +64,36 @@ export class GameDetailComponent {
     protected readMoreActive = false;
     protected isUserLoggedIn = UserInfo.isLoggedIn();
     protected isLoggedInUser$ = this.store.select(CoreState.isLoggedInUser);
-    protected isLoading$ = inject(Store).select(LoaderState.isLoading);
+    protected isLoading = false;
+    protected isLoading$ = this.store.select(LoaderState.isLoading);
+    protected isModalOpened = false;
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
         this.fromManualRegister = { ...history.state }.fromManualRegister;
 
         if (!this.gameId) {
-            this.store.dispatch(new UpdateGamesListingFilterAction({ page: 1, sort: 2, status: 5 }));
+            this.store.dispatch(
+                new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted })
+            );
             this.openModal();
             return;
         }
 
         this.findGameById();
         this.listenForUserLogin();
+        this.listenForLoading();
     }
 
     private listenForUserLogin() {
         this.isLoggedInUser$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isLoggedInUser) => {
             this.isUserLoggedIn = !!isLoggedInUser;
+        });
+    }
+
+    private listenForLoading() {
+        this.isLoading$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isLoading) => {
+            this.isLoading = !!isLoading && !this.isModalOpened;
         });
     }
 
@@ -104,6 +117,7 @@ export class GameDetailComponent {
     }
 
     public openModal() {
+        this.isModalOpened = true;
         const modalRef = this.modalService.open(GameEditComponent, { centered: true, size: "xl" });
         modalRef.componentInstance.game = this.game.id ? structuredClone(this.game) : { timePlayed: {}, achievements: [] };
         modalRef.componentInstance.manualRegister = !this.game.id;
@@ -113,6 +127,7 @@ export class GameDetailComponent {
                 return;
             }
 
+            this.isModalOpened = false;
             this.game = structuredClone(result);
             this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
         });

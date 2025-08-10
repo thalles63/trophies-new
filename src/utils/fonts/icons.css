@@ -1,11 +1,11 @@
 @font-face {
   font-family: "icons";
-  src: url('icons.eot?t=1752856345047'); /* IE9*/
-  src: url('icons.eot?t=1752856345047#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url("icons.woff2?t=1752856345047") format("woff2"),
-  url("icons.woff?t=1752856345047") format("woff"),
-  url('icons.ttf?t=1752856345047') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('icons.svg?t=1752856345047#icons') format('svg'); /* iOS 4.1- */
+  src: url('icons.eot?t=1754856596696'); /* IE9*/
+  src: url('icons.eot?t=1754856596696#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url("icons.woff2?t=1754856596696") format("woff2"),
+  url("icons.woff?t=1754856596696") format("woff"),
+  url('icons.ttf?t=1754856596696') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('icons.svg?t=1754856596696#icons') format('svg'); /* iOS 4.1- */
 }
 
 [class^="icons-"], [class*=" icons-"] {
@@ -20,11 +20,12 @@
 .icons-camera:before { content: "\ea02"; }
 .icons-check:before { content: "\ea03"; }
 .icons-edit:before { content: "\ea04"; }
-.icons-gamepad:before { content: "\ea05"; }
-.icons-loading:before { content: "\ea06"; }
-.icons-search:before { content: "\ea07"; }
-.icons-trash:before { content: "\ea08"; }
-.icons-trophy:before { content: "\ea09"; }
-.icons-warning:before { content: "\ea0a"; }
+.icons-filter:before { content: "\ea05"; }
+.icons-gamepad:before { content: "\ea06"; }
+.icons-loading:before { content: "\ea07"; }
+.icons-search:before { content: "\ea08"; }
+.icons-trash:before { content: "\ea09"; }
+.icons-trophy:before { content: "\ea0a"; }
+.icons-warning:before { content: "\ea0b"; }
 
 

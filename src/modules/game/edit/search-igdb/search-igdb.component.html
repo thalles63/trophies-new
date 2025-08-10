@@ -1,6 +1,12 @@
 <div class="modal-header"> Sync game with IGDB </div>
 
 <div class="modal-body">
+    @if (isLoading) {
+        @for (_ of [].constructor(5); track $index) {
+            <div class="loading-skeleton game-skeleton"> </div>
+        }
+    }
+
     @for (game of retrievedGames; track $index; let last = $last) {
         <a
             class="game-retrieved"

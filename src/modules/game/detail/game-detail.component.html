@@ -1,7 +1,7 @@
 <div class="container">
     <div class="left-container">
         <div class="game-bar">
-            @if (isLoading$ | async) {
+            @if (isLoading) {
                 <game-image-skeleton [showDetails]="false"></game-image-skeleton>
             } @else {
                 <game-image
@@ -35,7 +35,8 @@
         <div class="game-information">
             <app-label
                 label="Status"
-                [textTemplate]="statusText">
+                [textTemplate]="statusText"
+                [isLoading]="isLoading">
             </app-label>
 
             <ng-template #statusText>
@@ -47,44 +48,51 @@
 
             <app-label
                 label="Platform"
-                [text]="game.platformText">
+                [text]="game.platformText"
+                [isLoading]="isLoading">
             </app-label>
 
             @if (game.platform === platformEnum.RetroAchievements) {
                 <app-label
                     label="Console"
-                    [text]="game.retroConsoleText">
+                    [text]="game.retroConsoleText"
+                    [isLoading]="isLoading">
                 </app-label>
             }
 
             <app-label
                 label="Released in"
-                [text]="game.releaseDate | date: 'dd/MM/yyyy'">
+                [text]="game.releaseDate | date: 'dd/MM/yyyy'"
+                [isLoading]="isLoading">
             </app-label>
 
             <app-label
                 label="Time played"
-                [text]="game.timePlayed.hours ? game.timePlayed.hours + ' hours and ' + game.timePlayed.minutes + ' minutes' : '-'">
+                [text]="game.timePlayed.hours ? game.timePlayed.hours + ' hours and ' + game.timePlayed.minutes + ' minutes' : '-'"
+                [isLoading]="isLoading">
             </app-label>
 
             <app-label
                 label="Is campaign complete?"
-                [text]="game.isCampaignComplete ? 'Yes' : 'No'">
+                [text]="game.isCampaignComplete ? 'Yes' : 'No'"
+                [isLoading]="isLoading">
             </app-label>
 
             <app-label
                 label="Is platinumed?"
-                [text]="game.isPlatinumed ? 'Yes' : 'No'">
+                [text]="game.isPlatinumed ? 'Yes' : 'No'"
+                [isLoading]="isLoading">
             </app-label>
 
             <app-label
                 label="Date completed"
-                [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastUnlock | date: 'dd/MM/yyyy HH:mm:ss') : '-'">
+                [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastUnlock | date: 'dd/MM/yyyy HH:mm:ss') : '-'"
+                [isLoading]="isLoading">
             </app-label>
         </div>
     </div>
     <div class="right-container">
-        @if (isLoading$ | async) {
+        @if (isLoading) {
             <div class="loading-skeleton title-skeleton"></div>
             <div class="loading-skeleton description-skeleton"></div>
         } @else {
@@ -120,7 +128,8 @@
             <app-label
                 label="Genres"
                 [textTemplate]="genreTemplate"
-                [inputSize]="6">
+                [inputSize]="6"
+                [isLoading]="isLoading">
             </app-label>
 
             <ng-template #genreTemplate>
@@ -146,7 +155,8 @@
             <app-label
                 label="Themes"
                 [textTemplate]="themeTemplate"
-                [inputSize]="6">
+                [inputSize]="6"
+                [isLoading]="isLoading">
             </app-label>
 
             <ng-template #themeTemplate>
@@ -174,20 +184,22 @@
             <app-label
                 label="Published by"
                 [text]="game.publisher"
-                [inputSize]="6">
+                [inputSize]="6"
+                [isLoading]="isLoading">
             </app-label>
 
             <app-label
                 label="Developed by"
                 [text]="game.developer"
-                [inputSize]="6">
+                [inputSize]="6"
+                [isLoading]="isLoading">
             </app-label>
         </row>
 
         <div class="achievements-title">Achievements</div>
 
         <row>
-            @if (isLoading$ | async) {
+            @if (isLoading) {
                 @for (_ of [].constructor(30); track $index) {
                     <game-achievement-skeleton></game-achievement-skeleton>
                 }
@@ -198,7 +210,7 @@
             }
         </row>
 
-        @if (!game.achievements.length && !(isLoading$ | async)) {
+        @if (!game.achievements.length && !isLoading) {
             <div class="no-achievements">This game does not have achievements.</div>
         }
     </div>

@@ -1,7 +1,8 @@
 <div
     class="image-container"
     [class.no-click]="!showDetails()"
-    [routerLink]="showDetails() ? ['game', game().id] : undefined">
+    [routerLink]="showDetails() ? ['game', game().id] : undefined"
+    (click)="onClickHandler()">
     <div class="cover">
         @if (game().name && game().image) {
             <img

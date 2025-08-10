@@ -3,6 +3,7 @@ export enum IconEnum {
     Camera = "icons-camera",
     Check = "icons-check",
     Edit = "icons-edit",
+    Filter = "icons-filter",
     Gamepad = "icons-gamepad",
     Loading = "icons-loading",
     Search = "icons-search",
