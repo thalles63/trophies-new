@@ -34,4 +34,12 @@ export class GameService {
     public delete(gameId: string) {
         return this.http.delete<void>(`${this.API_URL}/${gameId}`);
     }
+
+    public createNewGameWithIgdbInfo(game: Game) {
+        return this.http.post<Game>(`${this.API_URL}/create-game-with-igdb-info`, { game: this.mapper.dto(game) });
+    }
+
+    public updateGameWithIgdbInfo(game: Game, gameId: string) {
+        return this.http.put<Game>(`${this.API_URL}/update-igdb-info/${gameId}`, { game: this.mapper.dto(game) });
+    }
 }

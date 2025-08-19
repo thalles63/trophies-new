@@ -5,6 +5,7 @@ import { IconEnum } from "../../../../common/enums/icon.enum";
 import { NotificationService } from "../../../../common/services/notification.service";
 import { ButtonComponent } from "../../../../components/button/button.component";
 import { IconComponent } from "../../../../components/icon/icon.component";
+import { GameMapper } from "../../mappers/game.mapper";
 import { Game } from "../../models/game.interface";
 import { GameService } from "../../services/game.service";
 
@@ -20,6 +21,7 @@ export class SearchGameInIgdbComponent implements AfterContentInit {
     private readonly service = inject(GameService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly notificationService = inject(NotificationService);
+    private readonly mapper = inject(GameMapper);
 
     @Input() public gameId = "";
     @Input() public gameName = "";
@@ -56,7 +58,22 @@ export class SearchGameInIgdbComponent implements AfterContentInit {
     }
 
     public confirm() {
-        this.activeModal.close(this.selectedGame);
+        this.isSaveLoading = true;
+
+        const service = this.gameId
+            ? this.service.updateGameWithIgdbInfo(this.selectedGame, this.gameId)
+            : this.service.createNewGameWithIgdbInfo(this.selectedGame);
+
+        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+            next: (result: any) => {
+                this.activeModal.close(this.mapper.findById(result));
+                this.isSaveLoading = false;
+            },
+            error: () => {
+                this.notificationService.error("Error saving game");
+                this.isSaveLoading = false;
+            }
+        });
     }
 
     public cancel() {

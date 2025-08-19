@@ -147,7 +147,7 @@ export class GameEditComponent implements AfterViewInit {
         }
 
         const modalRef = this.modalService.open(SearchGameInIgdbComponent, { centered: true, size: "lg" });
-        modalRef.componentInstance.game = this.game;
+        modalRef.componentInstance.gameId = this.game.id;
         modalRef.componentInstance.gameName = this.game.name;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
