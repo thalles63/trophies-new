@@ -141,3 +141,11 @@ a:active {
 .no-scroll {
     overflow-y: hidden;
 }
+
+.link {
+    color: #ea377a !important;
+
+    &:hover {
+        text-decoration: underline !important;
+    }
+}
