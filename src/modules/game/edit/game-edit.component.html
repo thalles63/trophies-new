@@ -56,14 +56,16 @@
                         [inputSize]="12">
                     </app-input>
 
-                    <a
-                        class="search-button"
-                        (click)="openSearchIgdbModal()">
-                        <icon
-                            [icon]="iconEnum.Search"
-                            [size]="24">
-                        </icon>
-                    </a>
+                    @if (!isManualRegister()) {
+                        <a
+                            class="search-button"
+                            (click)="openSearchIgdbModal()">
+                            <icon
+                                [icon]="iconEnum.Search"
+                                [size]="24">
+                            </icon>
+                        </a>
+                    }
                 </div>
             </div>
 
@@ -135,6 +137,13 @@
                     customClass="fix-margins-rating"
                     [isSelectable]="true">
                 </star-rating>
+
+                <app-input
+                    [(value)]="game.lastTimePlayedFormatted"
+                    label="Last time played"
+                    mask="00/00/0000 00:00:00"
+                    [inputSize]="3">
+                </app-input>
             </div>
         </div>
     </tab>
@@ -183,7 +192,8 @@
                                 <app-button
                                     type="primary-outline"
                                     (onClick)="confirmDeleteAchievement(achievement, $index)"
-                                    customClass="icon-button">
+                                    customClass="icon-button"
+                                    [isLoading]="isDeleteAchievementLoading">
                                     <icon
                                         [icon]="iconEnum.Trash"
                                         [size]="16">
@@ -209,24 +219,15 @@
 <div
     class="modal-footer"
     [class.align-end]="this.isManualRegister() && gameInfoTab.active">
-    @if (gameInfoTab.active) {
-        @if (!this.isManualRegister()) {
-            <app-button
-                type="primary-outline"
-                (onClick)="confirmDeleteGame()"
-                [isLoading]="isDeleteLoading">
-                Delete game
-            </app-button>
-        }
-    } @else {
-        <div class="footer-buttons-right">
-            <app-button (onClick)="addNewAchievement()"> Add new achievement </app-button>
-
-            @if (game.achievements.length) {
-                <app-button (onClick)="syncAchievementsWithPsnProfiles()">Sync with PSN Profiles</app-button>
-            }
-        </div>
+    @if (!this.isManualRegister()) {
+        <app-button
+            type="primary-outline"
+            (onClick)="confirmDeleteGame()"
+            [isLoading]="isDeleteLoading">
+            Delete game
+        </app-button>
     }
+
     <div class="footer-buttons-right">
         <app-button
             type="secondary"
@@ -234,10 +235,12 @@
             Cancel
         </app-button>
 
-        <app-button
-            (onClick)="save()"
-            [isLoading]="isSaveLoading">
-            Save
-        </app-button>
+        @if (gameInfoTab.active) {
+            <app-button
+                (onClick)="save()"
+                [isLoading]="isSaveLoading">
+                Save
+            </app-button>
+        }
     </div>
 </div>

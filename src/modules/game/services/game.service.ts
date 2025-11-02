@@ -1,7 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
+import { SanitizeEmptyStrings } from "../../../common/functions/functions";
 import { environment } from "../../../environments/environment";
 import { GameMapper } from "../mappers/game.mapper";
+import { GameFilter } from "../models/game-filter.interface";
 import { Game } from "../models/game.interface";
 
 @Injectable()
@@ -9,7 +11,15 @@ export class GameService {
     private readonly http = inject(HttpClient);
     private readonly mapper = inject(GameMapper);
 
-    private readonly API_URL = `${environment.API_URL}/game`;
+    private readonly API_URL = `${environment.API_URL}/games`;
+
+    public listGames(filters: GameFilter) {
+        return this.http.post<{ games: Game[] }>(`${this.API_URL}/list`, SanitizeEmptyStrings(filters));
+    }
+
+    public getGamesCountByStatus(filters: GameFilter) {
+        return this.http.post<any>(`${this.API_URL}/count`, SanitizeEmptyStrings(filters));
+    }
 
     public getById(gameId: string) {
         return this.http.get<Game>(`${this.API_URL}/${gameId}`);
@@ -20,26 +30,18 @@ export class GameService {
     }
 
     public update(game: Game) {
-        return this.http.put<Game>(`${this.API_URL}/${game.id}`, { game: this.mapper.dto(game) });
+        return this.http.put<Game>(`${this.API_URL}/${game.id}`, this.mapper.dto(game));
     }
 
     public searchIgdb(gameName: string) {
-        return this.http.get<any>(`${this.API_URL}/search-igdb?gameName=${gameName}`);
+        return this.http.get<any>(`${this.API_URL}/searchIgdb?gameName=${gameName}`);
     }
 
     public searchSteam(gameName: string) {
-        return this.http.get<any>(`${this.API_URL}/search-steam?gameName=${gameName}`);
+        return this.http.get<any>(`${this.API_URL}/searchSteam?gameName=${gameName}`);
     }
 
     public delete(gameId: string) {
         return this.http.delete<void>(`${this.API_URL}/${gameId}`);
-    }
-
-    public createNewGameWithIgdbInfo(game: Game) {
-        return this.http.post<Game>(`${this.API_URL}/create-game-with-igdb-info`, { game: this.mapper.dto(game) });
-    }
-
-    public updateGameWithIgdbInfo(game: Game, gameId: string) {
-        return this.http.put<Game>(`${this.API_URL}/update-igdb-info/${gameId}`, { game: this.mapper.dto(game) });
     }
 }

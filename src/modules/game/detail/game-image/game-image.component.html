@@ -29,10 +29,10 @@
                 </div>
             </div>
 
-            @if (game().lastUnlock) {
+            @if (game().lastTimePlayed) {
                 <div>
                     <div class="info-label">Last Played</div>
-                    <div class="info-text">{{ game().lastUnlock | date: "dd/MM/yyyy HH:mm:ss" }}</div>
+                    <div class="info-text">{{ game().lastTimePlayed | date: "dd/MM/yyyy HH:mm:ss" }}</div>
                 </div>
             }
 

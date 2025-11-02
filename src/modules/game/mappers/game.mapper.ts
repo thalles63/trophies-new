@@ -29,15 +29,29 @@ export class GameMapper {
                 { fieldName: "percentageAchieved", direction: SortDirection.Descending }
             ]),
             status: params.status,
-            lastUnlock: params.lastUnlock,
+            lastTimePlayed: params.lastTimePlayed,
+            lastTimePlayedFormatted: this.convertDateToFieldFormat(params.lastTimePlayed),
             statusDescription: this.getStatusText(params.status),
-            igdbId: params.igdbId,
             isManualRegister: params.isManualRegister,
             releaseDate: params.releaseDate,
             genres: params.genres?.map((genre: any) => genre.slug),
             genresDescription: params.genres ?? [],
             themes: params.themes?.map((theme: any) => theme.slug),
             themesDescription: params.themes ?? [],
+            developer: params.developer,
+            publisher: params.publisher
+        };
+    };
+
+    public readonly getInIgdb = (params: any) => {
+        return <Game>{
+            name: params.name,
+            description: params.description,
+            image: params.image,
+            screenshot: params.screenshot,
+            releaseDate: params.releaseDate,
+            genres: params.genres,
+            themes: params.themes,
             developer: params.developer,
             publisher: params.publisher
         };
@@ -70,7 +84,7 @@ export class GameMapper {
             isPlatinumed: params.isPlatinumed,
             isCampaignComplete: params.isCampaignComplete,
             status: params.status,
-            igdbId: params.igdbId,
+            lastTimePlayed: this.convertDateToISOFormat(params.lastTimePlayedFormatted),
             isManualRegister: params.isManualRegister,
             releaseDate: params.releaseDate,
             genres: params.genres,

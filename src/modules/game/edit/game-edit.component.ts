@@ -2,10 +2,7 @@ import { AfterViewInit, Component, DestroyRef, inject, Input, ViewChild } from "
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { forkJoin, of, Subject } from "rxjs";
-import { AchievementActionEnum } from "../../../common/enums/achievement-action.enum";
 import { IconEnum } from "../../../common/enums/icon.enum";
-import { PlatformEnum } from "../../../common/enums/platform.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
 import { NotificationService } from "../../../common/services/notification.service";
@@ -51,11 +48,11 @@ export class GameEditComponent implements AfterViewInit {
     private readonly activeModal = inject(NgbActiveModal);
     private readonly modalService = inject(NgbModal);
     private readonly service = inject(GameService);
-    private readonly achievementsService = inject(AchievementsService);
     private readonly mapper = inject(GameMapper);
     private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
     private readonly notificationService = inject(NotificationService);
+    private readonly achievementsService = inject(AchievementsService);
 
     @Input() public game = <Game>{ timePlayed: {}, achievements: <Achievement[]>[] };
     @ViewChild("tabs", { static: false }) protected readonly tabs!: TabsComponent;
@@ -65,79 +62,38 @@ export class GameEditComponent implements AfterViewInit {
     protected platforms = PlatformsData;
     protected iconEnum = IconEnum;
     protected trueFalse = TrueFalseData;
-    protected achievementsModified = <Achievement[]>[];
     protected isSaveLoading = false;
     protected isDeleteLoading = false;
+    protected isDeleteAchievementLoading = false;
 
     public ngAfterViewInit(): void {
         this.tabs.setActiveTab(this.gameInfoTab);
     }
 
     public save() {
-        if (this.isManualRegister()) {
-            this.saveGameManual();
-            return;
-        }
-
-        this.saveAchievementsThenGame();
-    }
-
-    private saveGame() {
-        this.service
-            .update(this.game)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((result) => {
-                this.isSaveLoading = false;
-                this.game.lastUnlock = result.lastUnlock;
-                this.game.themes = result.themes.map((theme: any) => theme.id);
-                this.game.themesDescription = result.themes;
-                this.game.genres = result.genres.map((genre: any) => genre.id);
-                this.game.genresDescription = result.genres;
-                this.activeModal.close(this.game);
-            });
-    }
-
-    private saveGameManual() {
         if (!this.validateIfRequiredFieldsAreValid()) {
             this.notificationService.error("Some required fields are invalid");
             return;
         }
 
         this.isSaveLoading = true;
+        const service = this.isManualRegister() ? this.service.save(this.game) : this.service.update(this.game);
 
-        this.service
-            .save(this.game)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((result) => {
-                this.activeModal.close();
-                this.router.navigate(["game/" + result.id], { replaceUrl: true, state: { fromManualRegister: true } });
-            });
-    }
+        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+            this.isSaveLoading = false;
 
-    public addNewAchievement() {
-        const modalRef = this.modalService.open(AchievementEditComponent, { centered: true, size: "lg" });
-        modalRef.componentInstance.achievement = {};
-        modalRef.componentInstance.game = this.game;
-
-        modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
-            if (!result) {
+            if (this.isManualRegister()) {
+                this.router.navigate(["game/" + result.id], { replaceUrl: true });
+                this.activeModal.close(true);
                 return;
             }
 
-            result.action = AchievementActionEnum.Add;
-
-            this.achievementsModified.replaceOrUnshift(result);
-            this.game.achievements.push(result);
-            this.game.achievements = this.game.achievements.sortByField([
-                { fieldName: "isAchieved", direction: SortDirection.Descending },
-                { fieldName: "dateAchieved", direction: SortDirection.Ascending },
-                { fieldName: "percentageAchieved", direction: SortDirection.Descending }
-            ]);
+            this.activeModal.close(true);
         });
     }
 
     private validateIfRequiredFieldsAreValid() {
-        return !!this.game.status && !!this.game.name && !!this.game.screenshot && !!this.game.image && !!this.game.platform;
+        return !!this.game.name;
     }
 
     public openSearchIgdbModal() {
@@ -159,60 +115,8 @@ export class GameEditComponent implements AfterViewInit {
         });
     }
 
-    private saveAchievementsThenGame() {
-        if (!this.validateIfRequiredFieldsAreValid()) {
-            this.notificationService.error("Some required fields are invalid");
-            return;
-        }
-
-        this.isSaveLoading = true;
-        const achievementsActions = this.getAchievementsActions();
-
-        this.safeForkJoin(achievementsActions)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.saveGame();
-            });
-    }
-
     private updateGameWithIgdbInfo(igdbInfo: Game) {
-        this.game.screenshot = igdbInfo.screenshot;
-        this.game.image = igdbInfo.image;
-        this.game.description = igdbInfo.description;
-        this.game.releaseDate = igdbInfo.releaseDate;
-        this.game.genres = igdbInfo.genres;
-        this.game.themes = igdbInfo.themes;
-        this.game.developer = igdbInfo.developer;
-        this.game.publisher = igdbInfo.publisher;
-
-        if (![PlatformEnum.Playstation4, PlatformEnum.Playstation5].includes(this.game.platform)) {
-            this.game.igdbId = igdbInfo.igdbId;
-        }
-    }
-
-    private getAchievementsActions() {
-        const achievementsActions = [];
-
-        const achievementsToDelete = this.achievementsModified.filter((a) => a.action === AchievementActionEnum.Delete);
-        if (achievementsToDelete.length) {
-            achievementsActions.push(this.deleteAchievements(achievementsToDelete));
-        }
-
-        const achievemenstToUpdate = this.achievementsModified.filter((a) => a.action === AchievementActionEnum.Edit);
-        if (achievemenstToUpdate.length) {
-            achievementsActions.push(this.updateAchievements(achievemenstToUpdate));
-        }
-
-        const achievemenstToSave = this.achievementsModified.filter((a) => a.action === AchievementActionEnum.Add);
-        if (achievemenstToSave.length) {
-            achievementsActions.push(this.saveAchievements(achievemenstToSave));
-        }
-
-        return achievementsActions;
-    }
-
-    private safeForkJoin(obs: any) {
-        return obs.length > 0 ? forkJoin(obs) : of([]);
+        this.game = { ...this.game, ...igdbInfo };
     }
 
     public confirmDeleteGame() {
@@ -241,55 +145,12 @@ export class GameEditComponent implements AfterViewInit {
                 this.router.navigate(["/"]);
             });
     }
-
-    private saveAchievements(achievementsToSave: Achievement[]) {
-        const subject = new Subject<void>();
-
-        this.achievementsService
-            .saveAchievements(achievementsToSave, this.game.id)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                subject.next();
-                subject.complete();
-            });
-
-        return subject;
-    }
-
-    private deleteAchievements(achievementsToDelete: Achievement[]) {
-        const subject = new Subject<void>();
-
-        this.achievementsService
-            .deleteAchievements(achievementsToDelete)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                subject.next();
-                subject.complete();
-            });
-
-        return subject;
-    }
-
-    private updateAchievements(achievementsToUpdate: Achievement[]) {
-        const subject = new Subject<void>();
-
-        this.achievementsService
-            .updateAchievements(achievementsToUpdate)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                subject.next();
-                subject.complete();
-            });
-
-        return subject;
-    }
-
     public cancel() {
         if (this.isManualRegister()) {
             this.router.navigate(["/"]);
         }
 
-        this.activeModal.close();
+        this.activeModal.close(true);
     }
 
     public isManualRegister() {
@@ -343,11 +204,6 @@ export class GameEditComponent implements AfterViewInit {
                 return;
             }
 
-            if (result.id) {
-                result.action = AchievementActionEnum.Edit;
-            }
-
-            this.achievementsModified.replaceOrUnshift(result);
             this.game.achievements[index] = result;
             this.game.achievements = this.game.achievements.sortByField([
                 { fieldName: "isAchieved", direction: SortDirection.Descending },
@@ -367,19 +223,23 @@ export class GameEditComponent implements AfterViewInit {
                 return;
             }
 
-            this.deleteAchievement(listIndex);
+            this.deleteAchievementFromApi(achievement, listIndex);
         });
     }
 
-    private deleteAchievement(listIndex: number) {
-        const achievement = { ...this.game.achievements[listIndex] };
-        if (achievement.id) {
-            achievement.action = AchievementActionEnum.Delete;
-        } else {
-            this.achievementsModified.splice(listIndex, 1);
-        }
+    private deleteAchievementFromApi(achievementToDelete: Achievement, listIndex: number) {
+        this.isDeleteAchievementLoading = true;
 
-        this.achievementsModified.replaceOrUnshift(achievement);
+        this.achievementsService
+            .deleteAchievement(achievementToDelete, achievementToDelete.id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.isDeleteAchievementLoading = false;
+                this.deleteAchievement(listIndex);
+            });
+    }
+
+    private deleteAchievement(listIndex: number) {
         this.game.achievements.splice(listIndex, 1);
     }
 

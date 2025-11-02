@@ -74,9 +74,14 @@
 <div class="modal-footer">
     <app-button
         type="secondary"
+        [disabled]="isSaveLoading"
         (onClick)="cancel()">
         Cancel
     </app-button>
 
-    <app-button (onClick)="save()"> Save </app-button>
+    <app-button
+        (onClick)="save()"
+        [isLoading]="isSaveLoading">
+        Save
+    </app-button>
 </div>

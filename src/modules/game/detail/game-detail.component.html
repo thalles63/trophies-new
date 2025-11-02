@@ -86,7 +86,7 @@
 
             <app-label
                 label="Date completed"
-                [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastUnlock | date: 'dd/MM/yyyy HH:mm:ss') : '-'"
+                [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastTimePlayed | date: 'dd/MM/yyyy HH:mm:ss') : '-'"
                 [isLoading]="isLoading">
             </app-label>
         </div>

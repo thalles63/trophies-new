@@ -11,7 +11,6 @@ import { UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
 import { AuthService } from "../../modules/auth/auth.service";
 import { LoginComponent } from "../../modules/auth/login/login.component";
-import { ConfigComponent } from "../../modules/config/config.component";
 import { GameFilter } from "../../modules/game/models/game-filter.interface";
 import { IconComponent } from "../icon/icon.component";
 
@@ -66,31 +65,11 @@ export class HeaderComponent implements OnInit {
         this.menuOpened = !this.menuOpened;
     }
 
-    public syncPlaystation() {
-        this.router.navigate(["/sync/playstation"]);
-    }
-
-    public syncXbox() {
-        this.router.navigate(["/sync/xbox"]);
-    }
-
-    public syncSteam() {
-        this.router.navigate(["/sync/steam"]);
-    }
-
-    public syncRetroAchievements() {
-        this.router.navigate(["/sync/retro-achievements"]);
-    }
-
     public openLoginModal() {
         this.modalService.open(LoginComponent, { centered: true, size: "md" });
     }
 
     public logout() {
         this.authService.logout();
-    }
-
-    public openConfigModal() {
-        this.modalService.open(ConfigComponent, { centered: true, size: "xl" });
     }
 }

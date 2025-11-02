@@ -58,22 +58,7 @@ export class SearchGameInIgdbComponent implements AfterContentInit {
     }
 
     public confirm() {
-        this.isSaveLoading = true;
-
-        const service = this.gameId
-            ? this.service.updateGameWithIgdbInfo(this.selectedGame, this.gameId)
-            : this.service.createNewGameWithIgdbInfo(this.selectedGame);
-
-        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-            next: (result: any) => {
-                this.activeModal.close(this.mapper.findById(result));
-                this.isSaveLoading = false;
-            },
-            error: () => {
-                this.notificationService.error("Error saving game");
-                this.isSaveLoading = false;
-            }
-        });
+        this.activeModal.close(this.mapper.getInIgdb(this.selectedGame));
     }
 
     public cancel() {

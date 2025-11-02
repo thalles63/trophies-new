@@ -9,27 +9,24 @@ export class AchievementsService {
     private readonly http = inject(HttpClient);
     private readonly mapper = inject(GameMapper);
 
-    private readonly API_URL = `${environment.API_URL}/achievements`;
+    private readonly API_URL = `${environment.API_URL}/games`;
+    private readonly API_ACHIEVEMENTS_URL = `achievements`;
 
-    public saveAchievements(achievements: Achievement[], gameId: string) {
-        return this.http.post(`${this.API_URL}/save-multiple`, { achievements: achievements.map(this.mapper.achievementsDto), gameId });
+    public deleteAchievement(achievement: Achievement, gameId: string) {
+        return this.http.delete(`${this.API_URL}/${gameId}/${this.API_ACHIEVEMENTS_URL}/${achievement.id}`);
     }
 
-    public deleteAchievements(achievements: Achievement[]) {
-        return this.http.post(`${this.API_URL}/delete-multiple`, {
-            ids: achievements.map((a) => a.id)
-        });
-    }
-
-    public updateAchievements(achievements: Achievement[]) {
-        return this.http.put(`${this.API_URL}/multiple`, achievements.map(this.mapper.achievementsDto));
+    public edit(achievement: Achievement, gameId: string) {
+        return this.http.put(`${this.API_URL}/${gameId}/${this.API_ACHIEVEMENTS_URL}/${achievement.id}`, this.mapper.achievementsDto(achievement));
     }
 
     public saveFromSteam(selectedGameId: string, gameId: string) {
-        return this.http.post<Achievement[]>(`${this.API_URL}/save-from-steam`, { platformId: selectedGameId, id: gameId });
+        return this.http.post<Achievement[]>(`${this.API_URL}/${gameId}/${this.API_ACHIEVEMENTS_URL}/saveFromSteam`, {
+            platformId: selectedGameId
+        });
     }
 
     public saveFromPsn(gameUrl: string, gameId: string) {
-        return this.http.post<Achievement[]>(`${this.API_URL}/sync-all-with-psn`, { gameUrl, gameId });
+        return this.http.post<Achievement[]>(`${this.API_URL}/${gameId}/${this.API_ACHIEVEMENTS_URL}/saveFromPsnProfiles`, { gameUrl });
     }
 }

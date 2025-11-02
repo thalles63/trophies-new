@@ -28,20 +28,11 @@
 
             @if (menuOpened) {
                 <div class="options">
-                    <a (click)="syncPlaystation()">Sync Playstation</a>
-                    <a (click)="syncXbox()">Sync Xbox</a>
-                    <a (click)="syncSteam()"> Sync Steam </a>
-                    <a
-                        (click)="syncRetroAchievements()"
-                        class="border-bottom">
-                        Sync Retro Achievements
-                    </a>
                     <a
                         (click)="addGame()"
                         class="border-bottom">
                         Add game
                     </a>
-                    <a (click)="openConfigModal()">Config PSN Token</a>
                     <a (click)="logout()">Logout</a>
                 </div>
             }

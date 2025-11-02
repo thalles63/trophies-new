@@ -26,8 +26,8 @@ import { GameMapper } from "../game/mappers/game.mapper";
 import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { GameFilter } from "../game/models/game-filter.interface";
 import { Game } from "../game/models/game.interface";
+import { GameService } from "../game/services/game.service";
 import { GameListSortBy } from "./home.data";
-import { HomeService } from "./services/home.service";
 
 @Component({
     selector: "app-home",
@@ -48,10 +48,10 @@ import { HomeService } from "./services/home.service";
     ],
     templateUrl: "./home.component.html",
     styleUrl: "./home.component.scss",
-    providers: [HomeService]
+    providers: [GameService]
 })
 export class HomeComponent implements OnInit {
-    private readonly service = inject(HomeService);
+    private readonly service = inject(GameService);
     private readonly destroyref = inject(DestroyRef);
     private readonly store = inject(Store);
     private readonly titleService = inject(Title);

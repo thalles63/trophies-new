@@ -1,5 +1,5 @@
 import { DatePipe } from "@angular/common";
-import { Component, DestroyRef, inject } from "@angular/core";
+import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
@@ -47,7 +47,7 @@ import { GameDetailGameImageComponent } from "./game-image/game-image.component"
     styleUrl: "./game-detail.component.scss",
     providers: [GameService]
 })
-export class GameDetailComponent {
+export class GameDetailComponent implements OnInit {
     private readonly service = inject(GameService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly activatedRoute = inject(ActivatedRoute);
@@ -60,7 +60,6 @@ export class GameDetailComponent {
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
-    protected fromManualRegister = false;
     protected readMoreActive = false;
     protected isUserLoggedIn = UserInfo.isLoggedIn();
     protected isLoggedInUser$ = this.store.select(CoreState.isLoggedInUser);
@@ -70,7 +69,6 @@ export class GameDetailComponent {
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
-        this.fromManualRegister = { ...history.state }.fromManualRegister;
 
         if (!this.gameId) {
             this.store.dispatch(
@@ -109,10 +107,6 @@ export class GameDetailComponent {
                 this.game = this.gameMapper.findById(result);
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
                 this.titleService.setTitle("Trophies - " + this.game.name);
-
-                if (this.fromManualRegister) {
-                    this.openModal();
-                }
             });
     }
 
@@ -123,13 +117,8 @@ export class GameDetailComponent {
         modalRef.componentInstance.manualRegister = !this.game.id;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
-            if (!result) {
-                return;
-            }
-
             this.isModalOpened = false;
-            this.game = structuredClone(result);
-            this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
+            this.findGameById();
         });
     }
 
