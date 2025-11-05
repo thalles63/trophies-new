@@ -4,4 +4,5 @@ export interface GameCountByStatus {
     completed: number;
     shelved: number;
     backlog: number;
+    wishlist: number;
 }

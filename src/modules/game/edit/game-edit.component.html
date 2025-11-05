@@ -39,6 +39,13 @@
                 (onClick)="setStatus(statusEnum.Backlog)">
                 Backlog
             </app-button>
+
+            <app-button
+                type="secondary-outline"
+                customClass="wishlist {{ game.status === statusEnum.Wishlist ? 'selected' : '' }}"
+                (onClick)="setStatus(statusEnum.Wishlist)">
+                Wishlist
+            </app-button>
         </div>
     </div>
 </div>

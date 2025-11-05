@@ -30,6 +30,12 @@
             <span class="filter-label">Backlog</span>
             <span class="filter-counter">{{ gamesCount.backlog }}</span>
         </a>
+        <a
+            (click)="setStatus(statusEnum.Wishlist)"
+            [class.selected]="filter.status === statusEnum.Wishlist">
+            <span class="filter-label">Wishlist</span>
+            <span class="filter-counter">{{ gamesCount.wishlist }}</span>
+        </a>
     </div>
 
     <a

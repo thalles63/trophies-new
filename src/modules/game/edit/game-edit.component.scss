@@ -158,6 +158,13 @@
         border-bottom: 3px solid #ea377a;
         background-color: transparent;
     }
+    .btn.wishlist.selected,
+    .btn.wishlist:hover {
+        border-color: #b737ea;
+        color: #fff;
+        border-bottom: 3px solid #b737ea;
+        background-color: transparent;
+    }
 }
 
 .search-container {
