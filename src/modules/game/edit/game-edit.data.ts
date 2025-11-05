@@ -49,6 +49,10 @@ export const GameStatusData = [
     {
         id: StatusEnum.Backlog,
         description: "Backlog"
+    },
+    {
+        id: StatusEnum.Wishlist,
+        description: "Wishlist"
     }
 ];
 

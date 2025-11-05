@@ -53,3 +53,12 @@
         background-color: #ea377a;
     }
 }
+
+.achievement-status.Wishlist {
+    .status-circle-out {
+        background-color: color-mix(in oklab, #b737ea 20%, transparent);
+    }
+    .status-circle-inner {
+        background-color: #b737ea;
+    }
+}

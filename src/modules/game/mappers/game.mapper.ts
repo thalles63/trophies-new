@@ -142,6 +142,10 @@ export class GameMapper {
     }
 
     public convertDateToISOFormat(date: string) {
+        if (!date) {
+            return "";
+        }
+
         const [datePart, timePart] = date.split(" ");
         const [day, month, year] = datePart.split("/").map(Number);
         const [hour, minute, second] = timePart.split(":").map(Number);
