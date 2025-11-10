@@ -19,12 +19,6 @@
             <span class="filter-counter">{{ gamesCount.completed }}</span>
         </a>
         <a
-            (click)="setStatus(statusEnum.Shelved)"
-            [class.selected]="filter.status === statusEnum.Shelved">
-            <span class="filter-label">Shelved</span>
-            <span class="filter-counter">{{ gamesCount.shelved }}</span>
-        </a>
-        <a
             (click)="setStatus(statusEnum.Backlog)"
             [class.selected]="filter.status === statusEnum.Backlog">
             <span class="filter-label">Backlog</span>

@@ -123,6 +123,10 @@ export class GameMapper {
     }
 
     public convertDateToFieldFormat(dateTime: string) {
+        if (!dateTime) {
+            return "";
+        }
+
         const date = new Date(dateTime);
 
         return new Intl.DateTimeFormat("pt-BR", {

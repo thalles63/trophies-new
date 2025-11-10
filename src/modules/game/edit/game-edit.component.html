@@ -28,13 +28,6 @@
 
             <app-button
                 type="secondary-outline"
-                customClass="shelved {{ game.status === statusEnum.Shelved ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Shelved)">
-                Shelved
-            </app-button>
-
-            <app-button
-                type="secondary-outline"
                 customClass="backlog {{ game.status === statusEnum.Backlog ? 'selected' : '' }}"
                 (onClick)="setStatus(statusEnum.Backlog)">
                 Backlog

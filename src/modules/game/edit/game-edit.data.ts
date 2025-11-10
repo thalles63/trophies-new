@@ -58,10 +58,6 @@ export const GameStatusData = [
         description: "Completed"
     },
     {
-        id: StatusEnum.Shelved,
-        description: "Shelved"
-    },
-    {
         id: StatusEnum.Backlog,
         description: "Backlog"
     },
