@@ -14,6 +14,8 @@
         autocomplete="off"
         [disabled]="disabled"
         [mask]="mask"
+        (focus)="onFocusHandler()"
+        (keyup)="onKeyUpHandler()"
         [dropSpecialCharacters]="false"
         [placeholder]="placeholder"
         [required]="required"

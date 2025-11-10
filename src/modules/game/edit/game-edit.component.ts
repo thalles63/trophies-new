@@ -2,6 +2,7 @@ import { AfterViewInit, Component, DestroyRef, inject, Input, ViewChild } from "
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { debounceTime, Subject } from "rxjs";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
@@ -17,11 +18,13 @@ import { TabsComponent } from "../../../components/tabs/tabs.component";
 import { TextareaComponent } from "../../../components/textarea/textarea.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Achievement } from "../models/achievement.interface";
+import { GameFilter } from "../models/game-filter.interface";
 import { Game } from "../models/game.interface";
 import { AchievementsService } from "../services/achievement.service";
 import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
 import { GameStatusData, PlatformsData, TrueFalseData } from "./game-edit.data";
+import { SearchGameByNameComponent } from "./search-game-by-name/search-game-by-name.component";
 import { SearchGameInIgdbComponent } from "./search-igdb/search-igdb.component";
 import { SearchGameInPsnComponent } from "./search-psn/search-psn.component";
 import { SearchGameInSteamComponent } from "./search-steam/search-steam.component";
@@ -38,7 +41,8 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         StarRatingComponent,
         TimePlayedComponent,
         ButtonComponent,
-        IconComponent
+        IconComponent,
+        SearchGameByNameComponent
     ],
     templateUrl: "./game-edit.component.html",
     styleUrl: "./game-edit.component.scss",
@@ -64,10 +68,15 @@ export class GameEditComponent implements AfterViewInit {
     protected trueFalse = TrueFalseData;
     protected isSaveLoading = false;
     protected isDeleteLoading = false;
+    protected isLoadingSearchGame = false;
     protected isDeleteAchievementLoading = false;
+    protected gamesList = <Game[]>[];
+    protected readonly typeOnSearchGame$ = new Subject<void>();
 
     public ngAfterViewInit(): void {
         this.tabs.setActiveTab(this.gameInfoTab);
+
+        this.enableGameSearchWhenRegisteringNew();
     }
 
     public save() {
@@ -77,12 +86,12 @@ export class GameEditComponent implements AfterViewInit {
         }
 
         this.isSaveLoading = true;
-        const service = this.isManualRegister() ? this.service.save(this.game) : this.service.update(this.game);
+        const service = this.isNewRegister() ? this.service.save(this.game) : this.service.update(this.game);
 
         service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             this.isSaveLoading = false;
 
-            if (this.isManualRegister()) {
+            if (this.isNewRegister()) {
                 this.router.navigate(["game/" + result.id], { replaceUrl: true });
                 this.activeModal.close(true);
                 return;
@@ -90,6 +99,56 @@ export class GameEditComponent implements AfterViewInit {
 
             this.activeModal.close(true);
         });
+    }
+
+    private enableGameSearchWhenRegisteringNew() {
+        if (!this.isNewRegister()) {
+            return;
+        }
+
+        this.typeOnSearchGame$.pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+            this.searchGameByName();
+        });
+    }
+
+    private searchGameByName() {
+        this.isLoadingSearchGame = true;
+        this.gamesList = [];
+
+        this.service
+            .listGames(<GameFilter>{ name: this.game.name, page: 1, limit: 50 })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((result: any) => {
+                this.gamesList = result.games.map(this.mapper.findById);
+
+                this.isLoadingSearchGame = false;
+            });
+    }
+
+    public onBlurSearchGame() {
+        this.gamesList = [];
+    }
+
+    public onFocusSearchGame() {
+        if (!this.isNewRegister() || !this.game.name) {
+            return;
+        }
+
+        this.searchGameByName();
+    }
+
+    public onKeyUpSearchGame() {
+        if (!this.isNewRegister()) {
+            return;
+        }
+
+        this.gamesList = [];
+
+        if (this.game.name.length < 3) {
+            return;
+        }
+
+        this.typeOnSearchGame$.next();
     }
 
     private validateIfRequiredFieldsAreValid() {
@@ -146,14 +205,14 @@ export class GameEditComponent implements AfterViewInit {
             });
     }
     public cancel() {
-        if (this.isManualRegister()) {
+        if (this.isNewRegister()) {
             this.router.navigate(["/"]);
         }
 
         this.activeModal.close(true);
     }
 
-    public isManualRegister() {
+    public isNewRegister() {
         return !this.game.id;
     }
 

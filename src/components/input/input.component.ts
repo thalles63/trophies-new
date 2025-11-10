@@ -28,6 +28,8 @@ export class InputComponent {
     @Output() public valueChange = new EventEmitter();
     @Output() public onBlur = new EventEmitter();
     @Output() public onChange = new EventEmitter();
+    @Output() public onKeyUp = new EventEmitter();
+    @Output() public onFocus = new EventEmitter();
 
     public onFieldBlur(): void {
         this.valueChange.emit(this.value);
@@ -44,5 +46,13 @@ export class InputComponent {
         if (this.onChange.observed) {
             this.onChange.emit(true);
         }
+    }
+
+    public onKeyUpHandler() {
+        this.onKeyUp.emit();
+    }
+
+    public onFocusHandler() {
+        this.onFocus.emit();
     }
 }

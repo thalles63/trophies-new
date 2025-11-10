@@ -1,0 +1,11 @@
+<div class="dropdown-menu">
+    @if (isLoadingSearchGame()) {
+        <div class="loading-skeleton loading-skeleton-label"> </div>
+        <div class="loading-skeleton loading-skeleton-label"> </div>
+        <div class="loading-skeleton loading-skeleton-label"> </div>
+    }
+
+    @for (game of games(); track $index) {
+        <div>{{game.name}}</div>
+    }
+</div>
