@@ -21,7 +21,7 @@ import { SelectComponent } from "../../components/select/select.component";
 import { SidebarComponent } from "../../components/sidebar/sidebar.component";
 import { GameDetailGameImageSkeletonComponent } from "../game/detail/game-image-skeleton/game-image-skeleton.component";
 import { GameDetailGameImageComponent } from "../game/detail/game-image/game-image.component";
-import { PlatformsData, RetroConsoleData, TrueFalseData } from "../game/edit/game-edit.data";
+import { PlatformsData, TrueFalseData } from "../game/edit/game-edit.data";
 import { GameMapper } from "../game/mappers/game.mapper";
 import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { GameFilter } from "../game/models/game-filter.interface";
@@ -72,7 +72,6 @@ export class HomeComponent implements OnInit {
     protected platforms = PlatformsData;
     protected trueFalse = TrueFalseData;
     protected platformEnum = PlatformEnum;
-    protected consoles = RetroConsoleData;
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));

@@ -52,14 +52,6 @@
                 [isLoading]="isLoading">
             </app-label>
 
-            @if (game.platform === platformEnum.RetroAchievements) {
-                <app-label
-                    label="Console"
-                    [text]="game.retroConsoleText"
-                    [isLoading]="isLoading">
-                </app-label>
-            }
-
             <app-label
                 label="Released in"
                 [text]="game.releaseDate | date: 'dd/MM/yyyy'"

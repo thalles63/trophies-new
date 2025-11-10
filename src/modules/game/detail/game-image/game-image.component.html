@@ -50,23 +50,12 @@
                 </div>
             }
 
-            @if (game().platform !== platformEnum.RetroAchievements) {
-                <div>
-                    <div class="info-label">Platform</div>
-                    <div class="info-text">
-                        <span>{{ game().platformText }}</span>
-                    </div>
+            <div>
+                <div class="info-label">Platform</div>
+                <div class="info-text">
+                    <span>{{ game().platformText }}</span>
                 </div>
-            }
-
-            @if (game().platform === platformEnum.RetroAchievements) {
-                <div>
-                    <div class="info-label">Console</div>
-                    <div class="info-text">
-                        <span>{{ game().retroConsoleText }}</span>
-                    </div>
-                </div>
-            }
+            </div>
         </div>
     }
 </div>

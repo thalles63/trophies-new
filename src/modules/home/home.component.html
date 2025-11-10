@@ -68,17 +68,6 @@
             label="Platform">
         </app-select>
 
-        @if (filter.platform === platformEnum.RetroAchievements) {
-            <app-select
-                [(value)]="filter.retroConsole"
-                bindValue="id"
-                bindLabel="description"
-                [items]="consoles"
-                [clearable]="true"
-                label="Console">
-            </app-select>
-        }
-
         <app-select
             [(value)]="filter.isCampaignComplete"
             bindValue="id"

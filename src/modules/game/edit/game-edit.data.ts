@@ -1,5 +1,4 @@
 import { PlatformEnum } from "../../../common/enums/platform.enum";
-import { RetroConsoleEnum } from "../../../common/enums/retro-console.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
 
 export const PlatformsData = [
@@ -28,8 +27,24 @@ export const PlatformsData = [
         description: "Steam"
     },
     {
-        id: PlatformEnum.RetroAchievements,
-        description: "Retro Achievements"
+        id: PlatformEnum.Snes,
+        description: "Super Nintendo"
+    },
+    {
+        id: PlatformEnum.Playstation1,
+        description: "Playstation"
+    },
+    {
+        id: PlatformEnum.Playstation2,
+        description: "Playstation 2"
+    },
+    {
+        id: PlatformEnum.Gog,
+        description: "Gog"
+    },
+    {
+        id: PlatformEnum.Switch,
+        description: "Switch"
     }
 ];
 
@@ -64,16 +79,5 @@ export const TrueFalseData = [
     {
         id: false,
         description: "No"
-    }
-];
-
-export const RetroConsoleData = [
-    {
-        id: RetroConsoleEnum.Snes,
-        description: "Super Nintendo"
-    },
-    {
-        id: RetroConsoleEnum.Playstation,
-        description: "Playstation"
     }
 ];

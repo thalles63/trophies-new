@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { SanitizeEmptyStrings } from "../../../common/functions/functions";
-import { GameStatusData, PlatformsData, RetroConsoleData } from "../edit/game-edit.data";
+import { GameStatusData, PlatformsData } from "../edit/game-edit.data";
 import { TimePlayed } from "../edit/time-played/time-played.interface";
 import { Achievement } from "../models/achievement.interface";
 import { Game } from "../models/game.interface";
@@ -18,8 +18,6 @@ export class GameMapper {
             rating: Number(params.rating),
             platform: params.platform,
             platformText: this.getPlatformText(params.platform),
-            retroConsole: params.retroConsole,
-            retroConsoleText: this.getRetroConsoleText(params.retroConsole),
             timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
             isPlatinumed: params.isPlatinumed,
             isCampaignComplete: params.isCampaignComplete,
@@ -161,9 +159,5 @@ export class GameMapper {
 
     private getStatusText(status: number): string {
         return GameStatusData.find((s) => s.id === status)?.description ?? "";
-    }
-
-    private getRetroConsoleText(console: number): string {
-        return RetroConsoleData.find((p) => p.id === console)?.description ?? "";
     }
 }
