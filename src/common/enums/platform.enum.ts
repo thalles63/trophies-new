@@ -9,5 +9,6 @@ export enum PlatformEnum {
     Playstation1 = 8,
     Playstation2 = 9,
     Gog = 10,
-    Switch = 11
+    Switch = 11,
+    Epic = 12
 }
