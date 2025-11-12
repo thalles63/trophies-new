@@ -1,0 +1,57 @@
+.carousel-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    &:hover .arrow {
+        display: flex;
+    }
+}
+
+.carousel {
+    display: flex;
+    gap: 8px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+.carousel img {
+    max-height: 200px;
+    border-radius: 4px;
+}
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.arrow.left {
+    left: 8px;
+}
+.arrow.right {
+    right: 8px;
+}
+
+.loading-skeleton-screenshot {
+    height: 200px;
+    width: 450px;
+}

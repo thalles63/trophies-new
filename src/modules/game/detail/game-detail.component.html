@@ -60,7 +60,7 @@
 
             <app-label
                 label="Time played"
-                [text]="game.timePlayed.hours ? game.timePlayed.hours + ' hours and ' + game.timePlayed.minutes + ' minutes' : '-'"
+                [text]="game.timePlayed.minutes ? (game.timePlayed.hours || 0) + ' hours and ' + game.timePlayed.minutes + ' minutes' : '-'"
                 [isLoading]="isLoading">
             </app-label>
 
@@ -187,6 +187,15 @@
                 [isLoading]="isLoading">
             </app-label>
         </row>
+
+        @if ((!isLoading && !!game.screenshots?.length) || isLoading) {
+            <div class="achievements-title">Images</div>
+
+            <game-screenshots
+                [screenshots]="game.screenshots!"
+                [isLoading]="isLoading">
+            </game-screenshots>
+        }
 
         <div class="achievements-title">Achievements</div>
 

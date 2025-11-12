@@ -6,7 +6,8 @@ export interface Game {
     name: string;
     description: string;
     image: string;
-    screenshot: string;
+    screenshots?: string[];
+    banner: string;
     rating: number;
     platform: number;
     platformText?: string;

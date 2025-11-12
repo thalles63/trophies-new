@@ -35,12 +35,12 @@ export const PlatformsData = [
         description: "Playstation 5"
     },
     {
-        id: PlatformEnum.Snes,
-        description: "Super Nintendo"
-    },
-    {
         id: PlatformEnum.Steam,
         description: "Steam"
+    },
+    {
+        id: PlatformEnum.Snes,
+        description: "Super Nintendo"
     },
     {
         id: PlatformEnum.Switch,

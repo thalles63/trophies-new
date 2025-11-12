@@ -28,6 +28,7 @@ import { GameDetailAchievementSkeletonComponent } from "./achievement-skeleton/a
 import { GameDetailAchievementComponent } from "./achievement/achievement.component";
 import { GameDetailGameImageSkeletonComponent } from "./game-image-skeleton/game-image-skeleton.component";
 import { GameDetailGameImageComponent } from "./game-image/game-image.component";
+import { GameDetailGameScreenshotsComponent } from "./game-screenshots/game-screenshots.component";
 
 @Component({
     selector: "game-detail",
@@ -41,7 +42,8 @@ import { GameDetailGameImageComponent } from "./game-image/game-image.component"
         GameDetailAchievementComponent,
         GameDetailAchievementSkeletonComponent,
         GameDetailGameImageComponent,
-        GameDetailGameImageSkeletonComponent
+        GameDetailGameImageSkeletonComponent,
+        GameDetailGameScreenshotsComponent
     ],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
@@ -56,7 +58,13 @@ export class GameDetailComponent implements OnInit {
     private readonly modalService = inject(NgbModal);
     private readonly titleService = inject(Title);
 
-    protected game = <Game>{ achievements: <Achievement[]>[], timePlayed: {}, genresDescription: <any>[], themesDescription: <any>[] };
+    protected game = <Game>{
+        achievements: <Achievement[]>[],
+        timePlayed: {},
+        genresDescription: <any>[],
+        themesDescription: <any>[],
+        screenshots: <string[]>[]
+    };
     protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
@@ -105,7 +113,10 @@ export class GameDetailComponent implements OnInit {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
-                this.store.dispatch(new UpdateBackgroundScreenshotAction(this.game.screenshot));
+                const banner = this.game.screenshots?.length
+                    ? this.game.screenshots[Math.floor(Math.random() * this.game.screenshots.length)].replace("t_screenshot_med", "t_1080p_2x")
+                    : this.game.banner;
+                this.store.dispatch(new UpdateBackgroundScreenshotAction(banner));
                 this.titleService.setTitle("Trophies - " + this.game.name);
             });
     }
