@@ -1,4 +1,4 @@
-<div class="modal-header"> Get achievements from Steam </div>
+<div class="modal-header"> Get achievements from {{ origin === gameSearchOriginEnum.Steam ? "Steam" : "Psn Profiles" }} </div>
 
 <div class="modal-body">
     @for (game of retrievedGames; track $index; let last = $last) {
@@ -21,10 +21,14 @@
                     </div>
                 }
             </div>
-            <div>
+            <div class="d-flex game-line-info">
                 <div class="game-title">
                     {{ game.name }}
                 </div>
+
+                @if (origin === gameSearchOriginEnum.PsnProfiles) {
+                    <div class="platform-tag">{{ game.platforms[0] }}</div>
+                }
             </div>
         </a>
     }
@@ -38,7 +42,7 @@
     </app-button>
 
     <app-button
-        (onClick)="selectGameAndSave()"
+        (onClick)="saveGame()"
         [isLoading]="isSaveLoading"
         [disabled]="!selectedGame.name">
         Select game

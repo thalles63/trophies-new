@@ -20,7 +20,6 @@ export interface Game {
     status: number;
     statusDescription: string;
     isManualRegister: boolean;
-    platformId?: string;
     releaseDate: string;
     igdbId?: string;
     genres: string[];

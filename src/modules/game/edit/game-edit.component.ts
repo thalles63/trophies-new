@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { debounceTime, Subject } from "rxjs";
+import { GameSearchOriginEnum } from "../../../common/enums/game-search-origin.enum";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
@@ -24,10 +25,9 @@ import { AchievementsService } from "../services/achievement.service";
 import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
 import { GameStatusData, PlatformsData, TrueFalseData } from "./game-edit.data";
+import { SearchAchievementsOnlineComponent } from "./search-achievements-online/search-achievements-online.component";
 import { SearchGameByNameComponent } from "./search-game-by-name/search-game-by-name.component";
 import { SearchGameInIgdbComponent } from "./search-igdb/search-igdb.component";
-import { SearchGameInPsnComponent } from "./search-psn/search-psn.component";
-import { SearchGameInSteamComponent } from "./search-steam/search-steam.component";
 import { TimePlayedComponent } from "./time-played/time-played.component";
 
 @Component({
@@ -72,6 +72,7 @@ export class GameEditComponent implements AfterViewInit {
     protected isDeleteAchievementLoading = false;
     protected gamesList = <Game[]>[];
     protected readonly typeOnSearchGame$ = new Subject<void>();
+    protected readonly gameSearchOriginEnum = GameSearchOriginEnum;
 
     public ngAfterViewInit(): void {
         this.tabs.setActiveTab(this.gameInfoTab);
@@ -216,28 +217,16 @@ export class GameEditComponent implements AfterViewInit {
         return !this.game.id;
     }
 
-    public searchAchievementsInSteam() {
+    public searchAchievementsOnline(origin: number) {
         if (!this.game.name) {
             this.notificationService.error("Invalid game name");
             return;
         }
 
-        const modalRef = this.modalService.open(SearchGameInSteamComponent, { centered: true, size: "lg" });
+        const modalRef = this.modalService.open(SearchAchievementsOnlineComponent, { centered: true, size: "lg" });
         modalRef.componentInstance.gameId = this.game.id;
         modalRef.componentInstance.gameName = this.game.name;
-
-        modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
-            if (!result) {
-                return;
-            }
-
-            this.game.achievements = result;
-        });
-    }
-
-    public syncAchievementsWithPsnProfiles() {
-        const modalRef = this.modalService.open(SearchGameInPsnComponent, { centered: true, size: "lg" });
-        modalRef.componentInstance.gameId = this.game.id;
+        modalRef.componentInstance.origin = origin;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             if (!result) {

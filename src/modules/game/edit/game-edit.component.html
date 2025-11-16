@@ -71,8 +71,9 @@
                     }
 
                     @if (isLoadingSearchGame || gamesList.length) {
-                        <search-game-by-name [isLoadingSearchGame]="isLoadingSearchGame"
-                                             [games]="gamesList">
+                        <search-game-by-name
+                            [isLoadingSearchGame]="isLoadingSearchGame"
+                            [games]="gamesList">
                         </search-game-by-name>
                     }
                 </div>
@@ -215,9 +216,9 @@
 
                 @if (!game.achievements.length) {
                     <div>
-                        <app-button (onClick)="searchAchievementsInSteam()">Search in Steam</app-button>
+                        <app-button (onClick)="searchAchievementsOnline(gameSearchOriginEnum.Steam)">Search in Steam</app-button>
                         <div class="text-center"> or </div>
-                        <app-button (onClick)="syncAchievementsWithPsnProfiles()">Search in PSN Profiles</app-button>
+                        <app-button (onClick)="searchAchievementsOnline(gameSearchOriginEnum.PsnProfiles)">Search in PSN Profiles</app-button>
                     </div>
                 }
             </div>

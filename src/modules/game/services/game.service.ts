@@ -41,6 +41,10 @@ export class GameService {
         return this.http.get<any>(`${this.API_URL}/searchSteam?gameName=${gameName}`);
     }
 
+    public searchPsnProfiles(gameName: string) {
+        return this.http.get<any>(`${this.API_URL}/searchPsnProfiles?gameName=${gameName}`);
+    }
+
     public delete(gameId: string) {
         return this.http.delete<void>(`${this.API_URL}/${gameId}`);
     }
