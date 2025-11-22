@@ -1,7 +1,8 @@
-import { AsyncPipe } from "@angular/common";
+import { AsyncPipe, Location } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
+import { ActivatedRoute } from "@angular/router";
 import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { Subscription, take } from "rxjs";
@@ -26,6 +27,8 @@ import { GameMapper } from "../game/mappers/game.mapper";
 import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { GameFilter } from "../game/models/game-filter.interface";
 import { Game } from "../game/models/game.interface";
+import { Genre } from "../game/models/genre.interface";
+import { Theme } from "../game/models/theme.interface";
 import { GameService } from "../game/services/game.service";
 import { GameListSortBy } from "./home.data";
 
@@ -56,8 +59,12 @@ export class HomeComponent implements OnInit {
     private readonly store = inject(Store);
     private readonly titleService = inject(Title);
     private readonly mapper = inject(GameMapper);
+    private readonly location = inject(Location);
+    private readonly activatedRoute = inject(ActivatedRoute);
 
     protected games = <Game[]>[];
+    protected genres = <Genre[]>[];
+    protected themes = <Theme[]>[];
     protected gamesCount = <GameCountByStatus>{};
     protected isLoading = false;
     protected gameListSortBy = GameListSortBy;
@@ -85,9 +92,24 @@ export class HomeComponent implements OnInit {
             .pipe(take(1))
             .subscribe((filters) => {
                 this.filter = filters;
+                this.extractQueryParams();
 
                 this.listGames();
             });
+    }
+
+    private extractQueryParams() {
+        const params: any = this.activatedRoute.snapshot.queryParams;
+        if (params.genre) {
+            this.filter.genre = params.genre;
+        }
+
+        if (params.theme) {
+            this.filter.theme = params.theme;
+        }
+
+        const path = this.location.path().split("?")[0];
+        this.location.replaceState(path);
     }
 
     public listGames() {
@@ -136,7 +158,35 @@ export class HomeComponent implements OnInit {
 
     public openSidebar() {
         this.oldFilter = { ...this.filter };
+        this.listGenres();
+        this.listThemes();
         this.isSidebarOpened.set(true);
+    }
+
+    private listGenres() {
+        if (this.genres.length) {
+            return;
+        }
+
+        this.service
+            .listGenres()
+            .pipe(takeUntilDestroyed(this.destroyref))
+            .subscribe((result) => {
+                this.genres = result.sortByField([{ fieldName: "name" }]);
+            });
+    }
+
+    private listThemes() {
+        if (this.themes.length) {
+            return;
+        }
+
+        this.service
+            .listThemes()
+            .pipe(takeUntilDestroyed(this.destroyref))
+            .subscribe((result) => {
+                this.themes = result.sortByField([{ fieldName: "name" }]);
+            });
     }
 
     public saveFilter() {
@@ -155,6 +205,7 @@ export class HomeComponent implements OnInit {
 
     public setStatus(status: number) {
         this.filter.status = status;
+        this.filter.page = 1;
         this.listGames();
     }
 }

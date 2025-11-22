@@ -2,7 +2,7 @@ import { DatePipe } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
 import { IconEnum } from "../../../common/enums/icon.enum";
@@ -39,6 +39,7 @@ import { GameDetailGameScreenshotsComponent } from "./game-screenshots/game-scre
         StatusComponent,
         LabelComponent,
         RowComponent,
+        RouterLink,
         GameDetailAchievementComponent,
         GameDetailAchievementSkeletonComponent,
         GameDetailGameImageComponent,

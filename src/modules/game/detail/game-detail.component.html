@@ -129,7 +129,8 @@
                     @for (genre of game.genresDescription; track $index; let last = $last) {
                         <a
                             class="link"
-                            href="#">
+                            [routerLink]="['']"
+                            [queryParams]="{ genre: genre.slug }">
                             <span>{{ genre.name }}</span>
                         </a>
 
@@ -156,7 +157,8 @@
                     @for (theme of game.themesDescription; track $index; let last = $last) {
                         <a
                             class="link"
-                            href="#">
+                            [routerLink]="['']"
+                            [queryParams]="{ theme: theme.slug }">
                             <span>{{ theme.name }}</span>
                         </a>
 

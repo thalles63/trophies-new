@@ -54,6 +54,14 @@
         </app-input>
 
         <app-select
+            [(value)]="filter.sort"
+            bindValue="id"
+            bindLabel="description"
+            [items]="gameListSortBy"
+            label="Sort by">
+        </app-select>
+
+        <app-select
             [(value)]="filter.platform"
             bindValue="id"
             bindLabel="description"
@@ -82,18 +90,18 @@
 
         <app-select
             [(value)]="filter.genre"
-            bindValue="id"
-            bindLabel="description"
-            [items]="trueFalse"
+            bindValue="slug"
+            bindLabel="name"
+            [items]="genres"
             [clearable]="true"
             label="Genre">
         </app-select>
 
         <app-select
             [(value)]="filter.theme"
-            bindValue="id"
-            bindLabel="description"
-            [items]="trueFalse"
+            bindValue="slug"
+            bindLabel="name"
+            [items]="themes"
             [clearable]="true"
             label="Theme">
         </app-select>

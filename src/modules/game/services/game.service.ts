@@ -5,6 +5,8 @@ import { environment } from "../../../environments/environment";
 import { GameMapper } from "../mappers/game.mapper";
 import { GameFilter } from "../models/game-filter.interface";
 import { Game } from "../models/game.interface";
+import { Genre } from "../models/genre.interface";
+import { Theme } from "../models/theme.interface";
 
 @Injectable()
 export class GameService {
@@ -47,5 +49,13 @@ export class GameService {
 
     public delete(gameId: string) {
         return this.http.delete<void>(`${this.API_URL}/${gameId}`);
+    }
+
+    public listGenres() {
+        return this.http.get<Genre[]>(`${this.API_URL}/genres`);
+    }
+
+    public listThemes() {
+        return this.http.get<Theme[]>(`${this.API_URL}/themes`);
     }
 }
