@@ -39,6 +39,14 @@ export class GameService {
         return this.http.get<any>(`${this.API_URL}/searchIgdb?gameName=${gameName}`);
     }
 
+    public searchHltb(gameName: string) {
+        return this.http.get<any>(`${this.API_URL}/searchHltb?gameName=${gameName}`);
+    }
+
+    public getGameInfoFromHltb(gameId: string) {
+        return this.http.get<any>(`${this.API_URL}/getInfoFromHltb?id=${gameId}`);
+    }
+
     public searchSteam(gameName: string) {
         return this.http.get<any>(`${this.API_URL}/searchSteam?gameName=${gameName}`);
     }

@@ -21,11 +21,13 @@ export interface Game {
     statusDescription: string;
     isManualRegister: boolean;
     releaseDate: string;
-    igdbId?: string;
     genres: string[];
     genresDescription: any[];
     themes: string[];
     themesDescription: any[];
     developer: string;
     publisher: string;
+    completionistTime: number;
+    mainExtrasTime: number;
+    mainStoryTime: number;
 }

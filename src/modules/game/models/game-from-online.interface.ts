@@ -5,4 +5,5 @@ export interface GameFromOnline {
     region: string;
     url: string;
     platformId: string;
+    id: string;
 }

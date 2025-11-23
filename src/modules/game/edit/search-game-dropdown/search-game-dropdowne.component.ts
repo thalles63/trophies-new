@@ -3,9 +3,9 @@ import { FormsModule } from "@angular/forms";
 import { Game } from "../../models/game.interface";
 
 @Component({
-    selector: "search-game-by-name",
-    templateUrl: "./search-game-by-name.component.html",
-    styleUrls: ["./search-game-by-name.component.scss"],
+    selector: "search-game-dropdown",
+    templateUrl: "./search-game-dropdown.component.html",
+    styleUrls: ["./search-game-dropdown.component.scss"],
     imports: [FormsModule]
 })
 export class SearchGameByNameComponent {

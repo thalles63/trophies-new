@@ -1,4 +1,4 @@
 export enum GameSearchOriginEnum {
-    PsnProfiles,
-    Steam
+    IGDB = "IGDB",
+    HLTB = "HLTB"
 }

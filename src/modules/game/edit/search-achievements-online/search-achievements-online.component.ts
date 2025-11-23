@@ -1,7 +1,7 @@
 import { AfterContentInit, Component, DestroyRef, inject, Input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { GameSearchOriginEnum } from "../../../../common/enums/game-search-origin.enum";
+import { AchievementSearchOriginEnum } from "../../../../common/enums/achievement-search-origin.enum";
 import { IconEnum } from "../../../../common/enums/icon.enum";
 import { NotificationService } from "../../../../common/services/notification.service";
 import { ButtonComponent } from "../../../../components/button/button.component";
@@ -26,13 +26,13 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
 
     @Input({ required: true }) public gameId = "";
     @Input({ required: true }) public gameName = "";
-    @Input({ required: true }) public origin!: GameSearchOriginEnum;
+    @Input({ required: true }) public origin!: AchievementSearchOriginEnum;
     protected selectedGame = <GameFromOnline>{};
     protected retrievedGames = <GameFromOnline[]>[];
     protected isLoading = false;
     protected isSaveLoading = false;
     protected iconEnum = IconEnum;
-    protected readonly gameSearchOriginEnum = GameSearchOriginEnum;
+    protected readonly gameSearchOriginEnum = AchievementSearchOriginEnum;
 
     public ngAfterContentInit(): void {
         this.searchGame();
@@ -41,7 +41,8 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
     public searchGame() {
         this.isLoading = true;
 
-        const service = this.origin === GameSearchOriginEnum.Steam ? this.service.searchSteam(this.gameName) : this.service.searchPsnProfiles(this.gameName);
+        const service =
+            this.origin === AchievementSearchOriginEnum.Steam ? this.service.searchSteam(this.gameName) : this.service.searchPsnProfiles(this.gameName);
 
         service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: (result) => {
@@ -59,7 +60,7 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
         this.isSaveLoading = true;
 
         const service =
-            this.origin === GameSearchOriginEnum.Steam
+            this.origin === AchievementSearchOriginEnum.Steam
                 ? this.achievementsService.saveFromSteam(this.selectedGame.platformId, this.gameId)
                 : this.achievementsService.saveFromPsn(this.selectedGame.url, this.gameId);
 

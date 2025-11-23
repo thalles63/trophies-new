@@ -59,23 +59,28 @@
                         (onKeyUp)="onKeyUpSearchGame()">
                     </app-input>
 
-                    @if (!isNewRegister()) {
-                        <a
-                            class="search-button"
-                            (click)="openSearchIgdbModal()">
-                            <icon
-                                [icon]="iconEnum.Search"
-                                [size]="24">
-                            </icon>
-                        </a>
-                    }
-
                     @if (isLoadingSearchGame || gamesList.length) {
-                        <search-game-by-name
+                        <search-game-dropdown
                             [isLoadingSearchGame]="isLoadingSearchGame"
                             [games]="gamesList">
-                        </search-game-by-name>
+                        </search-game-dropdown>
                     }
+                </div>
+
+                <div class="col-lg-3">
+                    <a
+                        class="search-button"
+                        (click)="openSearchGameModal(gameSearchOriginEnum.IGDB)">
+                        <div>Search IGDB</div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3">
+                    <a
+                        class="search-button"
+                        (click)="openSearchGameModal(gameSearchOriginEnum.HLTB)">
+                        <div>Search How Long To Beat</div>
+                    </a>
                 </div>
             </div>
 
@@ -202,9 +207,9 @@
 
                 @if (!game.achievements.length) {
                     <div>
-                        <app-button (onClick)="searchAchievementsOnline(gameSearchOriginEnum.Steam)">Search in Steam</app-button>
+                        <app-button (onClick)="searchAchievementsOnline(achievementSearchOriginEnum.Steam)">Search in Steam</app-button>
                         <div class="text-center"> or </div>
-                        <app-button (onClick)="searchAchievementsOnline(gameSearchOriginEnum.PsnProfiles)">Search in PSN Profiles</app-button>
+                        <app-button (onClick)="searchAchievementsOnline(achievementSearchOriginEnum.PsnProfiles)">Search in PSN Profiles</app-button>
                     </div>
                 }
             </div>

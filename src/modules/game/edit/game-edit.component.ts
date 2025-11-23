@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { debounceTime, Subject } from "rxjs";
+import { AchievementSearchOriginEnum } from "../../../common/enums/achievement-search-origin.enum";
 import { GameSearchOriginEnum } from "../../../common/enums/game-search-origin.enum";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
@@ -26,8 +27,8 @@ import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
 import { GameStatusData, PlatformsData, TrueFalseData } from "./game-edit.data";
 import { SearchAchievementsOnlineComponent } from "./search-achievements-online/search-achievements-online.component";
-import { SearchGameByNameComponent } from "./search-game-by-name/search-game-by-name.component";
-import { SearchGameInIgdbComponent } from "./search-igdb/search-igdb.component";
+import { SearchGameByNameComponent } from "./search-game-dropdown/search-game-dropdowne.component";
+import { SearchGamesOnlineComponent } from "./search-games-online/search-games-online.component";
 import { TimePlayedComponent } from "./time-played/time-played.component";
 
 @Component({
@@ -70,8 +71,10 @@ export class GameEditComponent implements AfterViewInit {
     protected isDeleteLoading = false;
     protected isLoadingSearchGame = false;
     protected isDeleteAchievementLoading = false;
+    protected hasChangedAchievements = false;
     protected gamesList = <Game[]>[];
     protected readonly typeOnSearchGame$ = new Subject<void>();
+    protected readonly achievementSearchOriginEnum = AchievementSearchOriginEnum;
     protected readonly gameSearchOriginEnum = GameSearchOriginEnum;
 
     public ngAfterViewInit(): void {
@@ -156,27 +159,29 @@ export class GameEditComponent implements AfterViewInit {
         return !!this.game.name;
     }
 
-    public openSearchIgdbModal() {
+    public openSearchGameModal(origin: string) {
         if (!this.game.name) {
             this.notificationService.error("Invalid game name");
             return;
         }
 
-        const modalRef = this.modalService.open(SearchGameInIgdbComponent, { centered: true, size: "lg" });
+        const modalRef = this.modalService.open(SearchGamesOnlineComponent, { centered: true, size: "lg" });
         modalRef.componentInstance.gameId = this.game.id;
         modalRef.componentInstance.gameName = this.game.name;
+        modalRef.componentInstance.title = "Search game in " + origin;
+        modalRef.componentInstance.origin = origin;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             if (!result) {
                 return;
             }
 
-            this.updateGameWithIgdbInfo(result);
+            this.updateGameWithOnlineInfo(result);
         });
     }
 
-    private updateGameWithIgdbInfo(igdbInfo: Game) {
-        this.game = { ...this.game, ...igdbInfo };
+    private updateGameWithOnlineInfo(onlineInfo: Game) {
+        this.game = { ...this.game, ...onlineInfo };
     }
 
     public confirmDeleteGame() {
@@ -205,12 +210,13 @@ export class GameEditComponent implements AfterViewInit {
                 this.router.navigate(["/"]);
             });
     }
+
     public cancel() {
         if (this.isNewRegister()) {
             this.router.navigate(["/"]);
         }
 
-        this.activeModal.close(true);
+        this.activeModal.close(this.hasChangedAchievements);
     }
 
     public isNewRegister() {
@@ -234,6 +240,7 @@ export class GameEditComponent implements AfterViewInit {
             }
 
             this.game.achievements = result;
+            this.hasChangedAchievements = true;
         });
     }
 
@@ -252,6 +259,7 @@ export class GameEditComponent implements AfterViewInit {
                 return;
             }
 
+            this.hasChangedAchievements = true;
             this.game.achievements[index] = result;
             this.game.achievements = this.game.achievements.sortByField([
                 { fieldName: "isAchieved", direction: SortDirection.Descending },
@@ -283,6 +291,7 @@ export class GameEditComponent implements AfterViewInit {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
                 this.isDeleteAchievementLoading = false;
+                this.hasChangedAchievements = true;
                 this.deleteAchievement(listIndex);
             });
     }

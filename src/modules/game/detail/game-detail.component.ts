@@ -29,6 +29,7 @@ import { GameDetailAchievementComponent } from "./achievement/achievement.compon
 import { GameDetailGameImageSkeletonComponent } from "./game-image-skeleton/game-image-skeleton.component";
 import { GameDetailGameImageComponent } from "./game-image/game-image.component";
 import { GameDetailGameScreenshotsComponent } from "./game-screenshots/game-screenshots.component";
+import { GameHowLongToBeatComponent } from "./how-long-to-beat/how-long-to-beat.component";
 
 @Component({
     selector: "game-detail",
@@ -44,7 +45,8 @@ import { GameDetailGameScreenshotsComponent } from "./game-screenshots/game-scre
         GameDetailAchievementSkeletonComponent,
         GameDetailGameImageComponent,
         GameDetailGameImageSkeletonComponent,
-        GameDetailGameScreenshotsComponent
+        GameDetailGameScreenshotsComponent,
+        GameHowLongToBeatComponent
     ],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
@@ -130,6 +132,11 @@ export class GameDetailComponent implements OnInit {
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             this.isModalOpened = false;
+
+            if (!result) {
+                return;
+            }
+
             this.findGameById();
         });
     }

@@ -38,7 +38,10 @@ export class GameMapper {
             themes: params.themes?.map((theme: any) => theme.slug),
             themesDescription: params.themes ?? [],
             developer: params.developer,
-            publisher: params.publisher
+            publisher: params.publisher,
+            completionistTime: params.completionistTime,
+            mainExtrasTime: params.mainExtrasTime,
+            mainStoryTime: params.mainStoryTime
         };
     };
 
@@ -54,6 +57,14 @@ export class GameMapper {
             themes: params.themes,
             developer: params.developer,
             publisher: params.publisher
+        };
+    };
+
+    public readonly getInHltb = (params: any) => {
+        return <Game>{
+            completionistTime: params.completionistTime,
+            mainExtrasTime: params.mainExtrasTime,
+            mainStoryTime: params.mainStoryTime
         };
     };
 
@@ -91,7 +102,10 @@ export class GameMapper {
             genres: params.genres,
             themes: params.themes,
             developer: params.developer,
-            publisher: params.publisher
+            publisher: params.publisher,
+            completionistTime: params.completionistTime,
+            mainExtrasTime: params.mainExtrasTime,
+            mainStoryTime: params.mainStoryTime
         });
     };
 
