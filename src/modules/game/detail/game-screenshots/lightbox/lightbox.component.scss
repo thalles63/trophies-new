@@ -1,0 +1,64 @@
+:host {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+}
+
+.content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+img {
+    max-width: 85vw;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.close {
+    position: absolute;
+    top: -40px;
+    right: -10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.nav {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 4px 14px;
+    transition: background 0.2s;
+    user-select: none;
+}
+.nav:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.left {
+    margin-right: 8px;
+}
+.right {
+    margin-left: 8px;
+}

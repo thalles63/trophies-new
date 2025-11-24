@@ -1,0 +1,29 @@
+<div
+    class="overlay"
+    @fade
+    (click)="close.emit()"></div>
+
+<div
+    class="content"
+    [@zoom]="animate ? 'in' : null">
+    <button
+        class="close"
+        (click)="close.emit()"
+        >×</button
+    >
+    <button
+        class="nav left"
+        (click)="prev()"
+        >‹</button
+    >
+
+    <img
+        [src]="images()[index]"
+        (load)="onImageLoaded()" />
+
+    <button
+        class="nav right"
+        (click)="next()"
+        >›</button
+    >
+</div>

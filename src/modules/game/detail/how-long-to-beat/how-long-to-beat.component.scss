@@ -35,3 +35,13 @@
 .how-long-skeleton {
     width: 33.33%;
 }
+
+@media (max-width: 575px) {
+    img {
+        display: none;
+    }
+
+    .how-long-item {
+        text-align: center;
+    }
+}
