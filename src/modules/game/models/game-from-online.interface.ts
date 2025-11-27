@@ -3,7 +3,20 @@ export interface GameFromOnline {
     image: string;
     platforms: string[];
     region: string;
+    times: {
+        mainStory: number;
+        mainExtras: number;
+        completionist: number;
+    };
     url: string;
-    platformId: string;
     id: string;
+    platformId: string;
+    description: string;
+    screenshots: string[];
+    banner: string;
+    releaseDate: string;
+    genres: string[];
+    themes: string[];
+    developer: string;
+    publisher: string;
 }

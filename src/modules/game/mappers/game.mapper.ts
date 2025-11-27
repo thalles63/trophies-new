@@ -4,6 +4,7 @@ import { SanitizeEmptyStrings } from "../../../common/functions/functions";
 import { GameStatusData, PlatformsData } from "../edit/game-edit.data";
 import { TimePlayed } from "../edit/time-played/time-played.interface";
 import { Achievement } from "../models/achievement.interface";
+import { GameFromOnline } from "../models/game-from-online.interface";
 import { Game } from "../models/game.interface";
 
 @Injectable({ providedIn: "root" })
@@ -45,7 +46,7 @@ export class GameMapper {
         };
     };
 
-    public readonly getInIgdb = (params: any) => {
+    public readonly getInIgdb = (params: GameFromOnline) => {
         return <Game>{
             name: params.name,
             description: params.description,
@@ -60,11 +61,11 @@ export class GameMapper {
         };
     };
 
-    public readonly getInHltb = (params: any) => {
+    public readonly getInHltb = (params: GameFromOnline) => {
         return <Game>{
-            completionistTime: params.completionistTime,
-            mainExtrasTime: params.mainExtrasTime,
-            mainStoryTime: params.mainStoryTime
+            completionistTime: params.times.completionist,
+            mainExtrasTime: params.times.mainExtras,
+            mainStoryTime: params.times.mainStory
         };
     };
 

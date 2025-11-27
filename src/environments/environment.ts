@@ -1,5 +1,5 @@
 export const environment = {
-    WS_URL: "ws://localhost:3000/ws",
     API_URL: "http://localhost:3000/api",
+    HLTB_MS_URL: "https://hltb-ms.onrender.com",
     PRODUCTION_MODE: false
 };

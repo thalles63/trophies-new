@@ -59,26 +59,9 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
         this.selectedGame = game;
     }
 
-    private getGameInfoFromHltb() {
-        this.isSaveLoading = true;
-
-        this.service
-            .getGameInfoFromHltb(this.selectedGame.id)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-                next: (result) => {
-                    this.isSaveLoading = false;
-                    this.activeModal.close(this.mapper.getInHltb(result));
-                },
-                error: () => {
-                    this.isSaveLoading = false;
-                }
-            });
-    }
-
     public confirm() {
         if (this.origin === GameSearchOriginEnum.HLTB) {
-            this.getGameInfoFromHltb();
+            this.activeModal.close(this.mapper.getInHltb(this.selectedGame));
             return;
         }
 

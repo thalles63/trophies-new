@@ -40,11 +40,7 @@ export class GameService {
     }
 
     public searchHltb(gameName: string) {
-        return this.http.get<any>(`${this.API_URL}/searchHltb?gameName=${gameName}`);
-    }
-
-    public getGameInfoFromHltb(gameId: string) {
-        return this.http.get<any>(`${this.API_URL}/getInfoFromHltb?id=${gameId}`);
+        return this.http.get<any>(`${environment.HLTB_MS_URL}/search?name=${gameName}`);
     }
 
     public searchSteam(gameName: string) {
