@@ -51,6 +51,10 @@ export class GameService {
         return this.http.get<any>(`${this.API_URL}/searchPsnProfiles?gameName=${gameName}`);
     }
 
+    public searchRetroAchievements(gameName: string, platform: number) {
+        return this.http.get<any>(`${this.API_URL}/searchRetroAchievements?gameName=${gameName}&platform=${platform}`);
+    }
+
     public delete(gameId: string) {
         return this.http.delete<void>(`${this.API_URL}/${gameId}`);
     }

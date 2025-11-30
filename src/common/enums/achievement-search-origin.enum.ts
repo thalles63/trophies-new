@@ -1,4 +1,5 @@
 export enum AchievementSearchOriginEnum {
     PsnProfiles,
-    Steam
+    Steam,
+    RetroAchievements
 }

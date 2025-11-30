@@ -29,4 +29,10 @@ export class AchievementsService {
     public saveFromPsn(gameUrl: string, gameId: string) {
         return this.http.post<Achievement[]>(`${this.API_URL}/${gameId}/${this.API_ACHIEVEMENTS_URL}/saveFromPsnProfiles`, { gameUrl });
     }
+
+    public saveFromRetroAchievements(selectedGameId: string, gameId: string) {
+        return this.http.post<Achievement[]>(`${this.API_URL}/${gameId}/${this.API_ACHIEVEMENTS_URL}/saveFromRetroAchievements`, {
+            platformId: selectedGameId
+        });
+    }
 }

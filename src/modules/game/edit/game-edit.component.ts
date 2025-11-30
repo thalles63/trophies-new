@@ -233,6 +233,7 @@ export class GameEditComponent implements AfterViewInit {
         modalRef.componentInstance.gameId = this.game.id;
         modalRef.componentInstance.gameName = this.game.name;
         modalRef.componentInstance.origin = origin;
+        modalRef.componentInstance.platform = this.game.platform;
 
         modalRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             if (!result) {
