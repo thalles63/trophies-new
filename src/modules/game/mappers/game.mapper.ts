@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { SanitizeEmptyStrings } from "../../../common/functions/functions";
-import { GameStatusData, PlatformsData } from "../edit/game-edit.data";
 import { TimePlayed } from "../edit/time-played/time-played.interface";
 import { Achievement } from "../models/achievement.interface";
+import { GameStatusData, PlatformsData } from "../models/game-edit.data";
 import { GameFromOnline } from "../models/game-from-online.interface";
 import { Game } from "../models/game.interface";
 
@@ -124,7 +124,7 @@ export class GameMapper {
         };
     };
 
-    private convertSecondsToTimePlayed(seconds: number): TimePlayed {
+    public convertSecondsToTimePlayed(seconds: number): TimePlayed {
         const hours = Math.floor(seconds / (60 * 60));
         seconds %= 60 * 60;
 

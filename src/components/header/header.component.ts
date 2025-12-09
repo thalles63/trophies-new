@@ -55,6 +55,10 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(["/game"]);
     }
 
+    public goToBacklogSchedule() {
+        this.router.navigate(["/backlog-schedule"]);
+    }
+
     public clearGameListPaging() {
         this.store.dispatch(
             new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted })

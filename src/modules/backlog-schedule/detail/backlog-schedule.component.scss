@@ -1,0 +1,88 @@
+.month {
+    width: 33.33%;
+    box-sizing: border-box;
+    position: relative;
+
+    .title {
+        padding: 8px;
+        font-size: 18px;
+    }
+
+    .game {
+        img {
+            height: 128px;
+            border-radius: 5px;
+        }
+    }
+}
+
+.games {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 16px;
+    gap: 8px;
+    padding-bottom: 40px;
+}
+
+.no-games {
+    justify-content: center;
+    margin-top: 40px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #8f9ca7;
+    display: flex;
+    flex-grow: 1;
+}
+
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin-top: 24px;
+}
+
+.year-select {
+    font-size: 32px;
+    font-weight: bold;
+    flex-grow: 1;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    .year {
+        padding: 0 24px;
+    }
+
+    .arrow {
+        cursor: pointer;
+    }
+}
+
+.grayed {
+    filter: grayscale(1);
+}
+
+.header {
+    display: flex;
+    position: relative;
+
+    app-button {
+        position: absolute;
+        right: 0;
+        top: 6px;
+    }
+}
+
+.played-hours{
+    border: 1px solid #ea377a;
+    color: #ea377a;
+    background-color: rgba(234, 55, 122, 0.18);
+    border-radius: 16px;
+    text-align: center;
+    position: absolute;
+    top: 9px;
+    right: 40px;
+    padding: 1px 12px;
+    font-size: 14px;
+}

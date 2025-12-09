@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, EventEmitter, HostBinding, Input, Output, ViewChild } from "@angular/core";
+import { NgTemplateOutlet } from "@angular/common";
+import { Component, EventEmitter, HostBinding, Input, Output, TemplateRef, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgSelectComponent, NgSelectModule } from "@ng-select/ng-select";
 
@@ -7,7 +8,7 @@ import { NgSelectComponent, NgSelectModule } from "@ng-select/ng-select";
     selector: "app-select",
     templateUrl: "./select.component.html",
     styleUrls: ["./select.component.scss"],
-    imports: [NgSelectModule, FormsModule]
+    imports: [NgSelectModule, FormsModule, NgTemplateOutlet]
 })
 export class SelectComponent {
     @HostBinding("class") public get hostClass() {
@@ -26,6 +27,7 @@ export class SelectComponent {
     @Input() public placeholder = `Select...`;
     @Input() public required = false;
     @Input() public items = <any[]>[];
+    @Input() public itemTemplate?: TemplateRef<unknown>;
     @Output() public valueChange = new EventEmitter();
     @Output() public onChange = new EventEmitter();
     @ViewChild(NgSelectComponent, { static: false }) public select!: NgSelectComponent;
