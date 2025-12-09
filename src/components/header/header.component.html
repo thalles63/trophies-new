@@ -7,41 +7,46 @@
     <div class="gradient"></div>
 </div>
 
-<header class="container">
-    <a
-        class="system-title"
-        [routerLink]="['/']"
-        (click)="clearGameListPaging()">
-        Thalles Games
-    </a>
-
-    @if (isUserLoggedIn) {
+<div
+    class="background-container"
+    [class.transparent]="!!screenshot()">
+    <header class="container">
         <a
-            class="options-button"
-            (click)="toggleOptions()"
-            [class.opened]="menuOpened">
-            <div class="user-icon">T</div>
-            <div class="options-title">User Options</div>
-            <div class="dropdown-icon">
-                <icon [icon]="icon.AngleDown"></icon>
-            </div>
-
-            @if (menuOpened) {
-                <div class="options">
-                    <a
-                        (click)="addGame()"
-                        class="border-bottom">
-                        Add game
-                    </a>
-                    <a (click)="logout()">Logout</a>
-                </div>
-            }
+            class="system-title"
+            [routerLink]="['/']"
+            (click)="clearGameListPaging()">
+            Thalles Games
         </a>
-    } @else {
-        <a
-            class="login"
-            (click)="openLoginModal()"
-            >Log in</a
-        >
-    }
-</header>
+
+        @if (isUserLoggedIn) {
+            <a
+                class="options-button"
+                (click)="toggleOptions()"
+                [class.opened]="menuOpened">
+                <div class="user-icon">T</div>
+                <div class="options-title">User Options</div>
+                <div class="dropdown-icon">
+                    <icon [icon]="icon.AngleDown"></icon>
+                </div>
+
+                @if (menuOpened) {
+                    <div class="options">
+                        <a (click)="addGame()"> Add game </a>
+                        <a
+                            (click)="goToBacklogSchedule()"
+                            class="border-bottom">
+                            Backlog schedule
+                        </a>
+                        <a (click)="logout()">Logout</a>
+                    </div>
+                }
+            </a>
+        } @else {
+            <a
+                class="login"
+                (click)="openLoginModal()"
+                >Log in</a
+            >
+        }
+    </header>
+</div>

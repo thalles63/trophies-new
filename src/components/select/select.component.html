@@ -24,5 +24,12 @@
         (change)="onFieldChange()"
         #input="ngModel"
         #select>
+        @if (itemTemplate) {
+            <ng-template
+                ng-option-tmp
+                let-item="item">
+                <ng-container *ngTemplateOutlet="itemTemplate; context: { item: item }"></ng-container>
+            </ng-template>
+        }
     </ng-select>
 </div>

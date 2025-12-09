@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="header">
+        <div class="year-select">
+            <span
+                class="arrow"
+                (click)="minusYear()">
+                <
+            </span>
+
+            <span class="year">{{ year }}</span>
+
+            <span
+                class="arrow"
+                (click)="plusYear()">
+                >
+            </span>
+        </div>
+
+        @if (isUserLoggedIn) {
+            <app-button (onClick)="openModal()"> Schedule new backlog </app-button>
+        }
+    </div>
+
+    <div class="calendar">
+        @for (month of months; track $index) {
+            <div class="month">
+                <div class="title">{{ month.description }}</div>
+                <div class="played-hours"> {{ month.totalTime?.hours }} Hours</div>
+
+                <div class="games">
+                    @for (game of month.completedGames; track $index) {
+                        <div class="game">
+                            <a
+                                class="link"
+                                [routerLink]="['/game/' + game.id]">
+                                <img [src]="game.image" />
+                            </a>
+                        </div>
+                    }
+
+                    @for (game of month.scheduledGames; track $index) {
+                        <div class="game">
+                            <a
+                                class="link"
+                                (click)="openModal(game.id)">
+                                <img
+                                    class="grayed"
+                                    [src]="game.image" />
+                            </a>
+                        </div>
+                    }
+
+                    @if(!month.completedGames.length && !month.scheduledGames.length) {
+                        <span class="no-games">No games played this month</span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -5,5 +5,9 @@ export const routes: Routes = [
     {
         path: "game",
         loadChildren: () => import("./game/game.routing")
+    },
+    {
+        path: "backlog-schedule",
+        loadChildren: () => import("./backlog-schedule/backlog-schedule.routing")
     }
 ];

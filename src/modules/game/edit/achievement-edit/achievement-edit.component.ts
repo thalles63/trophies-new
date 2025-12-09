@@ -7,9 +7,9 @@ import { InputComponent } from "../../../../components/input/input.component";
 import { SelectComponent } from "../../../../components/select/select.component";
 import { GameMapper } from "../../mappers/game.mapper";
 import { Achievement } from "../../models/achievement.interface";
+import { TrueFalseData } from "../../models/game-edit.data";
 import { Game } from "../../models/game.interface";
 import { AchievementsService } from "../../services/achievement.service";
-import { TrueFalseData } from "../game-edit.data";
 import { AchievementTypeData } from "./achievement-edit.data";
 
 @Component({
