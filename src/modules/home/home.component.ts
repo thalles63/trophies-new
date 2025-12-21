@@ -10,6 +10,7 @@ import { IconEnum } from "../../common/enums/icon.enum";
 import { PlatformEnum } from "../../common/enums/platform.enum";
 import { SortDirection } from "../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../common/enums/status.enum";
+import { GameListSort } from "../../common/sorts/game-list.sort";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../common/store/core.action";
 import { CoreState } from "../../common/store/core.state";
 import { LoaderState } from "../../common/store/loader.state";
@@ -30,7 +31,7 @@ import { Game } from "../game/models/game.interface";
 import { Genre } from "../game/models/genre.interface";
 import { Theme } from "../game/models/theme.interface";
 import { GameService } from "../game/services/game.service";
-import { GameListSortBy } from "./home.data";
+import { GameListSortBy, GameListStatus } from "./home.data";
 
 @Component({
     selector: "app-home",
@@ -79,6 +80,7 @@ export class HomeComponent implements OnInit {
     protected platforms = PlatformsData;
     protected trueFalse = TrueFalseData;
     protected platformEnum = PlatformEnum;
+    protected gameListStatus = GameListStatus;
 
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
@@ -206,6 +208,15 @@ export class HomeComponent implements OnInit {
     public setStatus(status: number) {
         this.filter.status = status;
         this.filter.page = 1;
+
+        if (status === StatusEnum.Backlog) {
+            this.filter.sort = GameListSort.Name;
+        } else if (status === StatusEnum.Wishlist) {
+            this.filter.sort = GameListSort.Price;
+        } else {
+            this.filter.sort = GameListSort.LastPlayed;
+        }
+
         this.listGames();
     }
 }

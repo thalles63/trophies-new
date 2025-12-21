@@ -15,11 +15,11 @@ export class ButtonComponent {
     public iconSize = input<number>(14);
     public disabled = input(false);
     public isLoading = input(false);
-    public onClick = output();
+    public onClick = output<Event>();
 
     protected iconEnum = IconEnum;
 
-    public onClickHandler() {
-        this.onClick.emit();
+    public onClickHandler(event: Event) {
+        this.onClick.emit(event);
     }
 }

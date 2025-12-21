@@ -1,4 +1,5 @@
 export enum GameSearchOriginEnum {
     IGDB = "IGDB",
-    HLTB = "HLTB"
+    HLTB = "HLTB",
+    ITAD = "ITAD"
 }

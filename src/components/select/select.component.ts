@@ -21,6 +21,7 @@ export class SelectComponent {
     @Input() public customClass = "";
     @Input() public clearable = false;
     @Input() public disabled = false;
+    @Input() public searchable = true;
     @Input() public inputSize = 12;
     @Input() public label = "";
     @Input() public name = crypto.randomUUID();

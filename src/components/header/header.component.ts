@@ -59,6 +59,10 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(["/backlog-schedule"]);
     }
 
+    public syncItad() {
+        this.router.navigate(["/syncItad"]);
+    }
+
     public clearGameListPaging() {
         this.store.dispatch(
             new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted })

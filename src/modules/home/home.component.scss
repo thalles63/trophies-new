@@ -74,13 +74,28 @@
     }
 }
 
+.mobile-status {
+    display: none;
+    width: 100%;
+    margin-right: 18px;
+}
 
 @media (max-width: 575px) {
     .status-filter {
-        flex-wrap: wrap;
+        display: none;
+    }
+
+    .mobile-status {
+        display: grid;
     }
 
     game-image {
         width: calc(50% - 4px);
+    }
+}
+
+:host ::ng-deep {
+    .p-0 {
+        padding: 0 !important;
     }
 }

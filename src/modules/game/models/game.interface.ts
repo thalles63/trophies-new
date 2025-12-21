@@ -30,4 +30,9 @@ export interface Game {
     completionistTime: number;
     mainExtrasTime: number;
     mainStoryTime: number;
+    itadId: string;
+    currentPrice: number;
+    isPriceAllTimeLow: boolean;
+    isPriceOneYearTimeLow: boolean;
+    urlToBuy: string;
 }

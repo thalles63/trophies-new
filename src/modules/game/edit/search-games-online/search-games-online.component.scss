@@ -32,6 +32,10 @@
     margin-right: 16px;
 }
 
+.game-principal {
+    flex-grow: 1;
+}
+
 .game-info {
     display: flex;
     flex-direction: column;

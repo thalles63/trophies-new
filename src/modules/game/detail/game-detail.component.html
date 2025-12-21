@@ -1,7 +1,7 @@
 <div class="container">
     <div class="left-container">
         <div class="game-bar">
-            @if (isLoading) {
+            @if (isLoading && !isModalOpened) {
                 <game-image-skeleton [showDetails]="false"></game-image-skeleton>
             } @else {
                 <game-image
@@ -32,11 +32,28 @@
             </div>
         </div>
 
+        @if (game.status === statusEnum.Wishlist && game.urlToBuy) {
+            <div class="game-information">
+                <div class="game-price-label">Game price</div>
+
+                <div class="game-price">
+                    @if (game.isPriceAllTimeLow) {
+                        <span class="atl-badge">ATL</span>
+                    } @else if (game.isPriceOneYearTimeLow) {
+                        <span class="ytl-badge">YTL</span>
+                    }
+                    R$ {{ game.currentPrice | number: "1.2-2" }}
+                </div>
+
+                <app-button (onClick)="openGamePurchasePage($event)"> Buy game </app-button>
+            </div>
+        }
+
         <div class="game-information">
             <app-label
                 label="Status"
                 [textTemplate]="statusText"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <ng-template #statusText>
@@ -49,13 +66,13 @@
             <app-label
                 label="Platform"
                 [text]="game.platformText"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <app-label
                 label="Released in"
                 [text]="game.releaseDate | date: 'dd/MM/yyyy'"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <app-label
@@ -65,30 +82,30 @@
                         ? (game.timePlayed.hours || 0) + ' hours and ' + (game.timePlayed.minutes || 0) + ' minutes'
                         : '-'
                 "
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <app-label
                 label="Is campaign complete?"
                 [text]="game.isCampaignComplete ? 'Yes' : 'No'"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <app-label
                 label="Is platinumed?"
                 [text]="game.isPlatinumed ? 'Yes' : 'No'"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <app-label
                 label="Date completed"
                 [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastTimePlayed | date: 'dd/MM/yyyy HH:mm:ss') : '-'"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
         </div>
     </div>
     <div class="right-container">
-        @if (isLoading) {
+        @if (isLoading && !isModalOpened) {
             <div class="loading-skeleton title-skeleton"></div>
             <div class="loading-skeleton description-skeleton"></div>
         } @else {
@@ -125,7 +142,7 @@
                 label="Genres"
                 [textTemplate]="genreTemplate"
                 [inputSize]="6"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <ng-template #genreTemplate>
@@ -153,7 +170,7 @@
                 label="Themes"
                 [textTemplate]="themeTemplate"
                 [inputSize]="6"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <ng-template #themeTemplate>
@@ -183,38 +200,38 @@
                 label="Published by"
                 [text]="game.publisher"
                 [inputSize]="6"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
 
             <app-label
                 label="Developed by"
                 [text]="game.developer"
                 [inputSize]="6"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </app-label>
         </row>
 
-        @if ((!isLoading && !!game.mainStoryTime) || isLoading) {
+        @if ((!isLoading && !!game.mainStoryTime) || (isLoading && !isModalOpened)) {
             <div class="achievements-title">How Long to Beat</div>
             <game-how-long-to-beat
                 [game]="game"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </game-how-long-to-beat>
         }
 
-        @if ((!isLoading && !!game.screenshots?.length) || isLoading) {
+        @if ((!isLoading && !!game.screenshots?.length) || (isLoading && !isModalOpened)) {
             <div class="achievements-title">Images</div>
 
             <game-screenshots
                 [screenshots]="game.screenshots!"
-                [isLoading]="isLoading">
+                [isLoading]="isLoading && !isModalOpened">
             </game-screenshots>
         }
 
         <div class="achievements-title">Achievements</div>
 
         <row>
-            @if (isLoading) {
+            @if (isLoading && !isModalOpened) {
                 @for (_ of [].constructor(30); track $index) {
                     <game-achievement-skeleton></game-achievement-skeleton>
                 }

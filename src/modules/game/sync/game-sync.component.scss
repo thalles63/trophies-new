@@ -1,0 +1,85 @@
+.loader-wrapper {
+    height: calc(100vh - 87px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bouncer {
+    animation: bounce-realistic 3s ease-in-out infinite;
+}
+
+.spinner-bounce {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #ccc;
+    border-top-color: #ea377a;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2) inset;
+    animation: spin 1s linear infinite;
+}
+
+.typing-text {
+    margin-top: 24px;
+    font-size: 18px;
+    color: #FFF;
+    letter-spacing: 0.5px;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.dots::after {
+    content: "";
+    animation: dots 1.5s steps(3, end) infinite;
+}
+
+/* AnimaÃ§Ãµes */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce-realistic {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    10% {
+        transform: translateY(-25px);
+    }
+    20% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    30% {
+        transform: translateY(0);
+    }
+    32% {
+        transform: translateY(-4px);
+    }
+    34% {
+        transform: translateY(0);
+    }
+    40%,
+    50%,
+    60%,
+    70%,
+    80%,
+    90% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

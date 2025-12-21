@@ -24,17 +24,40 @@
     padding-left: 8px;
 }
 
+.game-principal {
+    flex-grow: 1;
+}
+
+.mt-16 {
+    margin-top: 16px;
+}
+
+:host ::ng-deep {
+    .game-principal app-input .container-input {
+        margin-bottom: 0 !important;
+    }
+}
+
 .pr-8 {
     padding-right: 8px;
 }
 
 .modal-body {
-    height: 430px;
     overflow: visible;
+
+    &.game-info-body {
+        display: flex;
+        padding: 1rem;
+        flex-wrap: wrap;
+        padding-bottom: 1.5rem;
+    }
 }
 
 .achievements-body.modal-body {
     overflow: auto;
+    max-height: 506px;
+    padding: 1rem;
+    padding-bottom: 1.5rem;
 
     &.no-achievements {
         justify-content: center;
@@ -95,6 +118,7 @@
         justify-content: center;
     }
 }
+
 .achievement-container.achieved {
     .icon {
         filter: none;
@@ -111,9 +135,11 @@
 }
 
 .status-container {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 24px;
 }
 
 .text-center {
@@ -121,6 +147,15 @@
 }
 
 :host ::ng-deep {
+
+    .btn.playing,
+    .btn.completed,
+    .btn.shelved,
+    .btn.backlog,
+    .btn.wishlist {
+        height: 50px;
+    }
+
     .btn.playing.selected,
     .btn.playing:hover {
         border-color: #4b7bd4;
@@ -128,6 +163,7 @@
         border-bottom: 3px solid #4b7bd4;
         background-color: transparent;
     }
+
     .btn.completed.selected,
     .btn.completed:hover {
         border-color: #00bc7d;
@@ -135,6 +171,7 @@
         border-bottom: 3px solid #00bc7d;
         background-color: transparent;
     }
+
     .btn.shelved.selected,
     .btn.shelved:hover {
         border-color: #e69b3e;
@@ -142,6 +179,7 @@
         border-bottom: 3px solid #e69b3e;
         background-color: transparent;
     }
+
     .btn.backlog.selected,
     .btn.backlog:hover {
         border-color: #ea377a;
@@ -149,6 +187,7 @@
         border-bottom: 3px solid #ea377a;
         background-color: transparent;
     }
+
     .btn.wishlist.selected,
     .btn.wishlist:hover {
         border-color: #b737ea;
@@ -168,27 +207,57 @@
     padding-left: 8px;
 }
 
-.search-button {
-    width: 100%;
-    background-color: #ea377a;
-    cursor: pointer;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    font-weight: 700;
-    margin-top: 24px;
+:host ::ng-deep {
+    .search-button {
+        width: 100%;
+        background-color: #242832;
+        cursor: pointer;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin-top: 0;
+        transition: all 0.2s ease-in-out;
+        border: 1px solid rgb(162 177 229 / 11%);
+        text-decoration: none;
+        color: #ccdbf1;
 
-    div {
-        margin-left: 8px;
-    }
+        div {
+            margin-left: 8px;
+        }
 
-    &:hover {
-        background-color: #fc6399;
+        &:hover {
+            background-color: #2f3441;
+            transform: translateY(-2px);
+            border-color: #ea377a;
+        }
+
+        .check-icon {
+            color: #00bc7d;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
 
-.align-end {
-    justify-content: flex-end;
+.label-or {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #8f9ca7;
+    margin-left: 8px;
+    width: 100%;
+}
+
+.search-buttons-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 8px;
+    width: 100%;
 }

@@ -42,7 +42,12 @@ export class GameMapper {
             publisher: params.publisher,
             completionistTime: params.completionistTime,
             mainExtrasTime: params.mainExtrasTime,
-            mainStoryTime: params.mainStoryTime
+            mainStoryTime: params.mainStoryTime,
+            currentPrice: params.currentPrice,
+            isPriceAllTimeLow: params.isPriceAllTimeLow,
+            isPriceOneYearTimeLow: params.isPriceOneYearTimeLow,
+            itadId: params.itadId,
+            urlToBuy: params.urlToBuy
         };
     };
 
@@ -66,6 +71,12 @@ export class GameMapper {
             completionistTime: params.times.completionist,
             mainExtrasTime: params.times.mainExtras,
             mainStoryTime: params.times.mainStory
+        };
+    };
+
+    public readonly getInItad = (params: GameFromOnline) => {
+        return <Game>{
+            itadId: params.id
         };
     };
 
@@ -106,7 +117,12 @@ export class GameMapper {
             publisher: params.publisher,
             completionistTime: params.completionistTime,
             mainExtrasTime: params.mainExtrasTime,
-            mainStoryTime: params.mainStoryTime
+            mainStoryTime: params.mainStoryTime,
+            currentPrice: params.currentPrice,
+            isPriceAllTimeLow: params.isPriceAllTimeLow,
+            isPriceOneYearTimeLow: params.isPriceOneYearTimeLow,
+            itadId: params.itadId,
+            urlToBuy: params.urlToBuy
         });
     };
 

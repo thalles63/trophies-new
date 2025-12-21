@@ -27,6 +27,30 @@
     }
 }
 
+.price-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 33px;
+    text-align: center;
+    background-color: #000000a6;
+    font-weight: bold;
+    padding-top: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    &.atl {
+        background-color: #00bc7d;
+        color: #fff;
+    }
+
+    &.ytl {
+        background-color: #e69b3e;
+        color: #fff;
+    }
+}
+
 .game-name {
     font-weight: 700;
     overflow: hidden;
@@ -50,6 +74,7 @@
     border-radius: 5px;
     text-align: left;
     color: #e1e1e1;
+    z-index: 1;
 }
 
 .image-container:hover .card-info {
@@ -61,6 +86,24 @@
     margin-top: 10px;
     font-weight: 700;
     color: #8f9ca7;
+}
+
+.buy-button {
+    background-color: #ea377a;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 12px;
+    display: block;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: #d92566;
+    }
 }
 
 .info-text {
@@ -80,11 +123,19 @@
 @media (max-width: 575px) {
     .cover {
         width: 100%;
-        height: 285px;
+        height: 240px;
 
         img {
-            height: 285px;
+            height: 240px;
         }
+    }
+
+    .image-container {
+        height: 240px;
+    }
+
+    .card-info {
+        display: none;
     }
 
     .no-click .cover {

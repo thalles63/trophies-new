@@ -17,7 +17,6 @@ import { StarRatingComponent } from "../../../components/rating/rating.component
 import { SelectComponent } from "../../../components/select/select.component";
 import { TabComponent } from "../../../components/tabs/tab/tab.component";
 import { TabsComponent } from "../../../components/tabs/tabs.component";
-import { TextareaComponent } from "../../../components/textarea/textarea.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Achievement } from "../models/achievement.interface";
 import { GameStatusData, PlatformsData, TrueFalseData } from "../models/game-edit.data";
@@ -38,7 +37,6 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         TabComponent,
         InputComponent,
         SelectComponent,
-        TextareaComponent,
         StarRatingComponent,
         TimePlayedComponent,
         ButtonComponent,
@@ -61,7 +59,9 @@ export class GameEditComponent implements AfterViewInit {
 
     @Input() public game = <Game>{ timePlayed: {}, achievements: <Achievement[]>[] };
     @ViewChild("tabs", { static: false }) protected readonly tabs!: TabsComponent;
-    @ViewChild("gameInfoTab", { static: false }) private readonly gameInfoTab!: TabComponent;
+    @ViewChild("generalTab", { static: false }) protected readonly generalTab!: TabComponent;
+    @ViewChild("detailsTab", { static: false }) protected readonly detailsTab!: TabComponent;
+    @ViewChild("achievementsTab", { static: false }) protected readonly achievementsTab?: TabComponent;
 
     protected statusEnum = StatusEnum;
     protected platforms = PlatformsData;
@@ -78,7 +78,8 @@ export class GameEditComponent implements AfterViewInit {
     protected readonly gameSearchOriginEnum = GameSearchOriginEnum;
 
     public ngAfterViewInit(): void {
-        this.tabs.setActiveTab(this.gameInfoTab);
+        const activeTab = this.isNewRegister() ? this.generalTab : this.detailsTab;
+        this.tabs.setActiveTab(activeTab);
 
         this.enableGameSearchWhenRegisteringNew();
     }
@@ -94,11 +95,11 @@ export class GameEditComponent implements AfterViewInit {
 
         service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
             this.isSaveLoading = false;
+            this.hasChangedAchievements = true;
 
             if (this.isNewRegister()) {
+                this.game.id = result.id;
                 this.router.navigate(["game/" + result.id], { replaceUrl: true });
-                this.activeModal.close(true);
-                return;
             }
 
             this.activeModal.close(true);

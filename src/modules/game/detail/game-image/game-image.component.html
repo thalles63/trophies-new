@@ -52,12 +52,38 @@
                 </div>
             }
 
-            <div>
-                <div class="info-label">Platform</div>
-                <div class="info-text">
-                    <span>{{ game().platformText }}</span>
+            @if (game().status !== statusEnum.Wishlist) {
+                <div>
+                    <div class="info-label">Platform</div>
+                    <div class="info-text">
+                        <span>{{ game().platformText }}</span>
+                    </div>
                 </div>
-            </div>
+            }
+
+            @if (game().status === statusEnum.Wishlist && game().urlToBuy) {
+                <a
+                    class="buy-button"
+                    [href]="game().urlToBuy"
+                    target="_blank"
+                    (click)="$event.stopPropagation()">
+                    Buy game
+                </a>
+            }
         </div>
+
+        @if (game().currentPrice && game().status === statusEnum.Wishlist) {
+            <div
+                class="price-label"
+                [class.atl]="game().isPriceAllTimeLow"
+                [class.ytl]="game().isPriceOneYearTimeLow && !game().isPriceAllTimeLow">
+                @if (game().isPriceAllTimeLow) {
+                    <b>ATL</b>
+                } @else if (game().isPriceOneYearTimeLow) {
+                    <b>YTL</b>
+                }
+                R$ {{ game().currentPrice | number: "1.2-2" }}
+            </div>
+        }
     }
 </a>

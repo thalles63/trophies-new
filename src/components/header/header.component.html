@@ -32,10 +32,11 @@
                 @if (menuOpened) {
                     <div class="options">
                         <a (click)="addGame()"> Add game </a>
+                        <a (click)="goToBacklogSchedule()"> Backlog schedule </a>
                         <a
-                            (click)="goToBacklogSchedule()"
+                            (click)="syncItad()"
                             class="border-bottom">
-                            Backlog schedule
+                            Synchronize Prices
                         </a>
                         <a (click)="logout()">Logout</a>
                     </div>

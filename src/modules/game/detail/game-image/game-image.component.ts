@@ -1,4 +1,4 @@
-import { DatePipe } from "@angular/common";
+import { DatePipe, DecimalPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { IconEnum } from "../../../../common/enums/icon.enum";
@@ -8,18 +8,21 @@ import { StarRatingComponent } from "../../../../components/rating/rating.compon
 import { StatusComponent } from "../../../../components/status/status.component";
 import { Game } from "../../models/game.interface";
 
+import { StatusEnum } from "../../../../common/enums/status.enum";
+
 @Component({
     selector: "game-image",
     templateUrl: "./game-image.component.html",
     styleUrl: "./game-image.component.scss",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [IconComponent, StarRatingComponent, DatePipe, StatusComponent, RouterLink]
+    imports: [IconComponent, StarRatingComponent, DatePipe, StatusComponent, RouterLink, DecimalPipe]
 })
 export class GameDetailGameImageComponent {
     public game = input.required<Game>();
     public showDetails = input(true);
-    public onClick = output();
-    protected iconEnum = IconEnum;
+    public onClick = output<void>();
+    protected readonly statusEnum = StatusEnum;
+    protected readonly iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
 
     public onClickHandler() {

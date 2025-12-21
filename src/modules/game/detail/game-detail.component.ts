@@ -1,4 +1,4 @@
-import { DatePipe } from "@angular/common";
+import { DatePipe, DecimalPipe } from "@angular/common";
 import { Component, DestroyRef, inject, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
@@ -41,6 +41,7 @@ import { GameHowLongToBeatComponent } from "./how-long-to-beat/how-long-to-beat.
         LabelComponent,
         RowComponent,
         RouterLink,
+        DecimalPipe,
         GameDetailAchievementComponent,
         GameDetailAchievementSkeletonComponent,
         GameDetailGameImageComponent,
@@ -77,6 +78,7 @@ export class GameDetailComponent implements OnInit {
     protected isLoading = false;
     protected isLoading$ = this.store.select(LoaderState.isLoading);
     protected isModalOpened = false;
+    protected statusEnum = StatusEnum;
 
     public ngOnInit(): void {
         this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
@@ -122,6 +124,12 @@ export class GameDetailComponent implements OnInit {
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(banner));
                 this.titleService.setTitle("Trophies - " + this.game.name);
             });
+    }
+
+    public openGamePurchasePage(event: Event) {
+        event.stopPropagation();
+
+        window.open(this.game.urlToBuy, "_blank");
     }
 
     public openModal() {

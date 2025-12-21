@@ -41,7 +41,15 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
     private searchGame() {
         this.isLoading = true;
 
-        const service = this.origin === GameSearchOriginEnum.IGDB ? this.service.searchIgdb(this.gameName) : this.service.searchHltb(this.gameName);
+        let service;
+
+        if (this.origin === GameSearchOriginEnum.IGDB) {
+            service = this.service.searchIgdb(this.gameName);
+        } else if (this.origin === GameSearchOriginEnum.HLTB) {
+            service = this.service.searchHltb(this.gameName);
+        } else {
+            service = this.service.searchItad(this.gameName);
+        }
 
         service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: (result) => {
@@ -62,6 +70,11 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
     public confirm() {
         if (this.origin === GameSearchOriginEnum.HLTB) {
             this.activeModal.close(this.mapper.getInHltb(this.selectedGame));
+            return;
+        }
+
+        if (this.origin === GameSearchOriginEnum.ITAD) {
+            this.activeModal.close(this.mapper.getInItad(this.selectedGame));
             return;
         }
 

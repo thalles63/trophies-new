@@ -43,6 +43,10 @@ export class GameService {
         return this.http.get<any>(`${environment.HLTB_MS_URL}/search?name=${gameName}`);
     }
 
+    public searchItad(gameName: string) {
+        return this.http.get<any>(`${this.API_URL}/searchItad?gameName=${gameName}`);
+    }
+
     public searchSteam(gameName: string) {
         return this.http.get<any>(`${this.API_URL}/searchSteam?gameName=${gameName}`);
     }
@@ -65,5 +69,9 @@ export class GameService {
 
     public listThemes() {
         return this.http.get<Theme[]>(`${this.API_URL}/themes`);
+    }
+
+    public syncItad() {
+        return this.http.post<void>(`${this.API_URL}/syncItad`, {});
     }
 }

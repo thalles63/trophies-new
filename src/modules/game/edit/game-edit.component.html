@@ -7,52 +7,16 @@
         }
     </div>
     <div class="game-principal">
-        <div class="game-title">
-            {{ game.name }}
-        </div>
-
-        <div class="status-container">
-            <app-button
-                type="secondary-outline"
-                customClass="playing {{ game.status === statusEnum.Playing ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Playing)">
-                Playing
-            </app-button>
-
-            <app-button
-                type="secondary-outline"
-                customClass="completed {{ game.status === statusEnum.Completed ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Completed)">
-                Completed
-            </app-button>
-
-            <app-button
-                type="secondary-outline"
-                customClass="backlog {{ game.status === statusEnum.Backlog ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Backlog)">
-                Backlog
-            </app-button>
-
-            <app-button
-                type="secondary-outline"
-                customClass="wishlist  {{ game.status === statusEnum.Wishlist ? 'selected' : '' }}"
-                (onClick)="setStatus(statusEnum.Wishlist)">
-                Wishlist
-            </app-button>
-        </div>
-    </div>
-</div>
-
-<tabs #tabs>
-    <tab
-        tabTitle="Game info"
-        #gameInfoTab>
-        <div class="modal-body game-info-body">
+        @if (!generalTab.active) {
+            <div class="game-title">
+                {{ game.name }}
+            </div>
+        } @else {
             <div class="row">
-                <div class="search-container col-lg-6">
+                <div class="search-container col-lg-12">
                     <app-input
                         [(value)]="game.name"
-                        label="Name"
+                        label="Game name"
                         [inputSize]="12"
                         (onFocus)="onFocusSearchGame()"
                         (onBlur)="onBlurSearchGame()"
@@ -66,91 +30,164 @@
                         </search-game-dropdown>
                     }
                 </div>
+            </div>
+        }
+    </div>
+</div>
 
-                <div class="col-lg-3">
+<tabs #tabs>
+    <tab
+        tabTitle="General"
+        #generalTab>
+        <div class="modal-body game-info-body">
+            <div class="row">
+                <span class="label-or">Search online information in:</span>
+                <div class="search-buttons-container">
                     <a
                         class="search-button"
                         (click)="openSearchGameModal(gameSearchOriginEnum.IGDB)">
-                        <div>Search IGDB</div>
+                        <div>IGDB</div>
+                        @if (game.description) {
+                            <div class="check-icon">
+                                <icon
+                                    [icon]="iconEnum.Check"
+                                    [size]="16">
+                                </icon>
+                            </div>
+                        }
                     </a>
-                </div>
 
-                <div class="col-lg-3">
                     <a
                         class="search-button"
                         (click)="openSearchGameModal(gameSearchOriginEnum.HLTB)">
-                        <div>Search How Long To Beat</div>
+                        <div>How Long To Beat</div>
+                        @if (game.mainStoryTime) {
+                            <div class="check-icon">
+                                <icon
+                                    [icon]="iconEnum.Check"
+                                    [size]="16">
+                                </icon>
+                            </div>
+                        }
                     </a>
+
+                    @if (!this.game.status || this.game.status === statusEnum.Wishlist) {
+                        <a
+                            class="search-button"
+                            (click)="openSearchGameModal(gameSearchOriginEnum.ITAD)">
+                            <div>Is There Any Deal</div>
+                            @if (game.itadId) {
+                                <div class="check-icon">
+                                    <icon
+                                        [icon]="iconEnum.Check"
+                                        [size]="16">
+                                    </icon>
+                                </div>
+                            }
+                        </a>
+                    }
                 </div>
-            </div>
-
-            <div class="row">
-                <app-textarea
-                    [(value)]="game.description"
-                    label="Description"
-                    [inputSize]="12">
-                </app-textarea>
-            </div>
-
-            <div class="row">
-                <app-select
-                    [(value)]="game.platform"
-                    bindValue="id"
-                    bindLabel="description"
-                    [items]="platforms"
-                    label="Platform"
-                    [inputSize]="3">
-                </app-select>
-
-                <app-select
-                    [(value)]="game.isCampaignComplete"
-                    bindValue="id"
-                    bindLabel="description"
-                    [items]="trueFalse"
-                    label="Is campaign complete?"
-                    [inputSize]="3">
-                </app-select>
-
-                <app-select
-                    [(value)]="game.isPlatinumed"
-                    bindValue="id"
-                    bindLabel="description"
-                    [items]="trueFalse"
-                    label="Is platinumed?"
-                    [inputSize]="3">
-                </app-select>
-
-                <time-played
-                    [(value)]="game.timePlayed"
-                    label="Time played"
-                    [inputSize]="3">
-                </time-played>
-            </div>
-
-            <div class="row">
-                <star-rating
-                    label="Rating"
-                    [(rating)]="game.rating"
-                    color="#3f4b64"
-                    colorSelected="#ea377a"
-                    [inputSize]="3"
-                    [size]="40"
-                    customClass="fix-margins-rating"
-                    [isSelectable]="true">
-                </star-rating>
-
-                <app-input
-                    [(value)]="game.lastTimePlayedFormatted"
-                    label="Last time played"
-                    mask="00/00/0000 00:00:00"
-                    [inputSize]="3">
-                </app-input>
             </div>
         </div>
     </tab>
 
     @if (!this.isNewRegister()) {
-        <tab tabTitle="Achievements">
+        <tab
+            tabTitle="Details"
+            #detailsTab>
+            <div class="modal-body game-info-body">
+                <div class="status-container">
+                    <app-button
+                        type="secondary-outline"
+                        customClass="search-button playing {{ game.status === statusEnum.Playing ? 'selected' : '' }}"
+                        (onClick)="setStatus(statusEnum.Playing)">
+                        Playing
+                    </app-button>
+
+                    <app-button
+                        type="secondary-outline"
+                        customClass="search-button completed {{ game.status === statusEnum.Completed ? 'selected' : '' }}"
+                        (onClick)="setStatus(statusEnum.Completed)">
+                        Completed
+                    </app-button>
+
+                    <app-button
+                        type="secondary-outline"
+                        customClass="search-button backlog {{ game.status === statusEnum.Backlog ? 'selected' : '' }}"
+                        (onClick)="setStatus(statusEnum.Backlog)">
+                        Backlog
+                    </app-button>
+
+                    <app-button
+                        type="secondary-outline"
+                        customClass="search-button wishlist  {{ game.status === statusEnum.Wishlist ? 'selected' : '' }}"
+                        (onClick)="setStatus(statusEnum.Wishlist)">
+                        Wishlist
+                    </app-button>
+                </div>
+
+                <div class="row">
+                    <app-select
+                        [(value)]="game.platform"
+                        bindValue="id"
+                        bindLabel="description"
+                        [items]="platforms"
+                        label="Platform"
+                        [inputSize]="4">
+                    </app-select>
+
+                    <app-select
+                        [(value)]="game.isCampaignComplete"
+                        bindValue="id"
+                        bindLabel="description"
+                        [items]="trueFalse"
+                        label="Is campaign complete?"
+                        [inputSize]="4">
+                    </app-select>
+
+                    <app-select
+                        [(value)]="game.isPlatinumed"
+                        bindValue="id"
+                        bindLabel="description"
+                        [items]="trueFalse"
+                        label="Is platinumed?"
+                        [inputSize]="4">
+                    </app-select>
+                </div>
+
+                <div class="row">
+                    <time-played
+                        [(value)]="game.timePlayed"
+                        label="Time played"
+                        [inputSize]="4">
+                    </time-played>
+
+                    <app-input
+                        [(value)]="game.lastTimePlayedFormatted"
+                        label="Last time played"
+                        mask="00/00/0000 00:00:00"
+                        [inputSize]="4">
+                    </app-input>
+
+                    <star-rating
+                        label="Rating"
+                        [(rating)]="game.rating"
+                        color="#3f4b64"
+                        colorSelected="#ea377a"
+                        [inputSize]="4"
+                        [size]="40"
+                        customClass="fix-margins-rating"
+                        [isSelectable]="true">
+                    </star-rating>
+                </div>
+            </div>
+        </tab>
+    }
+
+    @if (!this.isNewRegister()) {
+        <tab
+            tabTitle="Achievements"
+            #achievementsTab>
             <div
                 class="modal-body achievements-body p-6"
                 [class.no-achievements]="!game.achievements.length">
@@ -204,16 +241,26 @@
                         </div>
                     </div>
                 }
-
                 @if (!game.achievements.length) {
-                    <div>
-                        <app-button (onClick)="searchAchievementsOnline(achievementSearchOriginEnum.Steam)">Search in Steam</app-button>
-                        <div class="text-center"> or </div>
-                        <app-button (onClick)="searchAchievementsOnline(achievementSearchOriginEnum.PsnProfiles)">Search in PSN Profiles</app-button>
-                        <div class="text-center"> or </div>
-                        <app-button (onClick)="searchAchievementsOnline(achievementSearchOriginEnum.RetroAchievements)"
-                            >Search in Retro Achievements</app-button
-                        >
+                    <div class="row">
+                        <span class="label-or">Search achievements in:</span>
+                        <div class="search-buttons-container">
+                            <a
+                                class="search-button"
+                                (click)="searchAchievementsOnline(achievementSearchOriginEnum.Steam)">
+                                <div>Steam</div>
+                            </a>
+                            <a
+                                class="search-button"
+                                (click)="searchAchievementsOnline(achievementSearchOriginEnum.PsnProfiles)">
+                                <div>PSN Profiles</div>
+                            </a>
+                            <a
+                                class="search-button"
+                                (click)="searchAchievementsOnline(achievementSearchOriginEnum.RetroAchievements)">
+                                <div>Retro Achievements</div>
+                            </a>
+                        </div>
                     </div>
                 }
             </div>
@@ -223,7 +270,7 @@
 
 <div
     class="modal-footer"
-    [class.align-end]="this.isNewRegister() && gameInfoTab.active">
+    [class.align-end]="this.isNewRegister()">
     @if (!this.isNewRegister()) {
         <app-button
             type="primary-outline"
@@ -231,6 +278,8 @@
             [isLoading]="isDeleteLoading">
             Delete game
         </app-button>
+    } @else {
+        <div></div>
     }
 
     <div class="footer-buttons-right">
@@ -240,7 +289,7 @@
             Cancel
         </app-button>
 
-        @if (gameInfoTab.active) {
+        @if (!achievementsTab?.active) {
             <app-button
                 (onClick)="save()"
                 [isLoading]="isSaveLoading">

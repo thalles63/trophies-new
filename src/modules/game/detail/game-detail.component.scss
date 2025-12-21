@@ -96,7 +96,8 @@
         margin-top: 24px !important;
     }
 
-    game-image, game-image-skeleton {
+    game-image,
+    game-image-skeleton {
         left: calc(50% - 112px) !important;
     }
 }
@@ -107,6 +108,7 @@
     margin-top: 80px;
     font-weight: 700;
     color: #8f9ca7;
+    margin-bottom: 80px;
 }
 
 .title-skeleton {
@@ -126,4 +128,50 @@ game-image-skeleton {
     position: absolute;
     top: -279px;
     left: 17px;
+}
+
+.game-price {
+    font-weight: bold;
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 11px !important;
+}
+
+.game-price-label {
+    text-align: center;
+    font-size: 14px;
+}
+
+.atl-badge {
+    background-color: #00bc7d;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    position: relative;
+    top: -4px;
+}
+
+.ytl-badge {
+    background-color: #e69b3e;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    position: relative;
+    top: -4px;
+}
+
+:host ::ng-deep {
+    @media (max-width: 575px) {
+        game-image .cover {
+            height: 302px;
+
+            img {
+                height: 302px;
+            }
+        }
+
+        game-image .image-container {
+            height: 302px;
+        }
+    }
 }

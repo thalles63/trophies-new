@@ -32,6 +32,19 @@
         </a>
     </div>
 
+    <div class="mobile-status">
+        <app-select
+            [(value)]="filter.status"
+            bindValue="id"
+            bindLabel="description"
+            class="p-0"
+            [items]="gameListStatus"
+            [searchable]="false"
+            (onChange)="setStatus(filter.status)"
+            [inputSize]="12">
+        </app-select>
+    </div>
+
     <a
         class="filters-container"
         (click)="openSidebar()">
@@ -53,13 +66,15 @@
             label="Game name">
         </app-input>
 
-        <app-select
-            [(value)]="filter.sort"
-            bindValue="id"
-            bindLabel="description"
-            [items]="gameListSortBy"
-            label="Sort by">
-        </app-select>
+        @if (filter.status !== statusEnum.Backlog && filter.status !== statusEnum.Wishlist) {
+            <app-select
+                [(value)]="filter.sort"
+                bindValue="id"
+                bindLabel="description"
+                [items]="gameListSortBy"
+                label="Sort by">
+            </app-select>
+        }
 
         <app-select
             [(value)]="filter.platform"
