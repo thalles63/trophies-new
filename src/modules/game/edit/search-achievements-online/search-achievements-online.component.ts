@@ -4,17 +4,20 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs";
 import { AchievementSearchOriginEnum } from "../../../../common/enums/achievement-search-origin.enum";
 import { IconEnum } from "../../../../common/enums/icon.enum";
+import { LoaderEnum } from "../../../../common/enums/loader.enum";
 import { PlatformEnum } from "../../../../common/enums/platform.enum";
 import { NotificationService } from "../../../../common/services/notification.service";
 import { ButtonComponent } from "../../../../components/button/button.component";
 import { IconComponent } from "../../../../components/icon/icon.component";
+import { LoaderComponent } from "../../../../components/loader/loader.component";
+import { LoaderService } from "../../../../components/loader/loader.service";
 import { GameFromOnline } from "../../models/game-from-online.interface";
 import { AchievementsService } from "../../services/achievement.service";
 import { GameService } from "../../services/game.service";
 
 @Component({
     selector: "search-achievements-online",
-    imports: [ButtonComponent, IconComponent],
+    imports: [ButtonComponent, IconComponent, LoaderComponent],
     templateUrl: "./search-achievements-online.component.html",
     styleUrl: "./search-achievements-online.component.scss",
     providers: [GameService, AchievementsService]
@@ -25,6 +28,7 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
     private readonly achievementsService = inject(AchievementsService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly notificationService = inject(NotificationService);
+    private readonly loaderService = inject(LoaderService);
 
     @Input({ required: true }) public gameId = "";
     @Input({ required: true }) public gameName = "";
@@ -32,9 +36,8 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
     @Input({ required: true }) public platform!: PlatformEnum;
     protected selectedGame = <GameFromOnline>{};
     protected retrievedGames = <GameFromOnline[]>[];
-    protected isLoading = false;
-    protected isSaveLoading = false;
     protected iconEnum = IconEnum;
+    protected loaderEnum = LoaderEnum;
     protected readonly gameSearchOriginEnum = AchievementSearchOriginEnum;
 
     public ngAfterContentInit(): void {
@@ -42,8 +45,6 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
     }
 
     public searchGame() {
-        this.isLoading = true;
-
         let service: Observable<any>;
         switch (this.origin) {
             case AchievementSearchOriginEnum.Steam:
@@ -57,21 +58,17 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
                 break;
         }
 
-        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        service.pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.SEARCH_ACHIEVEMENT_EXTERNAL)).subscribe({
             next: (result) => {
                 this.retrievedGames = result;
-                this.isLoading = false;
             },
             error: () => {
                 this.notificationService.error("Game not found");
-                this.isLoading = false;
             }
         });
     }
 
     public saveGame() {
-        this.isSaveLoading = true;
-
         let service: Observable<any>;
         switch (this.origin) {
             case AchievementSearchOriginEnum.Steam:
@@ -85,13 +82,9 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
                 break;
         }
 
-        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        service.pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.SAVE_ACHIEVEMENT_FROM_EXTERNAL)).subscribe({
             next: (result) => {
-                this.isLoading = false;
                 this.activeModal.close(result);
-            },
-            error: () => {
-                this.isLoading = false;
             }
         });
     }

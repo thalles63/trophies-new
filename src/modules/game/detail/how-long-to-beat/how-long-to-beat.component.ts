@@ -12,6 +12,5 @@ import { Game } from "../../models/game.interface";
 })
 export class GameHowLongToBeatComponent {
     public game = input.required<Game>();
-    public isLoading = input(false);
     public icon = IconEnum;
 }

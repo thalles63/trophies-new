@@ -9,7 +9,6 @@ import { LightboxComponent } from "./lightbox/lightbox.component";
 })
 export class GameDetailGameScreenshotsComponent {
     public screenshots = input.required<string[]>();
-    public isLoading = input(false);
     private readonly scrollAmount = 600;
     protected opened = false;
     protected currentIndex = 0;

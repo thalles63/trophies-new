@@ -1,61 +1,88 @@
-<div class="d-flex space-between mt-24">
-    <div class="status-filter">
+<loader [loaderIds]="[loaderEnum.LIST_HOME, loaderEnum.COUNT_HOME]">
+    <div class="d-flex space-between mt-24">
+        <div class="status-filter">
+            <a
+                (click)="setStatus(statusEnum.PlayingCompleted)"
+                [class.selected]="filter.status === statusEnum.PlayingCompleted">
+                <span class="filter-label">All Games</span>
+                <span class="filter-counter">{{ gamesCount.all }}</span>
+            </a>
+            <a
+                (click)="setStatus(statusEnum.Playing)"
+                [class.selected]="filter.status === statusEnum.Playing">
+                <span class="filter-label">Playing</span>
+                <span class="filter-counter">{{ gamesCount.playing }}</span>
+            </a>
+            <a
+                (click)="setStatus(statusEnum.Completed)"
+                [class.selected]="filter.status === statusEnum.Completed">
+                <span class="filter-label">Completed</span>
+                <span class="filter-counter">{{ gamesCount.completed }}</span>
+            </a>
+            <a
+                (click)="setStatus(statusEnum.Backlog)"
+                [class.selected]="filter.status === statusEnum.Backlog">
+                <span class="filter-label">Backlog</span>
+                <span class="filter-counter">{{ gamesCount.backlog }}</span>
+            </a>
+            <a
+                (click)="setStatus(statusEnum.Wishlist)"
+                [class.selected]="filter.status === statusEnum.Wishlist">
+                <span class="filter-label">Wishlist</span>
+                <span class="filter-counter">{{ gamesCount.wishlist }}</span>
+            </a>
+        </div>
+
+        <div class="mobile-status">
+            <app-select
+                [(value)]="filter.status"
+                bindValue="id"
+                bindLabel="description"
+                class="p-0"
+                [items]="gameListStatus"
+                [searchable]="false"
+                (onChange)="setStatus(filter.status)"
+                [inputSize]="12">
+            </app-select>
+        </div>
+
         <a
-            (click)="setStatus(statusEnum.PlayingCompleted)"
-            [class.selected]="filter.status === statusEnum.PlayingCompleted">
-            <span class="filter-label">All Games</span>
-            <span class="filter-counter">{{ gamesCount.all }}</span>
-        </a>
-        <a
-            (click)="setStatus(statusEnum.Playing)"
-            [class.selected]="filter.status === statusEnum.Playing">
-            <span class="filter-label">Playing</span>
-            <span class="filter-counter">{{ gamesCount.playing }}</span>
-        </a>
-        <a
-            (click)="setStatus(statusEnum.Completed)"
-            [class.selected]="filter.status === statusEnum.Completed">
-            <span class="filter-label">Completed</span>
-            <span class="filter-counter">{{ gamesCount.completed }}</span>
-        </a>
-        <a
-            (click)="setStatus(statusEnum.Backlog)"
-            [class.selected]="filter.status === statusEnum.Backlog">
-            <span class="filter-label">Backlog</span>
-            <span class="filter-counter">{{ gamesCount.backlog }}</span>
-        </a>
-        <a
-            (click)="setStatus(statusEnum.Wishlist)"
-            [class.selected]="filter.status === statusEnum.Wishlist">
-            <span class="filter-label">Wishlist</span>
-            <span class="filter-counter">{{ gamesCount.wishlist }}</span>
+            class="filters-container"
+            (click)="openSidebar()">
+            <icon
+                [icon]="icons.Filter"
+                [size]="20">
+            </icon>
+
+            <a class="link"> Filters </a>
         </a>
     </div>
 
-    <div class="mobile-status">
-        <app-select
-            [(value)]="filter.status"
-            bindValue="id"
-            bindLabel="description"
-            class="p-0"
-            [items]="gameListStatus"
-            [searchable]="false"
-            (onChange)="setStatus(filter.status)"
-            [inputSize]="12">
-        </app-select>
+    <div class="d-flex flex-wrap gap-8">
+        @for (game of games; track $index) {
+            <game-image
+                [game]="game"
+                (onClick)="saveFilter()">
+            </game-image>
+        }
     </div>
 
-    <a
-        class="filters-container"
-        (click)="openSidebar()">
-        <icon
-            [icon]="icons.Filter"
-            [size]="20">
-        </icon>
-
-        <a class="link"> Filters </a>
-    </a>
-</div>
+    @if (filter.total && games.length && filter.pages > 1) {
+        <ngb-pagination
+            [page]="filter.page"
+            [collectionSize]="filter.total"
+            [pageSize]="filter.limit"
+            (pageChange)="setPageOnState($event)"
+            [maxSize]="5"
+            [rotate]="true"
+            [ellipses]="false"
+            [boundaryLinks]="true"
+            [directionLinks]="false">
+            <ng-template ngbPaginationFirst>First</ng-template>
+            <ng-template ngbPaginationLast>Last</ng-template>
+        </ngb-pagination>
+    }
+</loader>
 
 <sidebar
     [(active)]="isSidebarOpened"
@@ -154,34 +181,3 @@
         Clear
     </app-button>
 </sidebar>
-
-<div class="d-flex flex-wrap gap-8">
-    @for (game of games; track $index) {
-        <game-image
-            [game]="game"
-            (onClick)="saveFilter()">
-        </game-image>
-    }
-
-    @if (isLoading$ | async) {
-        @for (_ of skeletonArray; track $index) {
-            <game-image-skeleton></game-image-skeleton>
-        }
-    }
-</div>
-
-@if (filter.total && games.length && filter.pages > 1) {
-    <ngb-pagination
-        [page]="filter.page"
-        [collectionSize]="filter.total"
-        [pageSize]="filter.limit"
-        (pageChange)="setPageOnState($event)"
-        [maxSize]="5"
-        [rotate]="true"
-        [ellipses]="false"
-        [boundaryLinks]="true"
-        [directionLinks]="false">
-        <ng-template ngbPaginationFirst>First</ng-template>
-        <ng-template ngbPaginationLast>Last</ng-template>
-    </ngb-pagination>
-}

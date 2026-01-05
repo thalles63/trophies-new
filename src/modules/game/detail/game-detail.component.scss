@@ -95,11 +95,6 @@
     .right-container {
         margin-top: 24px !important;
     }
-
-    game-image,
-    game-image-skeleton {
-        left: calc(50% - 112px) !important;
-    }
 }
 
 .no-achievements {
@@ -109,25 +104,6 @@
     font-weight: 700;
     color: #8f9ca7;
     margin-bottom: 80px;
-}
-
-.title-skeleton {
-    height: 35px;
-    margin-top: 7px;
-    margin-bottom: 7px;
-    width: 50%;
-}
-
-.description-skeleton {
-    height: 100px;
-    margin-top: 7px;
-}
-
-game-image,
-game-image-skeleton {
-    position: absolute;
-    top: -279px;
-    left: 17px;
 }
 
 .game-price {
@@ -149,6 +125,11 @@ game-image-skeleton {
     font-size: 14px;
     position: relative;
     top: -4px;
+}
+game-image {
+    position: absolute;
+    top: -279px;
+    left: 17px;
 }
 
 .ytl-badge {

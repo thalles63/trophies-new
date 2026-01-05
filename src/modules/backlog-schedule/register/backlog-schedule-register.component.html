@@ -1,74 +1,74 @@
 <div class="modal-header"> Add game to backlog schedule </div>
 
-<div class="modal-body game-info-body">
-    <div class="row">
-        <app-input
-            [(value)]="schedule.year"
-            label="Year"
-            [inputSize]="3">
-        </app-input>
+<loader
+    [singleLoadIds]="[loaderEnum.BACKLOG_SCHEDULE_ADD, loaderEnum.BACKLOG_SCHEDULE_DELETE]"
+    [loaderIds]="[loaderEnum.BACKLOG_SCHEDULE_FIND_BY_ID]"
+    type="MODAL">
+    <div class="modal-body game-info-body">
+        <div class="row">
+            <app-input
+                [(value)]="schedule.year"
+                label="Year"
+                [inputSize]="3">
+            </app-input>
 
-        <app-select
-            [(value)]="schedule.month"
-            bindValue="id"
-            bindLabel="description"
-            [items]="months"
-            label="Month"
-            (onChange)="determineNextOrder()"
-            [inputSize]="3">
-        </app-select>
+            <app-select
+                [(value)]="schedule.month"
+                bindValue="id"
+                bindLabel="description"
+                [items]="months"
+                label="Month"
+                (onChange)="determineNextOrder()"
+                [inputSize]="3">
+            </app-select>
 
-        <app-input
-            [(value)]="schedule.order"
-            label="Order"
-            [inputSize]="3">
-        </app-input>
+            <app-input
+                [(value)]="schedule.order"
+                label="Order"
+                [inputSize]="3">
+            </app-input>
+        </div>
+
+        <div class="row">
+            <app-select
+                [(value)]="schedule.gameId"
+                bindValue="id"
+                bindLabel="name"
+                [items]="games"
+                label="Game"
+                [inputSize]="12"
+                [itemTemplate]="optionsTemplate">
+            </app-select>
+
+            <ng-template
+                #optionsTemplate
+                let-item="item">
+                {{ item.name }} ({{ item.mainStoryTime / 60 | number: "1.2-2" }}h)
+            </ng-template>
+        </div>
     </div>
 
-    <div class="row">
-        <app-select
-            [(value)]="schedule.gameId"
-            bindValue="id"
-            bindLabel="name"
-            [items]="games"
-            label="Game"
-            [inputSize]="12"
-            [itemTemplate]="optionsTemplate">
-        </app-select>
+    <div
+        class="modal-footer"
+        [class.align-end]="this.isNewRegister()">
+        @if (!this.isNewRegister()) {
+            <app-button
+                type="primary-outline"
+                (onClick)="confirmDelete()">
+                Delete schedule
+            </app-button>
+        } @else {
+            <div></div>
+        }
 
-        <ng-template
-            #optionsTemplate
-            let-item="item">
-            {{ item.name }} ({{ item.mainStoryTime / 60 | number: "1.2-2" }}h)
-        </ng-template>
+        <div class="footer-buttons-right">
+            <app-button
+                type="secondary"
+                (onClick)="cancel()">
+                Cancel
+            </app-button>
+
+            <app-button (onClick)="save()"> Save </app-button>
+        </div>
     </div>
-</div>
-
-<div
-    class="modal-footer"
-    [class.align-end]="this.isNewRegister()">
-    @if (!this.isNewRegister()) {
-        <app-button
-            type="primary-outline"
-            (onClick)="confirmDelete()"
-            [isLoading]="isDeleteLoading">
-            Delete game
-        </app-button>
-    } @else {
-        <div></div>
-    }
-
-    <div class="footer-buttons-right">
-        <app-button
-            type="secondary"
-            (onClick)="cancel()">
-            Cancel
-        </app-button>
-
-        <app-button
-            (onClick)="save()"
-            [isLoading]="isSaveLoading">
-            Save
-        </app-button>
-    </div>
-</div>
+</loader>

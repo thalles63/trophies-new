@@ -1,5 +1,10 @@
-<div
-    class="http-loading"
-    [class.active]="(numberOfLoadersActive$ | async) || 0 > 0">
-    <span>LOADING</span>
-</div>
+@if (isLoading() || hasModalLoaded) {
+    <div class="loader-wrapper {{ type() }}">
+        <div class="bouncer">
+            <div class="spinner-bounce"></div>
+        </div>
+        <div class="typing-text">Loading</div>
+    </div>
+} @else {
+    <ng-content></ng-content>
+}

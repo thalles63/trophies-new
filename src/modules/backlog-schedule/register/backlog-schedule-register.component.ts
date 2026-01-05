@@ -2,8 +2,11 @@ import { DecimalPipe } from "@angular/common";
 import { Component, DestroyRef, inject, Input, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { LoaderEnum } from "../../../common/enums/loader.enum";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { InputComponent } from "../../../components/input/input.component";
+import { LoaderComponent } from "../../../components/loader/loader.component";
+import { LoaderService } from "../../../components/loader/loader.service";
 import { SelectComponent } from "../../../components/select/select.component";
 import { Game } from "../../game/models/game.interface";
 import { BacklogSchedule } from "../models/backlog-schedule.interface";
@@ -13,7 +16,7 @@ import { BacklogScheduleService } from "../service/backlog-schedule.service";
 
 @Component({
     selector: "game",
-    imports: [InputComponent, SelectComponent, ButtonComponent, DecimalPipe],
+    imports: [InputComponent, SelectComponent, ButtonComponent, DecimalPipe, LoaderComponent],
     templateUrl: "./backlog-schedule-register.component.html",
     styleUrl: "./backlog-schedule-register.component.scss",
     providers: [BacklogScheduleService]
@@ -22,12 +25,12 @@ export class BacklogScheduleRegisterComponent implements OnInit {
     private readonly service = inject(BacklogScheduleService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly activeModal = inject(NgbActiveModal);
+    private readonly loaderService = inject(LoaderService);
 
     protected schedule = <BacklogSchedule>{};
     protected months = CalendarData;
     protected games = <Game[]>[];
-    protected isDeleteLoading = false;
-    protected isSaveLoading = false;
+    protected loaderEnum = LoaderEnum;
 
     @Input() allGames = <Calendar[]>[];
     @Input() scheduleId = "";
@@ -59,7 +62,7 @@ export class BacklogScheduleRegisterComponent implements OnInit {
     private getSchedule() {
         this.service
             .getSchedule(this.scheduleId)
-            .pipe(takeUntilDestroyed(this.destroyRef))
+            .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.BACKLOG_SCHEDULE_FIND_BY_ID))
             .subscribe((result) => {
                 this.schedule = result;
 
@@ -77,13 +80,10 @@ export class BacklogScheduleRegisterComponent implements OnInit {
     }
 
     protected confirmDelete() {
-        this.isDeleteLoading = true;
-
         this.service
             .delete(this.schedule.id)
-            .pipe(takeUntilDestroyed(this.destroyRef))
+            .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.BACKLOG_SCHEDULE_DELETE))
             .subscribe(() => {
-                this.isDeleteLoading = false;
                 this.activeModal.close(true);
             });
     }
@@ -93,13 +93,10 @@ export class BacklogScheduleRegisterComponent implements OnInit {
     }
 
     protected save() {
-        this.isSaveLoading = true;
-
         this.service
             .addSchedule(this.schedule)
-            .pipe(takeUntilDestroyed(this.destroyRef))
+            .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.BACKLOG_SCHEDULE_ADD))
             .subscribe(() => {
-                this.isSaveLoading = false;
                 this.activeModal.close(true);
             });
     }

@@ -6,6 +6,7 @@ import { debounceTime, Subject } from "rxjs";
 import { AchievementSearchOriginEnum } from "../../../common/enums/achievement-search-origin.enum";
 import { GameSearchOriginEnum } from "../../../common/enums/game-search-origin.enum";
 import { IconEnum } from "../../../common/enums/icon.enum";
+import { LoaderEnum } from "../../../common/enums/loader.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
 import { NotificationService } from "../../../common/services/notification.service";
@@ -13,6 +14,8 @@ import { ButtonComponent } from "../../../components/button/button.component";
 import { ConfirmationComponent } from "../../../components/confirmation/confirmation.component";
 import { IconComponent } from "../../../components/icon/icon.component";
 import { InputComponent } from "../../../components/input/input.component";
+import { LoaderComponent } from "../../../components/loader/loader.component";
+import { LoaderService } from "../../../components/loader/loader.service";
 import { StarRatingComponent } from "../../../components/rating/rating.component";
 import { SelectComponent } from "../../../components/select/select.component";
 import { TabComponent } from "../../../components/tabs/tab/tab.component";
@@ -41,6 +44,7 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         TimePlayedComponent,
         ButtonComponent,
         IconComponent,
+        LoaderComponent,
         SearchGameByNameComponent
     ],
     templateUrl: "./game-edit.component.html",
@@ -56,6 +60,7 @@ export class GameEditComponent implements AfterViewInit {
     private readonly router = inject(Router);
     private readonly notificationService = inject(NotificationService);
     private readonly achievementsService = inject(AchievementsService);
+    private readonly loaderService = inject(LoaderService);
 
     @Input() public game = <Game>{ timePlayed: {}, achievements: <Achievement[]>[] };
     @ViewChild("tabs", { static: false }) protected readonly tabs!: TabsComponent;
@@ -67,15 +72,12 @@ export class GameEditComponent implements AfterViewInit {
     protected platforms = PlatformsData;
     protected iconEnum = IconEnum;
     protected trueFalse = TrueFalseData;
-    protected isSaveLoading = false;
-    protected isDeleteLoading = false;
-    protected isLoadingSearchGame = false;
-    protected isDeleteAchievementLoading = false;
     protected hasChangedAchievements = false;
     protected gamesList = <Game[]>[];
     protected readonly typeOnSearchGame$ = new Subject<void>();
     protected readonly achievementSearchOriginEnum = AchievementSearchOriginEnum;
     protected readonly gameSearchOriginEnum = GameSearchOriginEnum;
+    protected readonly loaderEnum = LoaderEnum;
 
     public ngAfterViewInit(): void {
         const activeTab = this.isNewRegister() ? this.generalTab : this.detailsTab;
@@ -84,17 +86,15 @@ export class GameEditComponent implements AfterViewInit {
         this.enableGameSearchWhenRegisteringNew();
     }
 
-    public save() {
+    public save(loaderId: LoaderEnum) {
         if (!this.validateIfRequiredFieldsAreValid()) {
             this.notificationService.error("Some required fields are invalid");
             return;
         }
 
-        this.isSaveLoading = true;
         const service = this.isNewRegister() ? this.service.save(this.game) : this.service.update(this.game);
 
-        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
-            this.isSaveLoading = false;
+        service.pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(loaderId)).subscribe((result) => {
             this.hasChangedAchievements = true;
 
             if (this.isNewRegister()) {
@@ -102,7 +102,9 @@ export class GameEditComponent implements AfterViewInit {
                 this.router.navigate(["game/" + result.id], { replaceUrl: true });
             }
 
-            this.activeModal.close(true);
+            if (loaderId === LoaderEnum.SAVE_GAME) {
+                this.activeModal.close(true);
+            }
         });
     }
 
@@ -117,7 +119,6 @@ export class GameEditComponent implements AfterViewInit {
     }
 
     private searchGameByName() {
-        this.isLoadingSearchGame = true;
         this.gamesList = [];
 
         this.service
@@ -125,8 +126,6 @@ export class GameEditComponent implements AfterViewInit {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((result: any) => {
                 this.gamesList = result.games.map(this.mapper.findById);
-
-                this.isLoadingSearchGame = false;
             });
     }
 
@@ -178,6 +177,7 @@ export class GameEditComponent implements AfterViewInit {
             }
 
             this.updateGameWithOnlineInfo(result);
+            this.save(LoaderEnum.SAVE_GAME_FROM_EXTERNAL);
         });
     }
 
@@ -200,13 +200,10 @@ export class GameEditComponent implements AfterViewInit {
     }
 
     private deleteGame() {
-        this.isDeleteLoading = true;
         this.service
             .delete(this.game.id)
-            .pipe(takeUntilDestroyed(this.destroyRef))
+            .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.DELETE_GAME))
             .subscribe(() => {
-                this.isDeleteLoading = false;
-
                 this.activeModal.close();
                 this.router.navigate(["/"]);
             });
@@ -286,13 +283,10 @@ export class GameEditComponent implements AfterViewInit {
     }
 
     private deleteAchievementFromApi(achievementToDelete: Achievement, listIndex: number) {
-        this.isDeleteAchievementLoading = true;
-
         this.achievementsService
             .deleteAchievement(achievementToDelete, achievementToDelete.id)
-            .pipe(takeUntilDestroyed(this.destroyRef))
+            .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.ACHIEVEMENT_DELETE))
             .subscribe(() => {
-                this.isDeleteAchievementLoading = false;
                 this.hasChangedAchievements = true;
                 this.deleteAchievement(listIndex);
             });

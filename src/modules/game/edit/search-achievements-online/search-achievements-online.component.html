@@ -1,50 +1,54 @@
 <div class="modal-header"> Get achievements from {{ origin === gameSearchOriginEnum.Steam ? "Steam" : "Psn Profiles" }} </div>
 
-<div class="modal-body">
-    @for (game of retrievedGames; track $index; let last = $last) {
-        <a
-            class="game-retrieved"
-            [class.last]="last"
-            [class.selected]="selectedGame.platformId === game.platformId"
-            (click)="selectGame(game)">
-            <div class="game-cover">
-                @if (game.image) {
-                    <img
-                        [src]="game.image"
-                        alt="game cover" />
-                } @else {
-                    <div class="no-image">
-                        <icon
-                            [icon]="iconEnum.Camera"
-                            [size]="14">
-                        </icon>
-                    </div>
-                }
-            </div>
-            <div class="d-flex game-line-info">
-                <div class="game-title">
-                    {{ game.name }}
+<loader
+    [singleLoadIds]="[loaderEnum.SAVE_ACHIEVEMENT_FROM_EXTERNAL]"
+    [loaderIds]="[loaderEnum.SEARCH_ACHIEVEMENT_EXTERNAL]"
+    type="MODAL">
+    <div class="modal-body">
+        @for (game of retrievedGames; track $index; let last = $last) {
+            <a
+                class="game-retrieved"
+                [class.last]="last"
+                [class.selected]="selectedGame.platformId === game.platformId"
+                (click)="selectGame(game)">
+                <div class="game-cover">
+                    @if (game.image) {
+                        <img
+                            [src]="game.image"
+                            alt="game cover" />
+                    } @else {
+                        <div class="no-image">
+                            <icon
+                                [icon]="iconEnum.Camera"
+                                [size]="14">
+                            </icon>
+                        </div>
+                    }
                 </div>
+                <div class="d-flex game-line-info">
+                    <div class="game-title">
+                        {{ game.name }}
+                    </div>
 
-                @if (origin === gameSearchOriginEnum.PsnProfiles) {
-                    <div class="platform-tag">{{ game.platforms[0] }}</div>
-                }
-            </div>
-        </a>
-    }
-</div>
+                    @if (origin === gameSearchOriginEnum.PsnProfiles) {
+                        <div class="platform-tag">{{ game.platforms[0] }}</div>
+                    }
+                </div>
+            </a>
+        }
+    </div>
 
-<div class="modal-footer">
-    <app-button
-        type="secondary"
-        (onClick)="cancel()">
-        Cancel
-    </app-button>
+    <div class="modal-footer">
+        <app-button
+            type="secondary"
+            (onClick)="cancel()">
+            Cancel
+        </app-button>
 
-    <app-button
-        (onClick)="saveGame()"
-        [isLoading]="isSaveLoading"
-        [disabled]="!selectedGame.name">
-        Select game
-    </app-button>
-</div>
+        <app-button
+            (onClick)="saveGame()"
+            [disabled]="!selectedGame.name">
+            Select game
+        </app-button>
+    </div>
+</loader>

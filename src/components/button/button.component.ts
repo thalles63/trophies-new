@@ -14,7 +14,6 @@ export class ButtonComponent {
     public icon = input<IconEnum>();
     public iconSize = input<number>(14);
     public disabled = input(false);
-    public isLoading = input(false);
     public onClick = output<Event>();
 
     protected iconEnum = IconEnum;

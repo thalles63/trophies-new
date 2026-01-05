@@ -1,87 +1,86 @@
 <div class="modal-header"> Edit achievement </div>
 
-<div class="modal-body">
-    <div class="row">
-        <app-input
-            [(value)]="achievement.name"
-            label="Name"
-            [inputSize]="6">
-        </app-input>
-    </div>
-
-    <div class="row">
-        <app-input
-            [(value)]="achievement.description"
-            label="Description"
-            [inputSize]="12">
-        </app-input>
-    </div>
-
-    <div class="row">
-        <app-input
-            [(value)]="achievement.image"
-            label="Icon"
-            [inputSize]="12">
-        </app-input>
-    </div>
-
-    <div class="row">
-        <app-select
-            [(value)]="achievement.isAchieved"
-            bindValue="id"
-            bindLabel="description"
-            [items]="trueFalse"
-            label="Is achieved?"
-            [inputSize]="6">
-        </app-select>
-
-        <app-input
-            [(value)]="achievement.dateAchievedConverted"
-            label="Date achieved"
-            mask="00/00/0000 00:00:00"
-            [inputSize]="6">
-        </app-input>
-    </div>
-
-    <div class="row">
-        @if (game.platform === platformEnum.Xbox) {
+<loader
+    [singleLoadIds]="[loaderEnum.ACHIEVEMENT_SAVE]"
+    type="MODAL">
+    <div class="modal-body">
+        <div class="row">
             <app-input
-                [(value)]="achievement.type"
-                label="Value"
+                [(value)]="achievement.name"
+                label="Name"
                 [inputSize]="6">
             </app-input>
-        }
+        </div>
 
-        @if (game.platform === platformEnum.Playstation4 || game.platform === platformEnum.Playstation5) {
+        <div class="row">
+            <app-input
+                [(value)]="achievement.description"
+                label="Description"
+                [inputSize]="12">
+            </app-input>
+        </div>
+
+        <div class="row">
+            <app-input
+                [(value)]="achievement.image"
+                label="Icon"
+                [inputSize]="12">
+            </app-input>
+        </div>
+
+        <div class="row">
             <app-select
-                [(value)]="achievement.type"
+                [(value)]="achievement.isAchieved"
                 bindValue="id"
                 bindLabel="description"
-                [items]="achievementTypes"
-                label="Value"
+                [items]="trueFalse"
+                label="Is achieved?"
                 [inputSize]="6">
             </app-select>
-        }
 
-        <app-input
-            [(value)]="achievement.percentageAchieved"
-            label="Percentage achieved"
-            [inputSize]="6">
-        </app-input>
+            <app-input
+                [(value)]="achievement.dateAchievedConverted"
+                label="Date achieved"
+                mask="00/00/0000 00:00:00"
+                [inputSize]="6">
+            </app-input>
+        </div>
+
+        <div class="row">
+            @if (game.platform === platformEnum.Xbox) {
+                <app-input
+                    [(value)]="achievement.type"
+                    label="Value"
+                    [inputSize]="6">
+                </app-input>
+            }
+
+            @if (game.platform === platformEnum.Playstation4 || game.platform === platformEnum.Playstation5) {
+                <app-select
+                    [(value)]="achievement.type"
+                    bindValue="id"
+                    bindLabel="description"
+                    [items]="achievementTypes"
+                    label="Value"
+                    [inputSize]="6">
+                </app-select>
+            }
+
+            <app-input
+                [(value)]="achievement.percentageAchieved"
+                label="Percentage achieved"
+                [inputSize]="6">
+            </app-input>
+        </div>
     </div>
-</div>
 
-<div class="modal-footer">
-    <app-button
-        type="secondary"
-        [disabled]="isSaveLoading"
-        (onClick)="cancel()">
-        Cancel
-    </app-button>
+    <div class="modal-footer">
+        <app-button
+            type="secondary"
+            (onClick)="cancel()">
+            Cancel
+        </app-button>
 
-    <app-button
-        (onClick)="save()"
-        [isLoading]="isSaveLoading">
-        Save
-    </app-button>
-</div>
+        <app-button (onClick)="save()"> Save </app-button>
+    </div>
+</loader>

@@ -2,13 +2,8 @@
     type="button"
     class="btn btn-{{ type() }} {{ customClass() }}"
     (click)="onClickHandler($event)"
-    [disabled]="disabled() || isLoading()">
-    @if (isLoading()) {
-        <icon
-            [icon]="iconEnum.Loading"
-            customClass="loading-spinner">
-        </icon>
-    } @else if (icon()) {
+    [disabled]="disabled()">
+    @if (icon()) {
         <icon
             [icon]="icon()"
             [size]="iconSize()"

@@ -3,16 +3,19 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { GameSearchOriginEnum } from "../../../../common/enums/game-search-origin.enum";
 import { IconEnum } from "../../../../common/enums/icon.enum";
+import { LoaderEnum } from "../../../../common/enums/loader.enum";
 import { NotificationService } from "../../../../common/services/notification.service";
 import { ButtonComponent } from "../../../../components/button/button.component";
 import { IconComponent } from "../../../../components/icon/icon.component";
+import { LoaderComponent } from "../../../../components/loader/loader.component";
+import { LoaderService } from "../../../../components/loader/loader.service";
 import { GameMapper } from "../../mappers/game.mapper";
 import { GameFromOnline } from "../../models/game-from-online.interface";
 import { GameService } from "../../services/game.service";
 
 @Component({
     selector: "search-games-online",
-    imports: [ButtonComponent, IconComponent],
+    imports: [ButtonComponent, IconComponent, LoaderComponent],
     templateUrl: "./search-games-online.component.html",
     styleUrl: "./search-games-online.component.scss",
     providers: [GameService]
@@ -23,6 +26,7 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly notificationService = inject(NotificationService);
     private readonly mapper = inject(GameMapper);
+    private readonly loaderService = inject(LoaderService);
 
     @Input() public gameId = "";
     @Input() public gameName = "";
@@ -30,17 +34,14 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
     @Input() public origin = GameSearchOriginEnum.IGDB;
     protected selectedGame = <GameFromOnline>{};
     protected retrievedGames = <GameFromOnline[]>[];
-    protected isLoading = false;
-    protected isSaveLoading = false;
     protected iconEnum = IconEnum;
+    protected loaderEnum = LoaderEnum;
 
     public ngAfterContentInit(): void {
         this.searchGame();
     }
 
     private searchGame() {
-        this.isLoading = true;
-
         let service;
 
         if (this.origin === GameSearchOriginEnum.IGDB) {
@@ -51,14 +52,12 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
             service = this.service.searchItad(this.gameName);
         }
 
-        service.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        service.pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.SEARCH_GAME_EXTERNAL)).subscribe({
             next: (result) => {
                 this.retrievedGames = result;
-                this.isLoading = false;
             },
             error: () => {
                 this.notificationService.error("Game not found");
-                this.isLoading = false;
             }
         });
     }

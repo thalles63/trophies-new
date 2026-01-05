@@ -9,6 +9,5 @@ import { Game } from "../../models/game.interface";
     imports: [FormsModule]
 })
 export class SearchGameByNameComponent {
-    public isLoadingSearchGame = input.required<boolean>();
     public games = input<Game[]>([]);
 }

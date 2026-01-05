@@ -1,52 +1,49 @@
 <div class="modal-header"> {{ title }} </div>
 
-<div class="modal-body">
-    @if (isLoading) {
-        @for (_ of [].constructor(5); track $index) {
-            <div class="loading-skeleton game-skeleton"> </div>
-        }
-    }
-
-    @for (game of retrievedGames; track $index; let last = $last) {
-        <a
-            class="game-retrieved"
-            [class.last]="last"
-            [class.selected]="selectedGame.id === game.id"
-            (click)="selectGame(game)">
-            <div class="game-cover">
-                @if (game.image) {
-                    <img
-                        [src]="game.image"
-                        alt="game cover" />
-                } @else {
-                    <div class="no-image">
-                        <icon
-                            [icon]="iconEnum.Camera"
-                            [size]="14">
-                        </icon>
-                    </div>
-                }
-            </div>
-            <div>
-                <div class="game-title">
-                    {{ game.name }}
+<loader
+    [loaderIds]="[loaderEnum.SEARCH_GAME_EXTERNAL]"
+    type="MODAL">
+    <div class="modal-body">
+        @for (game of retrievedGames; track $index; let last = $last) {
+            <a
+                class="game-retrieved"
+                [class.last]="last"
+                [class.selected]="selectedGame.id === game.id"
+                (click)="selectGame(game)">
+                <div class="game-cover">
+                    @if (game.image) {
+                        <img
+                            [src]="game.image"
+                            alt="game cover" />
+                    } @else {
+                        <div class="no-image">
+                            <icon
+                                [icon]="iconEnum.Camera"
+                                [size]="14">
+                            </icon>
+                        </div>
+                    }
                 </div>
-            </div>
-        </a>
-    }
-</div>
+                <div>
+                    <div class="game-title">
+                        {{ game.name }}
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
 
-<div class="modal-footer">
-    <app-button
-        type="secondary"
-        (onClick)="cancel()">
-        Cancel
-    </app-button>
+    <div class="modal-footer">
+        <app-button
+            type="secondary"
+            (onClick)="cancel()">
+            Cancel
+        </app-button>
 
-    <app-button
-        (onClick)="confirm()"
-        [isLoading]="isSaveLoading"
-        [disabled]="!selectedGame.name">
-        Select game
-    </app-button>
-</div>
+        <app-button
+            (onClick)="confirm()"
+            [disabled]="!selectedGame.name">
+            Select game
+        </app-button>
+    </div>
+</loader>

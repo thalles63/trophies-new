@@ -1,114 +1,100 @@
-<div class="container">
-    <div class="left-container">
-        <div class="game-bar">
-            @if (isLoading && !isModalOpened) {
-                <game-image-skeleton [showDetails]="false"></game-image-skeleton>
-            } @else {
+<loader [loaderIds]="[loaderEnum.GAME_DETAIL]">
+    <div class="container">
+        <div class="left-container">
+            <div class="game-bar">
                 <game-image
                     [game]="game"
                     [showDetails]="false">
                 </game-image>
+
+                <div>
+                    @if (isUserLoggedIn) {
+                        <app-button
+                            (onClick)="openModal()"
+                            [disabled]="!game.name">
+                            Edit
+                        </app-button>
+                    }
+
+                    <div
+                        class="rating-container"
+                        [class.mt-0]="!isUserLoggedIn">
+                        <star-rating
+                            [rating]="game.rating"
+                            color="#3f4b64"
+                            colorSelected="#ea377a"
+                            [size]="48">
+                        </star-rating>
+                    </div>
+                </div>
+            </div>
+
+            @if (game.status === statusEnum.Wishlist && game.urlToBuy) {
+                <div class="game-information">
+                    <div class="game-price-label">Game price</div>
+
+                    <div class="game-price">
+                        @if (game.isPriceAllTimeLow) {
+                            <span class="atl-badge">ATL</span>
+                        } @else if (game.isPriceOneYearTimeLow) {
+                            <span class="ytl-badge">YTL</span>
+                        }
+                        R$ {{ game.currentPrice | number: "1.2-2" }}
+                    </div>
+
+                    <app-button (onClick)="openGamePurchasePage($event)"> Buy game </app-button>
+                </div>
             }
 
-            <div>
-                @if (isUserLoggedIn) {
-                    <app-button
-                        (onClick)="openModal()"
-                        [disabled]="!game.name">
-                        Edit
-                    </app-button>
-                }
-
-                <div
-                    class="rating-container"
-                    [class.mt-0]="!isUserLoggedIn">
-                    <star-rating
-                        [rating]="game.rating"
-                        color="#3f4b64"
-                        colorSelected="#ea377a"
-                        [size]="48">
-                    </star-rating>
-                </div>
-            </div>
-        </div>
-
-        @if (game.status === statusEnum.Wishlist && game.urlToBuy) {
             <div class="game-information">
-                <div class="game-price-label">Game price</div>
+                <app-label
+                    label="Status"
+                    [textTemplate]="statusText">
+                </app-label>
 
-                <div class="game-price">
-                    @if (game.isPriceAllTimeLow) {
-                        <span class="atl-badge">ATL</span>
-                    } @else if (game.isPriceOneYearTimeLow) {
-                        <span class="ytl-badge">YTL</span>
-                    }
-                    R$ {{ game.currentPrice | number: "1.2-2" }}
-                </div>
+                <ng-template #statusText>
+                    <div class="d-flex align-center">
+                        <status [type]="game.statusDescription"></status>
+                        {{ game.statusDescription }}
+                    </div>
+                </ng-template>
 
-                <app-button (onClick)="openGamePurchasePage($event)"> Buy game </app-button>
+                <app-label
+                    label="Platform"
+                    [text]="game.platformText">
+                </app-label>
+
+                <app-label
+                    label="Released in"
+                    [text]="game.releaseDate | date: 'dd/MM/yyyy'">
+                </app-label>
+
+                <app-label
+                    label="Time played"
+                    [text]="
+                        game.timePlayed.minutes || game.timePlayed.hours
+                            ? (game.timePlayed.hours || 0) + ' hours and ' + (game.timePlayed.minutes || 0) + ' minutes'
+                            : '-'
+                    ">
+                </app-label>
+
+                <app-label
+                    label="Is campaign complete?"
+                    [text]="game.isCampaignComplete ? 'Yes' : 'No'">
+                </app-label>
+
+                <app-label
+                    label="Is platinumed?"
+                    [text]="game.isPlatinumed ? 'Yes' : 'No'">
+                </app-label>
+
+                <app-label
+                    label="Date completed"
+                    [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastTimePlayed | date: 'dd/MM/yyyy HH:mm:ss') : '-'">
+                </app-label>
             </div>
-        }
-
-        <div class="game-information">
-            <app-label
-                label="Status"
-                [textTemplate]="statusText"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <ng-template #statusText>
-                <div class="d-flex align-center">
-                    <status [type]="game.statusDescription"></status>
-                    {{ game.statusDescription }}
-                </div>
-            </ng-template>
-
-            <app-label
-                label="Platform"
-                [text]="game.platformText"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <app-label
-                label="Released in"
-                [text]="game.releaseDate | date: 'dd/MM/yyyy'"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <app-label
-                label="Time played"
-                [text]="
-                    game.timePlayed.minutes || game.timePlayed.hours
-                        ? (game.timePlayed.hours || 0) + ' hours and ' + (game.timePlayed.minutes || 0) + ' minutes'
-                        : '-'
-                "
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <app-label
-                label="Is campaign complete?"
-                [text]="game.isCampaignComplete ? 'Yes' : 'No'"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <app-label
-                label="Is platinumed?"
-                [text]="game.isPlatinumed ? 'Yes' : 'No'"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <app-label
-                label="Date completed"
-                [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastTimePlayed | date: 'dd/MM/yyyy HH:mm:ss') : '-'"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
         </div>
-    </div>
-    <div class="right-container">
-        @if (isLoading && !isModalOpened) {
-            <div class="loading-skeleton title-skeleton"></div>
-            <div class="loading-skeleton description-skeleton"></div>
-        } @else {
+        <div class="right-container">
             <div class="game-title">{{ game.name }}</div>
 
             <div
@@ -135,115 +121,99 @@
                     </a>
                 }
             </div>
-        }
 
-        <row customClass="mt-20i">
-            <app-label
-                label="Genres"
-                [textTemplate]="genreTemplate"
-                [inputSize]="6"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
+            <row customClass="mt-20i">
+                <app-label
+                    label="Genres"
+                    [textTemplate]="genreTemplate"
+                    [inputSize]="6">
+                </app-label>
 
-            <ng-template #genreTemplate>
-                <div class="d-flex flex-wrap">
-                    @for (genre of game.genresDescription; track $index; let last = $last) {
-                        <a
-                            class="link"
-                            [routerLink]="['']"
-                            [queryParams]="{ genre: genre.slug }">
-                            <span>{{ genre.name }}</span>
-                        </a>
+                <ng-template #genreTemplate>
+                    <div class="d-flex flex-wrap">
+                        @for (genre of game.genresDescription; track $index; let last = $last) {
+                            <a
+                                class="link"
+                                [routerLink]="['']"
+                                [queryParams]="{ genre: genre.slug }">
+                                <span>{{ genre.name }}</span>
+                            </a>
 
-                        @if (!last) {
-                            <span>,&nbsp;</span>
+                            @if (!last) {
+                                <span>,&nbsp;</span>
+                            }
                         }
-                    }
 
-                    @if (!game.genresDescription.length) {
-                        -
-                    }
-                </div>
-            </ng-template>
-
-            <app-label
-                label="Themes"
-                [textTemplate]="themeTemplate"
-                [inputSize]="6"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-
-            <ng-template #themeTemplate>
-                <div class="d-flex flex-wrap">
-                    @for (theme of game.themesDescription; track $index; let last = $last) {
-                        <a
-                            class="link"
-                            [routerLink]="['']"
-                            [queryParams]="{ theme: theme.slug }">
-                            <span>{{ theme.name }}</span>
-                        </a>
-
-                        @if (!last) {
-                            <span>,&nbsp;</span>
+                        @if (!game.genresDescription.length) {
+                            -
                         }
-                    }
+                    </div>
+                </ng-template>
 
-                    @if (!game.themesDescription.length) {
-                        -
-                    }
-                </div>
-            </ng-template>
-        </row>
+                <app-label
+                    label="Themes"
+                    [textTemplate]="themeTemplate"
+                    [inputSize]="6">
+                </app-label>
 
-        <row customClass="mt-10i">
-            <app-label
-                label="Published by"
-                [text]="game.publisher"
-                [inputSize]="6"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
+                <ng-template #themeTemplate>
+                    <div class="d-flex flex-wrap">
+                        @for (theme of game.themesDescription; track $index; let last = $last) {
+                            <a
+                                class="link"
+                                [routerLink]="['']"
+                                [queryParams]="{ theme: theme.slug }">
+                                <span>{{ theme.name }}</span>
+                            </a>
 
-            <app-label
-                label="Developed by"
-                [text]="game.developer"
-                [inputSize]="6"
-                [isLoading]="isLoading && !isModalOpened">
-            </app-label>
-        </row>
+                            @if (!last) {
+                                <span>,&nbsp;</span>
+                            }
+                        }
 
-        @if ((!isLoading && !!game.mainStoryTime) || (isLoading && !isModalOpened)) {
-            <div class="achievements-title">How Long to Beat</div>
-            <game-how-long-to-beat
-                [game]="game"
-                [isLoading]="isLoading && !isModalOpened">
-            </game-how-long-to-beat>
-        }
+                        @if (!game.themesDescription.length) {
+                            -
+                        }
+                    </div>
+                </ng-template>
+            </row>
 
-        @if ((!isLoading && !!game.screenshots?.length) || (isLoading && !isModalOpened)) {
-            <div class="achievements-title">Images</div>
+            <row customClass="mt-10i">
+                <app-label
+                    label="Published by"
+                    [text]="game.publisher"
+                    [inputSize]="6">
+                </app-label>
 
-            <game-screenshots
-                [screenshots]="game.screenshots!"
-                [isLoading]="isLoading && !isModalOpened">
-            </game-screenshots>
-        }
+                <app-label
+                    label="Developed by"
+                    [text]="game.developer"
+                    [inputSize]="6">
+                </app-label>
+            </row>
 
-        <div class="achievements-title">Achievements</div>
+            @if (!!game.mainStoryTime) {
+                <div class="achievements-title">How Long to Beat</div>
+                <game-how-long-to-beat [game]="game"> </game-how-long-to-beat>
+            }
 
-        <row>
-            @if (isLoading && !isModalOpened) {
-                @for (_ of [].constructor(30); track $index) {
-                    <game-achievement-skeleton></game-achievement-skeleton>
+            @if (!!game.screenshots?.length) {
+                <div class="achievements-title">Images</div>
+
+                <game-screenshots [screenshots]="game.screenshots!"> </game-screenshots>
+            }
+
+            <div class="achievements-title">Achievements</div>
+
+            <row>
+                @for (achievement of game.achievements; track $index) {
+                    <game-achievement [achievement]="achievement"> </game-achievement>
                 }
-            }
+            </row>
 
-            @for (achievement of game.achievements; track $index) {
-                <game-achievement [achievement]="achievement"> </game-achievement>
+            @if (!game.achievements.length) {
+                <div class="no-achievements">This game does not have achievements.</div>
             }
-        </row>
-
-        @if (!game.achievements.length && !isLoading) {
-            <div class="no-achievements">This game does not have achievements.</div>
-        }
+        </div>
     </div>
-</div>
+</loader>

@@ -1,32 +1,32 @@
 <div class="modal-header"> Login </div>
 
-<div class="modal-body">
-    <div class="row">
-        <app-input
-            [(value)]="username"
-            label="Username"
-            [inputSize]="12">
-        </app-input>
+<loader
+    [singleLoadIds]="[loaderEnum.LOGIN]"
+    type="MODAL">
+    <div class="modal-body">
+        <div class="row">
+            <app-input
+                [(value)]="username"
+                label="Username"
+                [inputSize]="12">
+            </app-input>
 
-        <app-input
-            [(value)]="password"
-            label="Password"
-            type="password"
-            [inputSize]="12">
-        </app-input>
+            <app-input
+                [(value)]="password"
+                label="Password"
+                type="password"
+                [inputSize]="12">
+            </app-input>
+        </div>
     </div>
-</div>
 
-<div class="modal-footer">
-    <app-button
-        type="secondary"
-        (onClick)="cancel()">
-        Cancel
-    </app-button>
+    <div class="modal-footer">
+        <app-button
+            type="secondary"
+            (onClick)="cancel()">
+            Cancel
+        </app-button>
 
-    <app-button
-        (onClick)="login()"
-        [isLoading]="isLoginLoading">
-        Login
-    </app-button>
-</div>
+        <app-button (onClick)="login()"> Login </app-button>
+    </div>
+</loader>

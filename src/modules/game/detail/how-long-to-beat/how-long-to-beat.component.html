@@ -1,31 +1,25 @@
 <div class="how-long-container">
-    @if (isLoading()) {
-        <div class="loading-skeleton how-long-skeleton"> </div>
-        <div class="loading-skeleton how-long-skeleton"> </div>
-        <div class="loading-skeleton how-long-skeleton"> </div>
-    } @else {
-        <div class="how-long-item">
-            {{ game().mainStoryTime | minutesToReadable }}
-            <div class="how-long-label">Main Story</div>
-            <img
-                src="/img/book.png"
-                alt="dssdadsa" />
-        </div>
+    <div class="how-long-item">
+        {{ game().mainStoryTime | minutesToReadable }}
+        <div class="how-long-label">Main Story</div>
+        <img
+            src="/img/book.png"
+            alt="dssdadsa" />
+    </div>
 
-        <div class="how-long-item">
-            {{ game().mainExtrasTime | minutesToReadable }}
-            <div class="how-long-label">Main + Extras</div>
-            <img
-                src="/img/moon.png"
-                alt="dssdadsa" />
-        </div>
+    <div class="how-long-item">
+        {{ game().mainExtrasTime | minutesToReadable }}
+        <div class="how-long-label">Main + Extras</div>
+        <img
+            src="/img/moon.png"
+            alt="dssdadsa" />
+    </div>
 
-        <div class="how-long-item">
-            {{ game().completionistTime | minutesToReadable }}
-            <div class="how-long-label">Completionist</div>
-            <img
-                src="/img/trophy.png"
-                alt="dssdadsa" />
-        </div>
-    }
+    <div class="how-long-item">
+        {{ game().completionistTime | minutesToReadable }}
+        <div class="how-long-label">Completionist</div>
+        <img
+            src="/img/trophy.png"
+            alt="dssdadsa" />
+    </div>
 </div>

@@ -1,66 +1,58 @@
-@if (isLoading()) {
-    <div class="carousel">
-        @for (_ of [].constructor(3); track $index) {
-            <div class="loading-skeleton loading-skeleton-screenshot"></div>
-        }
-    </div>
-} @else {
-    <div class="carousel-container">
-        @if (screenshots().length > 3) {
-            <button
-                class="arrow left"
-                (click)="scrollLeft()">
-                <svg
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24">
-                    <path
-                        d="M15 6l-6 6 6 6"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </button>
-        }
-
-        <div
-            class="carousel"
-            #carousel>
-            @for (screenshot of screenshots(); track $index) {
-                <img
-                    [src]="screenshot"
-                    alt="game"
-                    (click)="open($index)" />
-            }
-        </div>
-
-        @if (screenshots().length > 3) {
-            <button
-                class="arrow right"
-                (click)="scrollRight()">
-                <svg
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24">
-                    <path
-                        d="M9 6l6 6-6 6"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </button>
-        }
-    </div>
-
-    @if (opened) {
-        <lightbox
-            [images]="screenshots()"
-            [index]="currentIndex"
-            (close)="opened = false">
-        </lightbox>
+<div class="carousel-container">
+    @if (screenshots().length > 3) {
+        <button
+            class="arrow left"
+            (click)="scrollLeft()">
+            <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24">
+                <path
+                    d="M15 6l-6 6 6 6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
     }
+
+    <div
+        class="carousel"
+        #carousel>
+        @for (screenshot of screenshots(); track $index) {
+            <img
+                [src]="screenshot"
+                alt="game"
+                (click)="open($index)" />
+        }
+    </div>
+
+    @if (screenshots().length > 3) {
+        <button
+            class="arrow right"
+            (click)="scrollRight()">
+            <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24">
+                <path
+                    d="M9 6l6 6-6 6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
+    }
+</div>
+
+@if (opened) {
+    <lightbox
+        [images]="screenshots()"
+        [index]="currentIndex"
+        (close)="opened = false">
+    </lightbox>
 }
