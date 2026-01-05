@@ -61,9 +61,6 @@ export class SearchAchievementsOnlineComponent implements AfterContentInit {
         service.pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.SEARCH_ACHIEVEMENT_EXTERNAL)).subscribe({
             next: (result) => {
                 this.retrievedGames = result;
-            },
-            error: () => {
-                this.notificationService.error("Game not found");
             }
         });
     }

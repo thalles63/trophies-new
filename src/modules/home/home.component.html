@@ -46,24 +46,32 @@
             </app-select>
         </div>
 
-        <a
-            class="filters-container"
-            (click)="openSidebar()">
-            <icon
-                [icon]="icons.Filter"
-                [size]="20">
-            </icon>
-
-            <a class="link"> Filters </a>
-        </a>
+        <div class="status-filter">
+            <a (click)="openSidebar()">
+                <icon
+                    [icon]="icons.Filter"
+                    [size]="14">
+                </icon>
+                <span class="filter-label">Filters</span>
+            </a>
+        </div>
     </div>
 
-    <div class="d-flex flex-wrap gap-8">
+    <!-- <div class="d-flex flex-wrap gap-8">
         @for (game of games; track $index) {
             <game-image
                 [game]="game"
                 (onClick)="saveFilter()">
             </game-image>
+        }
+    </div> -->
+
+    <div class="grid-games-container">
+        @for (game of games; track $index) {
+            <game-card
+                [game]="game"
+                (onClick)="saveFilter()">
+            </game-card>
         }
     </div>
 

@@ -5,10 +5,34 @@ import { TimePlayed } from "../edit/time-played/time-played.interface";
 import { Achievement } from "../models/achievement.interface";
 import { GameStatusData, PlatformsData } from "../models/game-edit.data";
 import { GameFromOnline } from "../models/game-from-online.interface";
+import { GameList } from "../models/game-list.interface";
 import { Game } from "../models/game.interface";
 
 @Injectable({ providedIn: "root" })
 export class GameMapper {
+    public readonly list = (params: any): GameList => {
+        return {
+            id: params.id,
+            name: params.name,
+            image: params.image,
+            rating: Number(params.rating),
+            platform: params.platform,
+            platformText: this.getPlatformText(params.platform),
+            timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
+            status: params.status,
+            lastTimePlayed: params.lastTimePlayed,
+            statusDescription: this.getStatusText(params.status),
+            currentPrice: params.currentPrice,
+            regularPrice: params.regularPrice,
+            isPriceAllTimeLow: params.isPriceAllTimeLow,
+            isPriceOneYearTimeLow: params.isPriceOneYearTimeLow,
+            itadId: params.itadId,
+            urlToBuy: params.urlToBuy,
+            earnedAchievements: params.earnedAchievements,
+            achievements: params.achievements
+        };
+    };
+
     public readonly findById = (params: any): Game => {
         return {
             id: params.id,

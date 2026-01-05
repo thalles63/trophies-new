@@ -23,21 +23,21 @@ import { StarRatingComponent } from "../../components/rating/rating.component";
 import { RowComponent } from "../../components/row/row.component";
 import { SelectComponent } from "../../components/select/select.component";
 import { SidebarComponent } from "../../components/sidebar/sidebar.component";
-import { GameDetailGameImageComponent } from "../game/detail/game-image/game-image.component";
 import { GameMapper } from "../game/mappers/game.mapper";
 import { GameCountByStatus } from "../game/models/game-count-by-status.interface";
 import { PlatformsData, TrueFalseData } from "../game/models/game-edit.data";
 import { GameFilter } from "../game/models/game-filter.interface";
-import { Game } from "../game/models/game.interface";
+import { GameList } from "../game/models/game-list.interface";
 import { Genre } from "../game/models/genre.interface";
 import { Theme } from "../game/models/theme.interface";
 import { GameService } from "../game/services/game.service";
+import { HomeGameCardComponent } from "./game-card/game-card.component";
 import { GameListSortBy, GameListStatus } from "./home.data";
 
 @Component({
     selector: "app-home",
     imports: [
-        GameDetailGameImageComponent,
+        HomeGameCardComponent,
         NgbPagination,
         NgbPaginationFirst,
         NgbPaginationLast,
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly loaderService = inject(LoaderService);
 
-    protected games = <Game[]>[];
+    protected games = <GameList[]>[];
     protected genres = <Genre[]>[];
     protected themes = <Theme[]>[];
     protected gamesCount = <GameCountByStatus>{};
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit {
             .pipe(this.loaderService.watch(LoaderEnum.LIST_HOME))
             .subscribe({
                 next: (result: any) => {
-                    this.games = result.games.map(this.mapper.findById);
+                    this.games = result.games.map(this.mapper.list);
 
                     this.filter = { ...this.filter, ...result.pagination };
                     this.oldFilter = <GameFilter>{};
@@ -194,7 +194,7 @@ export class HomeComponent implements OnInit {
     }
 
     public clearFilter() {
-        this.filter = <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 18, status: StatusEnum.PlayingCompleted };
+        this.filter = <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 10, status: StatusEnum.PlayingCompleted };
         this.listGames();
     }
 

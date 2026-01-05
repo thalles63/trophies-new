@@ -15,4 +15,12 @@ export class NotificationService {
     error(message: string) {
         this.notyf.error(message);
     }
+
+    warning(message: string) {
+        this.notyf.open({
+            type: "warning",
+            background: "orange",
+            message: message
+        });
+    }
 }

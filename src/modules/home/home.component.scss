@@ -5,46 +5,51 @@
 .status-filter {
     display: flex;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 
     a {
         position: relative;
         display: flex;
+        padding: 7px 12px;
+        border-radius: 5px;
+        font-size: 15px;
+        height: 37px;
+        background-color: #1c1e23;
+        cursor: pointer;
+    }
+
+    a.selected {
+        background-color: #242832;
     }
 
     .filter-label {
-        cursor: pointer;
-        margin: 0;
         font-weight: 400;
-        padding: 2px 0;
-        border-bottom: 2px solid transparent;
-        font-size: 20px;
-        text-align: center;
         white-space: nowrap;
-        opacity: 0.4;
-        transition: all 0.4s;
+        margin-top: 1px;
     }
 
     a.selected .filter-label {
         opacity: 1;
-        border-bottom: 2px solid #ffffff;
+    }
+
+    a:hover {
+        background-color: #242832;
     }
 
     a:hover .filter-label {
-        border-bottom: 2px solid #ffffff;
+        opacity: 1;
     }
 
     .filter-counter {
-        position: relative;
-        top: 0;
-        height: 20px;
-        margin-left: 4px;
-        margin-right: 24px;
-        min-width: 25px;
         text-align: left;
-        font-size: 13px;
-        opacity: 0.4;
         cursor: pointer;
+        background-color: #ea377a;
+        padding: 0 4px;
+        border-radius: 4px;
+        font-size: 12px;
+        height: 18px;
+        margin-left: 7px;
+        margin-top: 3px;
     }
 
     a.selected .filter-counter {
@@ -98,4 +103,16 @@
     .p-0 {
         padding: 0 !important;
     }
+
+    .status-filter icon i {
+        margin-top: 5px;
+        margin-right: 8px;
+    }
+}
+
+.grid-games-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    position: relative;
 }

@@ -29,7 +29,6 @@ import { AchievementsService } from "../services/achievement.service";
 import { GameService } from "../services/game.service";
 import { AchievementEditComponent } from "./achievement-edit/achievement-edit.component";
 import { SearchAchievementsOnlineComponent } from "./search-achievements-online/search-achievements-online.component";
-import { SearchGameByNameComponent } from "./search-game-dropdown/search-game-dropdowne.component";
 import { SearchGamesOnlineComponent } from "./search-games-online/search-games-online.component";
 import { TimePlayedComponent } from "./time-played/time-played.component";
 
@@ -44,8 +43,8 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         TimePlayedComponent,
         ButtonComponent,
         IconComponent,
-        LoaderComponent,
-        SearchGameByNameComponent
+        LoaderComponent
+        // SearchGameByNameComponent
     ],
     templateUrl: "./game-edit.component.html",
     styleUrl: "./game-edit.component.scss",
@@ -88,7 +87,7 @@ export class GameEditComponent implements AfterViewInit {
 
     public save(loaderId: LoaderEnum) {
         if (!this.validateIfRequiredFieldsAreValid()) {
-            this.notificationService.error("Some required fields are invalid");
+            this.notificationService.warning("Some required fields are invalid");
             return;
         }
 
@@ -161,7 +160,7 @@ export class GameEditComponent implements AfterViewInit {
 
     public openSearchGameModal(origin: string) {
         if (!this.game.name) {
-            this.notificationService.error("Invalid game name");
+            this.notificationService.warning("Invalid game name");
             return;
         }
 
@@ -223,7 +222,12 @@ export class GameEditComponent implements AfterViewInit {
 
     public searchAchievementsOnline(origin: number) {
         if (!this.game.name) {
-            this.notificationService.error("Invalid game name");
+            this.notificationService.warning("Invalid game name");
+            return;
+        }
+
+        if (!this.game.platform) {
+            this.notificationService.warning("You need to select one platform");
             return;
         }
 

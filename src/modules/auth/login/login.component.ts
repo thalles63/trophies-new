@@ -36,7 +36,7 @@ export class LoginComponent {
 
     public login() {
         if (!this.username || !this.password) {
-            this.notificationService.error("Username or password invalid.");
+            this.notificationService.warning("Username or password invalid.");
             return;
         }
 

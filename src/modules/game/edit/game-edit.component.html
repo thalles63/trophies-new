@@ -292,7 +292,7 @@
                 Cancel
             </app-button>
 
-            @if (detailsTab?.active) {
+            @if (detailsTab && detailsTab.active) {
                 <app-button (onClick)="save(loaderEnum.SAVE_GAME)"> Save </app-button>
             }
         </div>

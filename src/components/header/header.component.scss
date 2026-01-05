@@ -1,11 +1,3 @@
-.background-container {
-    background-color: #101114;
-
-    &.transparent {
-        background-color: transparent;
-    }
-}
-
 .screenshot-container {
     position: absolute;
     width: 100%;
@@ -49,6 +41,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 8px;
 
     .system-title {
         font-size: 1.5rem;
