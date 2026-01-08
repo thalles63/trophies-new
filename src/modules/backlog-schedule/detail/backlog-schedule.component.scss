@@ -1,88 +1,201 @@
-.month {
-    width: 33.33%;
-    box-sizing: border-box;
-    position: relative;
+@use "sass:color";
 
-    .title {
-        padding: 8px;
-        font-size: 18px;
-    }
-
-    .game {
-        img {
-            height: 128px;
-            border-radius: 5px;
-        }
-    }
-}
-
-.games {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 16px 16px;
-    gap: 8px;
-    padding-bottom: 40px;
-}
-
-.no-games {
-    justify-content: center;
-    margin-top: 40px;
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: #8f9ca7;
-    display: flex;
-    flex-grow: 1;
-}
-
-.calendar {
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    margin-top: 24px;
-}
-
-.year-select {
-    font-size: 32px;
-    font-weight: bold;
-    flex-grow: 1;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-
-    .year {
-        padding: 0 24px;
-    }
-
-    .arrow {
-        cursor: pointer;
-    }
-}
-
-.grayed {
-    filter: grayscale(1);
+.container {
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 .header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
     position: relative;
 
-    app-button {
-        position: absolute;
-        right: 0;
-        top: 6px;
+    .year-select {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+
+        .year {
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .arrow {
+            background: none;
+            border: none;
+            color: #ea377a;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            transition: transform 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover:not(:disabled) {
+                transform: scale(1.2);
+                color: color.adjust(#ea377a, $lightness: 10%);
+            }
+
+            &:disabled {
+                color: #484d64;
+                cursor: not-allowed;
+            }
+        }
     }
 }
 
-.played-hours{
-    border: 1px solid #ea377a;
-    color: #ea377a;
-    background-color: rgba(234, 55, 122, 0.18);
-    border-radius: 16px;
-    text-align: center;
-    position: absolute;
-    top: 9px;
-    right: 40px;
-    padding: 1px 12px;
-    font-size: 14px;
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.month-card {
+    background-color: #252835;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .month-header {
+        padding: 15px 20px;
+        background-color: #2e3244;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #3a3f55;
+
+        .month-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .played-hours {
+            font-size: 0.9rem;
+            color: #ea377a;
+            background-color: rgba(234, 55, 122, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(234, 55, 122, 0.3);
+        }
+    }
+
+    .games-list {
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        flex-grow: 1;
+        align-content: flex-start;
+    }
+
+    .game-item {
+        position: relative;
+        width: 95px;
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: scale(1.1);
+            z-index: 10;
+
+            .overlay {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+        .game-link {
+            display: block;
+        }
+
+        .game-cover {
+            width: 100%;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            aspect-ratio: 3/4;
+            object-fit: cover;
+
+            &.grayed {
+                filter: grayscale(1) opacity(0.7);
+            }
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+
+            .action-btn {
+                background-color: #ea377a;
+                color: #fff;
+                border: none;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 0.8rem;
+                transition: transform 0.2s, background-color 0.2s;
+                text-decoration: none;
+
+                &:hover {
+                    transform: scale(1.1);
+                    background-color: color.adjust(#ea377a, $lightness: 10%);
+                }
+            }
+        }
+    }
+
+    .empty-month {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #484d64;
+        font-size: 0.9rem;
+        font-style: italic;
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 20px;
+    }
 }

@@ -2,19 +2,15 @@
     <div class="container">
         <div class="header">
             <div class="year-select">
-                <span
-                    class="arrow"
-                    (click)="minusYear()">
-                    <
-                </span>
+                <button class="arrow" (click)="minusYear()">
+                    <i class="fas fa-chevron-left"><</i>
+                </button>
 
                 <span class="year">{{ year }}</span>
 
-                <span
-                    class="arrow"
-                    (click)="plusYear()">
-                    >
-                </span>
+                <button class="arrow" (click)="plusYear()" [disabled]="year >= (currentYear + 1)">
+                    <i class="fas fa-chevron-right">></i>
+                </button>
             </div>
 
             @if (isUserLoggedIn) {
@@ -22,40 +18,43 @@
             }
         </div>
 
-        <div class="calendar">
+        <div class="calendar-grid">
             @for (month of months; track $index) {
-                <div class="month">
-                    <div class="title">{{ month.description }}</div>
-                    <div class="played-hours"> {{ month.totalTime?.hours }} Hours</div>
+                <div class="month-card">
+                    <div class="month-header">
+                        <div class="month-title">{{ month.description }}</div>
+                        @if (month.totalTime?.hours) {
+                            <div class="played-hours">{{ month.totalTime?.hours }}h</div>
+                        }
+                    </div>
 
-                    <div class="games">
+                    <div class="games-list">
                         @for (game of month.completedGames; track $index) {
-                            <div class="game">
-                                <a
-                                    class="link"
-                                    [routerLink]="['/game/' + game.id]">
-                                    <img
-                                        [src]="game.image"
-                                        [alt]="game.id" />
+                            <div class="game-item completed">
+                                <a [routerLink]="['/game/' + game.id]" class="game-link">
+                                    <img [src]="game.image" [alt]="game.id" class="game-cover" />
                                 </a>
                             </div>
                         }
 
                         @for (game of month.scheduledGames; track $index) {
-                            <div class="game">
-                                <a
-                                    class="link"
-                                    (click)="openModal(game.id)">
-                                    <img
-                                        class="grayed"
-                                        [src]="game.image"
-                                        [alt]="game.id" />
-                                </a>
+                            <div class="game-item scheduled">
+                                <img [src]="game.image" [alt]="game.id" class="game-cover grayed" />
+                                <div class="overlay">
+                                    <button class="action-btn" (click)="openModal(game.id)" title="Edit Schedule">
+                                        <i class="icons-edit"></i>
+                                    </button>
+                                    <a [routerLink]="['/game/' + game.gameId]" class="action-btn" title="View Game">
+                                        <i class="icons-gamepad"></i>
+                                    </a>
+                                </div>
                             </div>
                         }
 
                         @if (!month.completedGames.length && !month.scheduledGames.length) {
-                            <span class="no-games">No games played this month</span>
+                            <div class="empty-month">
+                                <span>No games</span>
+                            </div>
                         }
                     </div>
                 </div>

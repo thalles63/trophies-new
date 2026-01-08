@@ -33,7 +33,8 @@ export class BacklogScheduleComponent implements AfterViewInit, OnInit {
 
     protected months = structuredClone(CalendarData);
     protected isUserLoggedIn = UserInfo.isLoggedIn();
-    protected year = new Date().getFullYear();
+    protected currentYear = new Date().getFullYear();
+    protected year = this.currentYear;
     protected loaderEnum = LoaderEnum;
 
     public ngOnInit(): void {
