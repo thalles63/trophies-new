@@ -15,6 +15,6 @@ export class MinutesToReadablePipe implements PipeTransform {
         const hours = minutes / 60;
         const normalized = Math.round(hours * 2) / 2;
 
-        return `${normalized} hour${normalized === 1 ? "" : "s"}`;
+        return `${normalized} hora${normalized === 1 ? "" : "s"}`;
     }
 }

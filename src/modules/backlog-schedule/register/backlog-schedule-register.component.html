@@ -1,4 +1,4 @@
-<div class="modal-header"> Add game to backlog schedule </div>
+<div class="modal-header"> Adicionar jogo ao agendamento </div>
 
 <loader
     [singleLoadIds]="[loaderEnum.BACKLOG_SCHEDULE_ADD, loaderEnum.BACKLOG_SCHEDULE_DELETE]"
@@ -8,7 +8,7 @@
         <div class="row">
             <app-input
                 [(value)]="schedule.year"
-                label="Year"
+                [label]="'YEAR' | translate"
                 [inputSize]="3">
             </app-input>
 
@@ -17,14 +17,14 @@
                 bindValue="id"
                 bindLabel="description"
                 [items]="months"
-                label="Month"
+                [label]="'MONTH' | translate"
                 (onChange)="determineNextOrder()"
                 [inputSize]="3">
             </app-select>
 
             <app-input
                 [(value)]="schedule.order"
-                label="Order"
+                [label]="'ORDER' | translate"
                 [inputSize]="3">
             </app-input>
         </div>
@@ -35,7 +35,7 @@
                 bindValue="id"
                 bindLabel="name"
                 [items]="games"
-                label="Game"
+                [label]="'GAME' | translate"
                 [inputSize]="12"
                 [itemTemplate]="optionsTemplate">
             </app-select>
@@ -55,7 +55,7 @@
             <app-button
                 type="primary-outline"
                 (onClick)="confirmDelete()">
-                Delete schedule
+                {{ "DELETE_SCHEDULE" | translate }}
             </app-button>
         } @else {
             <div></div>
@@ -65,10 +65,10 @@
             <app-button
                 type="secondary"
                 (onClick)="cancel()">
-                Cancel
+                {{ "CANCEL" | translate }}
             </app-button>
 
-            <app-button (onClick)="save()"> Save </app-button>
+            <app-button (onClick)="save()"> {{ "SAVE" | translate }} </app-button>
         </div>
     </div>
 </loader>

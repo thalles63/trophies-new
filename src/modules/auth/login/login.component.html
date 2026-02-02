@@ -1,4 +1,4 @@
-<div class="modal-header"> Login </div>
+<div class="modal-header"> {{ "LOGIN" | translate }} </div>
 
 <loader
     [singleLoadIds]="[loaderEnum.LOGIN]"
@@ -7,13 +7,13 @@
         <div class="row">
             <app-input
                 [(value)]="username"
-                label="Username"
+                [label]="'USER' | translate"
                 [inputSize]="12">
             </app-input>
 
             <app-input
                 [(value)]="password"
-                label="Password"
+                [label]="'PASSWORD' | translate"
                 type="password"
                 [inputSize]="12">
             </app-input>
@@ -24,9 +24,9 @@
         <app-button
             type="secondary"
             (onClick)="cancel()">
-            Cancel
+            {{ "CANCEL" | translate }}
         </app-button>
 
-        <app-button (onClick)="login()"> Login </app-button>
+        <app-button (onClick)="login()"> {{ "LOGIN" | translate }} </app-button>
     </div>
 </loader>

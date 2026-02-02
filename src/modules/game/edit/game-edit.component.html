@@ -16,16 +16,12 @@
                 <div class="search-container col-lg-12">
                     <app-input
                         [(value)]="game.name"
-                        label="Game name"
+                        [label]="'GAME_NAME' | translate"
                         [inputSize]="12"
                         (onFocus)="onFocusSearchGame()"
                         (onBlur)="onBlurSearchGame()"
                         (onKeyUp)="onKeyUpSearchGame()">
                     </app-input>
-
-                    <!-- @if (gamesList.length) {
-                        <search-game-dropdown [games]="gamesList"> </search-game-dropdown>
-                    } -->
                 </div>
             </div>
         }
@@ -38,16 +34,16 @@
     type="MODAL">
     <tabs #tabs>
         <tab
-            tabTitle="General"
+            [tabTitle]="'GENERAL' | translate"
             #generalTab>
             <div class="modal-body game-info-body">
                 <div class="row">
-                    <span class="label-or">Search online information in:</span>
+                    <span class="label-or">{{ "SEARCH_ONLINE_INFORMATION_IN" | translate }}:</span>
                     <div class="search-buttons-container">
                         <a
                             class="search-button"
                             (click)="openSearchGameModal(gameSearchOriginEnum.IGDB)">
-                            <div>IGDB</div>
+                            <div>{{ "IGDB" | translate }}</div>
                             @if (game.description) {
                                 <div class="check-icon">
                                     <icon
@@ -61,7 +57,7 @@
                         <a
                             class="search-button"
                             (click)="openSearchGameModal(gameSearchOriginEnum.HLTB)">
-                            <div>How Long To Beat</div>
+                            <div>{{ "HLTB" | translate }}</div>
                             @if (game.mainStoryTime) {
                                 <div class="check-icon">
                                     <icon
@@ -76,7 +72,7 @@
                             <a
                                 class="search-button"
                                 (click)="openSearchGameModal(gameSearchOriginEnum.ITAD)">
-                                <div>Is There Any Deal</div>
+                                <div>{{ "ITAD" | translate }}</div>
                                 @if (game.itadId) {
                                     <div class="check-icon">
                                         <icon
@@ -94,7 +90,7 @@
 
         @if (!this.isNewRegister()) {
             <tab
-                tabTitle="Details"
+                [tabTitle]="'DETAILS' | translate"
                 #detailsTab>
                 <div class="modal-body game-info-body">
                     <div class="status-container">
@@ -102,28 +98,28 @@
                             type="secondary-outline"
                             customClass="search-button playing {{ game.status === statusEnum.Playing ? 'selected' : '' }}"
                             (onClick)="setStatus(statusEnum.Playing)">
-                            Playing
+                            {{ "PLAYING" | translate }}
                         </app-button>
 
                         <app-button
                             type="secondary-outline"
                             customClass="search-button completed {{ game.status === statusEnum.Completed ? 'selected' : '' }}"
                             (onClick)="setStatus(statusEnum.Completed)">
-                            Completed
+                            {{ "COMPLETED" | translate }}
                         </app-button>
 
                         <app-button
                             type="secondary-outline"
                             customClass="search-button backlog {{ game.status === statusEnum.Backlog ? 'selected' : '' }}"
                             (onClick)="setStatus(statusEnum.Backlog)">
-                            Backlog
+                            {{ "BACKLOG" | translate }}
                         </app-button>
 
                         <app-button
                             type="secondary-outline"
                             customClass="search-button wishlist  {{ game.status === statusEnum.Wishlist ? 'selected' : '' }}"
                             (onClick)="setStatus(statusEnum.Wishlist)">
-                            Wishlist
+                            {{ "WISHLIST" | translate }}
                         </app-button>
                     </div>
 
@@ -133,7 +129,7 @@
                             bindValue="id"
                             bindLabel="description"
                             [items]="platforms"
-                            label="Platform"
+                            [label]="'PLATFORM' | translate"
                             [inputSize]="4">
                         </app-select>
 
@@ -142,7 +138,7 @@
                             bindValue="id"
                             bindLabel="description"
                             [items]="trueFalse"
-                            label="Is campaign complete?"
+                            [label]="'IS_CAMPAIGN_COMPLETED' | translate"
                             [inputSize]="4">
                         </app-select>
 
@@ -151,7 +147,7 @@
                             bindValue="id"
                             bindLabel="description"
                             [items]="trueFalse"
-                            label="Is platinumed?"
+                            [label]="'IS_PLATINUMED' | translate"
                             [inputSize]="4">
                         </app-select>
                     </div>
@@ -159,19 +155,19 @@
                     <div class="row">
                         <time-played
                             [(value)]="game.timePlayed"
-                            label="Time played"
+                            [label]="'TIME_PLAYED' | translate"
                             [inputSize]="4">
                         </time-played>
 
                         <app-input
                             [(value)]="game.lastTimePlayedFormatted"
-                            label="Last time played"
+                            [label]="'LAST_TIME_PLAYED' | translate"
                             mask="00/00/0000 00:00:00"
                             [inputSize]="4">
                         </app-input>
 
                         <star-rating
-                            label="Rating"
+                            [label]="'RATING' | translate"
                             [(rating)]="game.rating"
                             color="#3f4b64"
                             colorSelected="#ea377a"
@@ -185,7 +181,7 @@
                     <div class="row">
                         <app-textarea
                             [(value)]="game.comments"
-                            label="Comments"
+                            [label]="'PLAYER_COMMENTS' | translate"
                             [inputSize]="12">
                         </app-textarea>
                     </div>
@@ -195,7 +191,7 @@
 
         @if (!this.isNewRegister()) {
             <tab
-                tabTitle="Achievements"
+                [tabTitle]="'ACHIEVEMENTS' | translate"
                 #achievementsTab>
                 <loader
                     [loaderIds]="[loaderEnum.ACHIEVEMENT_DELETE]"
@@ -225,7 +221,7 @@
                                 <div class="achievement-informations">
                                     <div class="achievement-text">
                                         <div>{{ achievement.name }}</div>
-                                        <div class="achievement-description">{{ achievement.description || "-" }}</div>
+                                        <div class="achievement-description">{{ achievement.description_ptbr || achievement.description || "-" }}</div>
                                     </div>
 
                                     <div class="achievements-buttons">
@@ -254,22 +250,22 @@
                         }
                         @if (!game.achievements.length) {
                             <div class="row">
-                                <span class="label-or">Search achievements in:</span>
+                                <span class="label-or">{{ "SEARCH_ACHIEVEMENTS_IN" | translate }}:</span>
                                 <div class="search-buttons-container">
                                     <a
                                         class="search-button"
                                         (click)="searchAchievementsOnline(achievementSearchOriginEnum.Steam)">
-                                        <div>Steam</div>
+                                        <div>{{ "STEAM" | translate }}</div>
                                     </a>
                                     <a
                                         class="search-button"
                                         (click)="searchAchievementsOnline(achievementSearchOriginEnum.PsnProfiles)">
-                                        <div>PSN Profiles</div>
+                                        <div>{{ "PSN_PROFILES" | translate }}</div>
                                     </a>
                                     <a
                                         class="search-button"
                                         (click)="searchAchievementsOnline(achievementSearchOriginEnum.RetroAchievements)">
-                                        <div>Retro Achievements</div>
+                                        <div>{{ "RETRO_ACHIEVEMENTS" | translate }}</div>
                                     </a>
                                 </div>
                             </div>
@@ -287,7 +283,7 @@
             <app-button
                 type="primary-outline"
                 (onClick)="confirmDeleteGame()">
-                Delete game
+                {{ "DELETE_GAME" | translate }}
             </app-button>
         } @else {
             <div></div>
@@ -297,11 +293,11 @@
             <app-button
                 type="secondary"
                 (onClick)="cancel()">
-                Cancel
+                {{ "CANCEL" | translate }}
             </app-button>
 
             @if (detailsTab && detailsTab.active) {
-                <app-button (onClick)="save(loaderEnum.SAVE_GAME)"> Save </app-button>
+                <app-button (onClick)="save(loaderEnum.SAVE_GAME)"> {{ "SAVE" | translate }} </app-button>
             }
         </div>
     </div>

@@ -2,6 +2,7 @@ import { Component, DestroyRef, ElementRef, HostListener, inject, OnInit } from 
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router, RouterLink } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Store } from "@ngxs/store";
 import { IconEnum } from "../../common/enums/icon.enum";
 import { SortDirection } from "../../common/enums/sort-direction.enum";
@@ -16,7 +17,7 @@ import { IconComponent } from "../icon/icon.component";
 
 @Component({
     selector: "app-header",
-    imports: [RouterLink, IconComponent],
+    imports: [RouterLink, IconComponent, TranslatePipe],
     templateUrl: "./header.component.html",
     styleUrl: "./header.component.scss"
 })

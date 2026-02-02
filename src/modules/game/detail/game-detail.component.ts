@@ -1,9 +1,10 @@
-import { DatePipe, DecimalPipe } from "@angular/common";
+import { DatePipe, DecimalPipe, LowerCasePipe } from "@angular/common";
 import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Store } from "@ngxs/store";
 import { MarkdownComponent, provideMarkdown } from "ngx-markdown";
 import { IconEnum } from "../../../common/enums/icon.enum";
@@ -52,7 +53,9 @@ import { GameHowLongToBeatComponent } from "./how-long-to-beat/how-long-to-beat.
         GameHowLongToBeatComponent,
         LoaderComponent,
         MarkdownComponent,
-        FormaMarkdownPipe
+        FormaMarkdownPipe,
+        TranslatePipe,
+        LowerCasePipe
     ],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",

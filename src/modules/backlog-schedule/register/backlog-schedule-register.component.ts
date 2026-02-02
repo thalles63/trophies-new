@@ -2,6 +2,7 @@ import { DecimalPipe } from "@angular/common";
 import { Component, DestroyRef, inject, Input, OnInit } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { LoaderEnum } from "../../../common/enums/loader.enum";
 import { ButtonComponent } from "../../../components/button/button.component";
 import { InputComponent } from "../../../components/input/input.component";
@@ -16,7 +17,7 @@ import { BacklogScheduleService } from "../service/backlog-schedule.service";
 
 @Component({
     selector: "game",
-    imports: [InputComponent, SelectComponent, ButtonComponent, DecimalPipe, LoaderComponent],
+    imports: [InputComponent, SelectComponent, ButtonComponent, DecimalPipe, LoaderComponent, TranslatePipe],
     templateUrl: "./backlog-schedule-register.component.html",
     styleUrl: "./backlog-schedule-register.component.scss",
     providers: [BacklogScheduleService]

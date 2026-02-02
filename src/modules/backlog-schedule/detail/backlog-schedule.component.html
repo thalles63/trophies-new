@@ -2,19 +2,24 @@
     <div class="container">
         <div class="header">
             <div class="year-select">
-                <button class="arrow" (click)="minusYear()">
+                <button
+                    class="arrow"
+                    (click)="minusYear()">
                     <i class="fas fa-chevron-left"><</i>
                 </button>
 
                 <span class="year">{{ year }}</span>
 
-                <button class="arrow" (click)="plusYear()" [disabled]="year >= (currentYear + 1)">
+                <button
+                    class="arrow"
+                    (click)="plusYear()"
+                    [disabled]="year >= currentYear + 1">
                     <i class="fas fa-chevron-right">></i>
                 </button>
             </div>
 
             @if (isUserLoggedIn) {
-                <app-button (onClick)="openModal()"> Schedule new backlog </app-button>
+                <app-button (onClick)="openModal()"> {{ "SCHEDULE_NEW_GAME" | translate }} </app-button>
             }
         </div>
 
@@ -31,20 +36,34 @@
                     <div class="games-list">
                         @for (game of month.completedGames; track $index) {
                             <div class="game-item completed">
-                                <a [routerLink]="['/game/' + game.id]" class="game-link">
-                                    <img [src]="game.image" [alt]="game.id" class="game-cover" />
+                                <a
+                                    [routerLink]="['/game/' + game.id]"
+                                    class="game-link">
+                                    <img
+                                        [src]="game.image"
+                                        [alt]="game.id"
+                                        class="game-cover" />
                                 </a>
                             </div>
                         }
 
                         @for (game of month.scheduledGames; track $index) {
                             <div class="game-item scheduled">
-                                <img [src]="game.image" [alt]="game.id" class="game-cover grayed" />
+                                <img
+                                    [src]="game.image"
+                                    [alt]="game.id"
+                                    class="game-cover grayed" />
                                 <div class="overlay">
-                                    <button class="action-btn" (click)="openModal(game.id)" title="Edit Schedule">
+                                    <button
+                                        class="action-btn"
+                                        (click)="openModal(game.id)"
+                                        [title]="'EDIT_SCHEDULE' | translate">
                                         <i class="icons-edit"></i>
                                     </button>
-                                    <a [routerLink]="['/game/' + game.gameId]" class="action-btn" title="View Game">
+                                    <a
+                                        [routerLink]="['/game/' + game.gameId]"
+                                        class="action-btn"
+                                        [title]="'VIEW_GAME' | translate">
                                         <i class="icons-gamepad"></i>
                                     </a>
                                 </div>
@@ -53,7 +72,7 @@
 
                         @if (!month.completedGames.length && !month.scheduledGames.length) {
                             <div class="empty-month">
-                                <span>No games</span>
+                                <span>{{ "NO_GAMES" | translate }}</span>
                             </div>
                         }
                     </div>

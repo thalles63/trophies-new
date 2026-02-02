@@ -26,6 +26,12 @@
                             {
                                 "glob": "**/*",
                                 "input": "public"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "src/utils/",
+                                "ignore": ["**/*.scss"],
+                                "output": "./utils/"
                             }
                         ],
                         "styles": [

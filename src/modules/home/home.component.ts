@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { NgbPagination, NgbPaginationFirst, NgbPaginationLast } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Store } from "@ngxs/store";
 import { Subscription, take } from "rxjs";
 import { IconEnum } from "../../common/enums/icon.enum";
@@ -48,7 +49,8 @@ import { GameListSortBy, GameListStatus } from "./home.data";
         SelectComponent,
         StarRatingComponent,
         ButtonComponent,
-        LoaderComponent
+        LoaderComponent,
+        TranslatePipe
     ],
     templateUrl: "./home.component.html",
     styleUrl: "./home.component.scss",

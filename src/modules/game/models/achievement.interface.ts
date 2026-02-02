@@ -3,6 +3,7 @@ export interface Achievement {
     platformId: string;
     name: string;
     description: string;
+    description_ptbr: string;
     type: string;
     image: string;
     isAchieved: boolean;

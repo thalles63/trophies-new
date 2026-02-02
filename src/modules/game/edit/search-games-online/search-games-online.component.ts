@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, DestroyRef, inject, Input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { GameSearchOriginEnum } from "../../../../common/enums/game-search-origin.enum";
 import { IconEnum } from "../../../../common/enums/icon.enum";
 import { LoaderEnum } from "../../../../common/enums/loader.enum";
@@ -15,7 +16,7 @@ import { GameService } from "../../services/game.service";
 
 @Component({
     selector: "search-games-online",
-    imports: [ButtonComponent, IconComponent, LoaderComponent],
+    imports: [ButtonComponent, IconComponent, LoaderComponent, TranslatePipe],
     templateUrl: "./search-games-online.component.html",
     styleUrl: "./search-games-online.component.scss",
     providers: [GameService]

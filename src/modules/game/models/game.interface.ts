@@ -5,6 +5,7 @@ export interface Game {
     id: string;
     name: string;
     description: string;
+    description_ptbr?: string;
     image: string;
     screenshots?: string[];
     banner: string;

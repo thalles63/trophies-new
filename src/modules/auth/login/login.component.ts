@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Store } from "@ngxs/store";
 import { LoaderEnum } from "../../../common/enums/loader.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
@@ -15,7 +16,7 @@ import { AuthService } from "../auth.service";
 @Component({
     selector: "login",
     templateUrl: "./login.component.html",
-    imports: [ButtonComponent, InputComponent, LoaderComponent],
+    imports: [ButtonComponent, InputComponent, LoaderComponent, TranslatePipe],
     providers: [AuthService]
 })
 export class LoginComponent {

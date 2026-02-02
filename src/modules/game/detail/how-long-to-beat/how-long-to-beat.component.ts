@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { TranslatePipe } from "@ngx-translate/core";
 import { IconEnum } from "../../../../common/enums/icon.enum";
 import { MinutesToReadablePipe } from "../../../../common/pipes/minutes-to-readable.pipe";
 import { Game } from "../../models/game.interface";
@@ -8,7 +9,7 @@ import { Game } from "../../models/game.interface";
     templateUrl: "./how-long-to-beat.component.html",
     styleUrl: "./how-long-to-beat.component.scss",
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MinutesToReadablePipe]
+    imports: [MinutesToReadablePipe, TranslatePipe]
 })
 export class GameHowLongToBeatComponent {
     public game = input.required<Game>();

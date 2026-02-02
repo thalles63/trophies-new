@@ -14,76 +14,8 @@
                     [icon]="iconEnum.Warning"
                     [size]="24">
                 </icon>
-                Sync this game with IGDB
+                {{ "SYNC_WITH_IGDB" | translate }}
             </div>
         }
     </div>
-
-    @if (showDetails()) {
-        <div class="card-info">
-            <div class="game-name">{{ game().name }}</div>
-
-            <div>
-                <div class="info-label">Status</div>
-                <div class="info-text">
-                    <status [type]="game().statusDescription"></status>
-                    <span>{{ game().statusDescription }}</span>
-                </div>
-            </div>
-
-            @if (game().lastTimePlayed) {
-                <div>
-                    <div class="info-label">Last Played</div>
-                    <div class="info-text">{{ game().lastTimePlayed | date: "dd/MM/yyyy HH:mm:ss" }}</div>
-                </div>
-            }
-
-            @if (game().rating) {
-                <div>
-                    <div class="info-label">Rating</div>
-                    <div class="stars">
-                        <star-rating
-                            [rating]="game().rating"
-                            color="#3f4b64"
-                            colorSelected="#ea377a"
-                            [size]="32">
-                        </star-rating>
-                    </div>
-                </div>
-            }
-
-            @if (game().status !== statusEnum.Wishlist) {
-                <div>
-                    <div class="info-label">Platform</div>
-                    <div class="info-text">
-                        <span>{{ game().platformText }}</span>
-                    </div>
-                </div>
-            }
-
-            @if (game().status === statusEnum.Wishlist && game().urlToBuy) {
-                <a
-                    class="buy-button"
-                    [href]="game().urlToBuy"
-                    target="_blank"
-                    (click)="$event.stopPropagation()">
-                    Buy game
-                </a>
-            }
-        </div>
-
-        @if (game().currentPrice && game().status === statusEnum.Wishlist) {
-            <div
-                class="price-label"
-                [class.atl]="game().isPriceAllTimeLow"
-                [class.ytl]="game().isPriceOneYearTimeLow && !game().isPriceAllTimeLow">
-                @if (game().isPriceAllTimeLow) {
-                    <b>ATL</b>
-                } @else if (game().isPriceOneYearTimeLow) {
-                    <b>YTL</b>
-                }
-                R$ {{ game().currentPrice | number: "1.2-2" }}
-            </div>
-        }
-    }
 </a>

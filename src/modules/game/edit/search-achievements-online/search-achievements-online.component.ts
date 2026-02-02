@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, DestroyRef, inject, Input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Observable } from "rxjs";
 import { AchievementSearchOriginEnum } from "../../../../common/enums/achievement-search-origin.enum";
 import { IconEnum } from "../../../../common/enums/icon.enum";
@@ -17,7 +18,7 @@ import { GameService } from "../../services/game.service";
 
 @Component({
     selector: "search-achievements-online",
-    imports: [ButtonComponent, IconComponent, LoaderComponent],
+    imports: [ButtonComponent, IconComponent, LoaderComponent, TranslatePipe],
     templateUrl: "./search-achievements-online.component.html",
     styleUrl: "./search-achievements-online.component.scss",
     providers: [GameService, AchievementsService]

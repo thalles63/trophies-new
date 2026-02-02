@@ -24,7 +24,7 @@
                     <div class="game-information">
                         <div
                             class="information-group"
-                            title="Last time played">
+                            [title]="'LAST_TIME_PLAYED' | translate">
                             <i class="icon calendar-icon"></i>
                             @if (game().lastTimePlayed) {
                                 <div>{{ game().lastTimePlayed | date: "dd/MM/yyyy" }} </div>
@@ -35,7 +35,7 @@
 
                         <div
                             class="information-group"
-                            title="Played time">
+                            [title]="'TIME_PLAYED' | translate">
                             <i class="icon clock-icon"></i>
                             @if (game().timePlayed.hours || game().timePlayed.minutes) {
                                 <div>{{ game().timePlayed.hours }}h {{ game().timePlayed.minutes }}m </div>
@@ -46,7 +46,7 @@
 
                         <div
                             class="information-group last"
-                            title="Achievements">
+                            [title]="'ACHIEVEMENTS' | translate">
                             <i class="icon trophy-icon"></i>
                             @if (game().earnedAchievements || game().achievements) {
                                 <div>{{ game().earnedAchievements || "-" }}/{{ game().achievements || "-" }} </div>
@@ -57,7 +57,7 @@
 
                         <div
                             class="information-group last"
-                            title="Platform">
+                            [title]="'PLATFORM' | translate">
                             <div class="platform plat-{{ game().platform }}">{{ game().platformText }} </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         @if (game().status === statusEnum.Playing) {
                             <div
                                 class="information-group last"
-                                title="Last time played">
+                                [title]="'LAST_TIME_PLAYED' | translate">
                                 <i class="icon calendar-icon"></i>
                                 @if (game().lastTimePlayed) {
                                     <div>{{ game().lastTimePlayed | date: "dd/MM/yyyy" }} </div>
@@ -90,7 +90,7 @@
 
                         <div
                             class="information-group last"
-                            title="Platform">
+                            [title]="'PLATFORM' | translate">
                             <div class="platform plat-{{ game().platform }}">{{ game().platformText }} </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                             [href]="game().urlToBuy"
                             target="_blank"
                             (click)="$event.stopPropagation()">
-                            Buy game
+                            {{ "BUY_GAME" | translate }}
                         </a>
                     </div>
                 }

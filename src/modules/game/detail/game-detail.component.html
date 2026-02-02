@@ -12,7 +12,7 @@
                         <app-button
                             (onClick)="openModal()"
                             [disabled]="!game.name">
-                            Edit
+                            {{ "EDIT" | translate }}
                         </app-button>
                     }
 
@@ -31,7 +31,7 @@
 
             @if (game.status === statusEnum.Wishlist && game.urlToBuy) {
                 <div class="game-information">
-                    <div class="game-price-label">Game price</div>
+                    <div class="game-price-label">{{ "PRICE" | translate }}</div>
 
                     <div class="game-price">
                         @if (game.isPriceAllTimeLow) {
@@ -42,7 +42,7 @@
                         R$ {{ game.currentPrice | number: "1.2-2" }}
                     </div>
 
-                    <app-button (onClick)="openGamePurchasePage($event)"> Buy game </app-button>
+                    <app-button (onClick)="openGamePurchasePage($event)"> {{ "BUY_GAME" | translate }} </app-button>
                 </div>
             }
 
@@ -60,36 +60,42 @@
                 </ng-template>
 
                 <app-label
-                    label="Platform"
+                    [label]="'PLATFORM' | translate"
                     [text]="game.platformText">
                 </app-label>
 
                 <app-label
-                    label="Released in"
+                    [label]="'RELEASED_IN' | translate"
                     [text]="game.releaseDate | date: 'dd/MM/yyyy'">
                 </app-label>
 
                 <app-label
-                    label="Time played"
+                    [label]="'TIME_PLAYED' | translate"
                     [text]="
                         game.timePlayed.minutes || game.timePlayed.hours
-                            ? (game.timePlayed.hours || 0) + ' hours and ' + (game.timePlayed.minutes || 0) + ' minutes'
+                            ? (game.timePlayed.hours || 0) +
+                              ' ' +
+                              ('HOURS_AND' | translate | lowercase) +
+                              ' ' +
+                              (game.timePlayed.minutes || 0) +
+                              ' ' +
+                              ('MINUTES' | translate | lowercase)
                             : '-'
                     ">
                 </app-label>
 
                 <app-label
-                    label="Is campaign complete?"
-                    [text]="game.isCampaignComplete ? 'Yes' : 'No'">
+                    [label]="'IS_CAMPAIGN_COMPLETED' | translate"
+                    [text]="game.isCampaignComplete ? ('YES' | translate) : ('NO' | translate)">
                 </app-label>
 
                 <app-label
-                    label="Is platinumed?"
-                    [text]="game.isPlatinumed ? 'Yes' : 'No'">
+                    [label]="'IS_PLATINUMED' | translate"
+                    [text]="game.isPlatinumed ? ('YES' | translate) : ('NO' | translate)">
                 </app-label>
 
                 <app-label
-                    label="Date completed"
+                    [label]="'DATE_COMPLETED' | translate"
                     [text]="game.isPlatinumed || game.isCampaignComplete ? (game.lastTimePlayed | date: 'dd/MM/yyyy HH:mm:ss') : '-'">
                 </app-label>
             </div>
@@ -102,16 +108,16 @@
                 [class.opened]="readMoreActive"
                 [class.overflowing]="isOverflowing"
                 [style.maxHeight.px]="readMoreActive ? readMoreContainer.scrollHeight : 140"
-                #readMoreContainer>
-                {{ game.description }}
-            </div>
+                #readMoreContainer
+                >{{ game.description_ptbr || game.description }}</div
+            >
 
             @if (isOverflowing) {
                 <div class="read-more-container">
                     <a
                         class="read-more-link"
                         (click)="toggleReadMore()">
-                        {{ readMoreActive ? "Read less" : "Read more" }}
+                        {{ readMoreActive ? ("READ_LESS" | translate) : ("READ_MORE" | translate) }}
                         <icon
                             [icon]="iconEnum.AngleDown"
                             [size]="14"
@@ -123,7 +129,7 @@
 
             <row customClass="mt-20i">
                 <app-label
-                    label="Genres"
+                    [label]="'GENRES' | translate"
                     [textTemplate]="genreTemplate"
                     [inputSize]="6">
                 </app-label>
@@ -150,7 +156,7 @@
                 </ng-template>
 
                 <app-label
-                    label="Themes"
+                    [label]="'THEMES' | translate"
                     [textTemplate]="themeTemplate"
                     [inputSize]="6">
                 </app-label>
@@ -179,31 +185,31 @@
 
             <row customClass="mt-10i">
                 <app-label
-                    label="Published by"
+                    [label]="'PUBLISHED_BY' | translate"
                     [text]="game.publisher"
                     [inputSize]="6">
                 </app-label>
 
                 <app-label
-                    label="Developed by"
+                    [label]="'DEVELOPED_BY' | translate"
                     [text]="game.developer"
                     [inputSize]="6">
                 </app-label>
             </row>
 
             @if (!!game.mainStoryTime) {
-                <div class="achievements-title">How Long to Beat</div>
+                <div class="achievements-title">{{ "HOW_LONG_TO_BEAT" | translate }}</div>
                 <game-how-long-to-beat [game]="game"> </game-how-long-to-beat>
             }
 
             @if (!!game.screenshots?.length) {
-                <div class="achievements-title">Images</div>
+                <div class="achievements-title">{{ "IMAGES" | translate }}</div>
 
                 <game-screenshots [screenshots]="game.screenshots!"> </game-screenshots>
             }
 
             @if (game.comments) {
-                <div class="achievements-title">Player comments</div>
+                <div class="achievements-title">{{ "PLAYER_COMMENTS" | translate }}</div>
 
                 <div
                     class="game-comments"
@@ -219,7 +225,7 @@
                         <a
                             class="read-more-link"
                             (click)="toggleReadMoreComments()">
-                            {{ readMoreCommentsActive ? "Read less" : "Read more" }}
+                            {{ readMoreCommentsActive ? ("READ_LESS" | translate) : ("READ_MORE" | translate) }}
                             <icon
                                 [icon]="iconEnum.AngleDown"
                                 [size]="14"
@@ -230,7 +236,7 @@
                 }
             }
 
-            <div class="achievements-title">Achievements</div>
+            <div class="achievements-title">{{ "ACHIEVEMENTS" | translate }}</div>
 
             <row>
                 @for (achievement of game.achievements; track $index) {
@@ -239,7 +245,7 @@
             </row>
 
             @if (!game.achievements.length) {
-                <div class="no-achievements">This game does not have achievements.</div>
+                <div class="no-achievements">{{ "THIS_GAME_DOES_NOT_HAVE_ACHIEVEMENTS" | translate }}</div>
             }
         </div>
     </div>

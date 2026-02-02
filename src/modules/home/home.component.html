@@ -4,31 +4,31 @@
             <a
                 (click)="setStatus(statusEnum.PlayingCompleted)"
                 [class.selected]="filter.status === statusEnum.PlayingCompleted">
-                <span class="filter-label">All Games</span>
+                <span class="filter-label">{{ "ALL_GAMES" | translate }}</span>
                 <span class="filter-counter">{{ gamesCount.all }}</span>
             </a>
             <a
                 (click)="setStatus(statusEnum.Playing)"
                 [class.selected]="filter.status === statusEnum.Playing">
-                <span class="filter-label">Playing</span>
+                <span class="filter-label">{{ "PLAYING" | translate }}</span>
                 <span class="filter-counter">{{ gamesCount.playing }}</span>
             </a>
             <a
                 (click)="setStatus(statusEnum.Completed)"
                 [class.selected]="filter.status === statusEnum.Completed">
-                <span class="filter-label">Completed</span>
+                <span class="filter-label">{{ "COMPLETED" | translate }}</span>
                 <span class="filter-counter">{{ gamesCount.completed }}</span>
             </a>
             <a
                 (click)="setStatus(statusEnum.Backlog)"
                 [class.selected]="filter.status === statusEnum.Backlog">
-                <span class="filter-label">Backlog</span>
+                <span class="filter-label">{{ "BACKLOG" | translate }}</span>
                 <span class="filter-counter">{{ gamesCount.backlog }}</span>
             </a>
             <a
                 (click)="setStatus(statusEnum.Wishlist)"
                 [class.selected]="filter.status === statusEnum.Wishlist">
-                <span class="filter-label">Wishlist</span>
+                <span class="filter-label">{{ "WISHLIST" | translate }}</span>
                 <span class="filter-counter">{{ gamesCount.wishlist }}</span>
             </a>
         </div>
@@ -52,19 +52,10 @@
                     [icon]="icons.Filter"
                     [size]="14">
                 </icon>
-                <span class="filter-label">Filters</span>
+                <span class="filter-label">{{ "FILTERS" | translate }}</span>
             </a>
         </div>
     </div>
-
-    <!-- <div class="d-flex flex-wrap gap-8">
-        @for (game of games; track $index) {
-            <game-image
-                [game]="game"
-                (onClick)="saveFilter()">
-            </game-image>
-        }
-    </div> -->
 
     <div class="grid-games-container">
         @for (game of games; track $index) {
@@ -86,8 +77,8 @@
             [ellipses]="false"
             [boundaryLinks]="true"
             [directionLinks]="false">
-            <ng-template ngbPaginationFirst>First</ng-template>
-            <ng-template ngbPaginationLast>Last</ng-template>
+            <ng-template ngbPaginationFirst>{{ "FIRST" | translate }}</ng-template>
+            <ng-template ngbPaginationLast>{{ "LAST" | translate }}</ng-template>
         </ngb-pagination>
     }
 </loader>
@@ -98,7 +89,7 @@
     <row>
         <app-input
             [(value)]="filter.name"
-            label="Game name">
+            [label]="'GAME_NAME' | translate">
         </app-input>
 
         @if (filter.status !== statusEnum.Backlog && filter.status !== statusEnum.Wishlist) {
@@ -107,7 +98,7 @@
                 bindValue="id"
                 bindLabel="description"
                 [items]="gameListSortBy"
-                label="Sort by">
+                [label]="'SORT_BY' | translate">
             </app-select>
         }
 
@@ -117,7 +108,7 @@
             bindLabel="description"
             [items]="platforms"
             [clearable]="true"
-            label="Platform">
+            [label]="'PLATFORM' | translate">
         </app-select>
 
         <app-select
@@ -126,7 +117,7 @@
             bindLabel="description"
             [items]="trueFalse"
             [clearable]="true"
-            label="Is campaign complete?">
+            [label]="'IS_CAMPAIGN_COMPLETED' | translate">
         </app-select>
 
         <app-select
@@ -135,7 +126,7 @@
             bindLabel="description"
             [items]="trueFalse"
             [clearable]="true"
-            label="Is platinumed?">
+            [label]="'IS_PLATINUMED' | translate">
         </app-select>
 
         <app-select
@@ -144,7 +135,7 @@
             bindLabel="name"
             [items]="genres"
             [clearable]="true"
-            label="Genre">
+            [label]="'GENRE' | translate">
         </app-select>
 
         <app-select
@@ -153,21 +144,21 @@
             bindLabel="name"
             [items]="themes"
             [clearable]="true"
-            label="Theme">
+            [label]="'THEME' | translate">
         </app-select>
 
         <app-input
             [(value)]="filter.releaseYear"
-            label="Release year">
+            [label]="'RELEASE_YEAR' | translate">
         </app-input>
 
         <app-input
             [(value)]="filter.completionYear"
-            label="Year of game completion">
+            [label]="'COMPLETION_YEAR' | translate">
         </app-input>
 
         <star-rating
-            label="Rating"
+            [label]="'RATING' | translate"
             [(rating)]="filter.rating"
             color="#3f4b64"
             colorSelected="#ea377a"
@@ -180,12 +171,12 @@
     <app-button
         customClass="mt-10 mb-10"
         (onClick)="listGames()">
-        Filter
+        {{ "FILTER" | translate }}
     </app-button>
 
     <app-button
         [type]="'secondary-outline'"
         (onClick)="clearFilter()">
-        Clear
+        {{ "CLEAR" | translate }}
     </app-button>
 </sidebar>

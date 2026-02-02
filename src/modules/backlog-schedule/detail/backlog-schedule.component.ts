@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { RouterLink } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { Store } from "@ngxs/store";
 import { LoaderEnum } from "../../../common/enums/loader.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
@@ -20,7 +21,7 @@ import { BacklogScheduleService } from "../service/backlog-schedule.service";
     templateUrl: "./backlog-schedule.component.html",
     styleUrl: "./backlog-schedule.component.scss",
     providers: [BacklogScheduleService],
-    imports: [RouterLink, ButtonComponent, LoaderComponent]
+    imports: [RouterLink, ButtonComponent, LoaderComponent, TranslatePipe]
 })
 export class BacklogScheduleComponent implements AfterViewInit, OnInit {
     private readonly service = inject(BacklogScheduleService);

@@ -55,11 +55,11 @@ export const PlatformsData = [
 export const GameStatusData = [
     {
         id: StatusEnum.Playing,
-        description: "Playing"
+        description: "Jogando"
     },
     {
         id: StatusEnum.Completed,
-        description: "Completed"
+        description: "Completo"
     },
     {
         id: StatusEnum.Backlog,
@@ -74,10 +74,10 @@ export const GameStatusData = [
 export const TrueFalseData = [
     {
         id: true,
-        description: "Yes"
+        description: "Sim"
     },
     {
         id: false,
-        description: "No"
+        description: "Não"
     }
 ];

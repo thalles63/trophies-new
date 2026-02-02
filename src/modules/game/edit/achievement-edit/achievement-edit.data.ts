@@ -3,15 +3,15 @@ import { AchievementTypeEnum } from "../../../../common/enums/achievement-type.e
 export const AchievementTypeData = [
     {
         id: AchievementTypeEnum.Platinum,
-        description: "Platinum"
+        description: "Platina"
     },
     {
         id: AchievementTypeEnum.Gold,
-        description: "Gold"
+        description: "Ouro"
     },
     {
         id: AchievementTypeEnum.Silver,
-        description: "Silver"
+        description: "Prata"
     },
     {
         id: AchievementTypeEnum.Bronze,

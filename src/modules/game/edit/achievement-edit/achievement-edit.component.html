@@ -1,4 +1,4 @@
-<div class="modal-header"> Edit achievement </div>
+<div class="modal-header"> {{ "EDIT_ACHIEVEMENT" | translate }} </div>
 
 <loader
     [singleLoadIds]="[loaderEnum.ACHIEVEMENT_SAVE]"
@@ -7,7 +7,7 @@
         <div class="row">
             <app-input
                 [(value)]="achievement.name"
-                label="Name"
+                [label]="'NAME' | translate"
                 [inputSize]="6">
             </app-input>
         </div>
@@ -15,7 +15,15 @@
         <div class="row">
             <app-input
                 [(value)]="achievement.description"
-                label="Description"
+                [label]="'DESCRIPTION' | translate"
+                [inputSize]="12">
+            </app-input>
+        </div>
+
+        <div class="row">
+            <app-input
+                [(value)]="achievement.description_ptbr"
+                [label]="'DESCRIPTION_TRANSLATED' | translate"
                 [inputSize]="12">
             </app-input>
         </div>
@@ -23,7 +31,7 @@
         <div class="row">
             <app-input
                 [(value)]="achievement.image"
-                label="Icon"
+                [label]="'ICON' | translate"
                 [inputSize]="12">
             </app-input>
         </div>
@@ -34,13 +42,13 @@
                 bindValue="id"
                 bindLabel="description"
                 [items]="trueFalse"
-                label="Is achieved?"
+                [label]="'IS_ACHIEVED' | translate"
                 [inputSize]="6">
             </app-select>
 
             <app-input
                 [(value)]="achievement.dateAchievedConverted"
-                label="Date achieved"
+                [label]="'DATE_ACHIEVED' | translate"
                 mask="00/00/0000 00:00:00"
                 [inputSize]="6">
             </app-input>
@@ -50,7 +58,7 @@
             @if (game.platform === platformEnum.Xbox) {
                 <app-input
                     [(value)]="achievement.type"
-                    label="Value"
+                    [label]="'VALUE' | translate"
                     [inputSize]="6">
                 </app-input>
             }
@@ -61,14 +69,14 @@
                     bindValue="id"
                     bindLabel="description"
                     [items]="achievementTypes"
-                    label="Value"
+                    [label]="'VALUE' | translate"
                     [inputSize]="6">
                 </app-select>
             }
 
             <app-input
                 [(value)]="achievement.percentageAchieved"
-                label="Percentage achieved"
+                [label]="'ACHIEVE_PERCENTAGE' | translate"
                 [inputSize]="6">
             </app-input>
         </div>
@@ -78,9 +86,11 @@
         <app-button
             type="secondary"
             (onClick)="cancel()">
-            Cancel
+            {{ "CANCEL" | translate }}
         </app-button>
 
-        <app-button (onClick)="save()"> Save </app-button>
+        <app-button (onClick)="save()">
+            {{ "SAVE" | translate }}
+        </app-button>
     </div>
 </loader>

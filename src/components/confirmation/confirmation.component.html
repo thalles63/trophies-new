@@ -10,8 +10,8 @@
     <app-button
         type="secondary"
         (onClick)="cancel()">
-        Cancel
+        {{ 'CANCEL' | translate }}
     </app-button>
 
-    <app-button (onClick)="confirm()"> Confirm </app-button>
+    <app-button (onClick)="confirm()"> {{ 'CONFIRM' | translate }} </app-button>
 </div>

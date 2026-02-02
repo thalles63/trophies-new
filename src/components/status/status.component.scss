@@ -18,7 +18,7 @@
     margin-bottom: 3px;
 }
 
-.achievement-status.Playing {
+.achievement-status.Jogando {
     .status-circle-out {
         background-color: color-mix(in oklab, #4b7bd4 20%, transparent);
     }
@@ -27,21 +27,12 @@
     }
 }
 
-.achievement-status.Completed {
+.achievement-status.Completo {
     .status-circle-out {
         background-color: color-mix(in oklab, #00bc7d 20%, transparent);
     }
     .status-circle-inner {
         background-color: #00bc7d;
-    }
-}
-
-.achievement-status.Shelved {
-    .status-circle-out {
-        background-color: color-mix(in oklab, #e69b3e 20%, transparent);
-    }
-    .status-circle-inner {
-        background-color: #e69b3e;
     }
 }
 

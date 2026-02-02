@@ -42,13 +42,13 @@
         <app-button
             type="secondary"
             (onClick)="cancel()">
-            Cancel
+            {{ "CANCEL" | translate }}
         </app-button>
 
         <app-button
             (onClick)="saveGame()"
             [disabled]="!selectedGame.name">
-            Select game
+            {{ "SELECT_GAME" | translate }}
         </app-button>
     </div>
 </loader>

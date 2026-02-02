@@ -2,6 +2,7 @@ import { AfterViewInit, Component, DestroyRef, inject, Input, ViewChild } from "
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { debounceTime, Subject } from "rxjs";
 import { AchievementSearchOriginEnum } from "../../../common/enums/achievement-search-origin.enum";
 import { GameSearchOriginEnum } from "../../../common/enums/game-search-origin.enum";
@@ -45,7 +46,8 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         ButtonComponent,
         IconComponent,
         LoaderComponent,
-        TextareaComponent
+        TextareaComponent,
+        TranslatePipe
         // SearchGameByNameComponent
     ],
     templateUrl: "./game-edit.component.html",

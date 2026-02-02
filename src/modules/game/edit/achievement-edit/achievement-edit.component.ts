@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, Input } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from "@ngx-translate/core";
 import { LoaderEnum } from "../../../../common/enums/loader.enum";
 import { PlatformEnum } from "../../../../common/enums/platform.enum";
 import { ButtonComponent } from "../../../../components/button/button.component";
@@ -17,7 +18,7 @@ import { AchievementTypeData } from "./achievement-edit.data";
 
 @Component({
     selector: "game-edit",
-    imports: [InputComponent, SelectComponent, ButtonComponent, LoaderComponent],
+    imports: [InputComponent, SelectComponent, ButtonComponent, LoaderComponent, TranslatePipe],
     templateUrl: "./achievement-edit.component.html",
     styleUrl: "./achievement-edit.component.scss",
     providers: [AchievementsService]

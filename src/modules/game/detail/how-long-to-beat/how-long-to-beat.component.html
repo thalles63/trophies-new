@@ -1,7 +1,7 @@
 <div class="how-long-container">
     <div class="how-long-item">
         {{ game().mainStoryTime | minutesToReadable }}
-        <div class="how-long-label">Main Story</div>
+        <div class="how-long-label">{{ "MAIN_STORY" | translate }}</div>
         <img
             src="/img/book.png"
             alt="dssdadsa" />
@@ -9,7 +9,7 @@
 
     <div class="how-long-item">
         {{ game().mainExtrasTime | minutesToReadable }}
-        <div class="how-long-label">Main + Extras</div>
+        <div class="how-long-label">{{ "MAIN_PLUS_EXTRAS" | translate }}</div>
         <img
             src="/img/moon.png"
             alt="dssdadsa" />
@@ -17,7 +17,7 @@
 
     <div class="how-long-item">
         {{ game().completionistTime | minutesToReadable }}
-        <div class="how-long-label">Completionist</div>
+        <div class="how-long-label">{{ "COMPLETIONIST" | translate }}</div>
         <img
             src="/img/trophy.png"
             alt="dssdadsa" />

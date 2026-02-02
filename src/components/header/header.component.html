@@ -22,21 +22,21 @@
                 (click)="toggleOptions()"
                 [class.opened]="menuOpened">
                 <div class="user-icon">T</div>
-                <div class="options-title">User Options</div>
+                <div class="options-title">{{ "OPTIONS" | translate }}</div>
                 <div class="dropdown-icon">
                     <icon [icon]="icon.AngleDown"></icon>
                 </div>
 
                 @if (menuOpened) {
                     <div class="options">
-                        <a (click)="addGame()"> Add game </a>
-                        <a (click)="goToBacklogSchedule()"> Backlog schedule </a>
+                        <a (click)="addGame()">{{ "ADD_GAME" | translate }}</a>
+                        <a (click)="goToBacklogSchedule()">{{ "SCHEDULE_GAMES" | translate }}</a>
                         <a
                             (click)="syncItad()"
                             class="border-bottom">
-                            Synchronize Prices
+                            {{ "SINCHRONIZE_PRICES" | translate }}
                         </a>
-                        <a (click)="logout()">Logout</a>
+                        <a (click)="logout()">{{ "EXIT" | translate }}</a>
                     </div>
                 }
             </a>
@@ -44,7 +44,7 @@
             <a
                 class="login"
                 (click)="openLoginModal()"
-                >Log in</a
+                >{{ "LOGIN" | translate }}</a
             >
         }
     </header>
