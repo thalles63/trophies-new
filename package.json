@@ -24,6 +24,7 @@
         "@ng-select/ng-select": "^14.7.0",
         "@ngxs/store": "^19.0.0",
         "@popperjs/core": "^2.11.8",
+        "ngx-markdown": "^19.1.1",
         "ngx-mask": "^19.0.7",
         "notyf": "^3.10.0",
         "rxjs": "~7.8.0",

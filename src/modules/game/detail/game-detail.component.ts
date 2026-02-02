@@ -1,19 +1,22 @@
 import { DatePipe, DecimalPipe } from "@angular/common";
-import { Component, DestroyRef, inject, OnInit } from "@angular/core";
+import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngxs/store";
+import { MarkdownComponent, provideMarkdown } from "ngx-markdown";
 import { IconEnum } from "../../../common/enums/icon.enum";
 import { LoaderEnum } from "../../../common/enums/loader.enum";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
 import { UserInfo } from "../../../common/helpers/user-info";
+import { FormaMarkdownPipe } from "../../../common/pipes/format-markdown.pipe";
 import { UpdateBackgroundScreenshotAction, UpdateGamesListingFilterAction } from "../../../common/store/core.action";
 import { CoreState } from "../../../common/store/core.state";
 import { ButtonComponent } from "../../../components/button/button.component";
+import { IconComponent } from "../../../components/icon/icon.component";
 import { LabelComponent } from "../../../components/label/label.component";
 import { LoaderComponent } from "../../../components/loader/loader.component";
 import { LoaderService } from "../../../components/loader/loader.service";
@@ -35,6 +38,7 @@ import { GameHowLongToBeatComponent } from "./how-long-to-beat/how-long-to-beat.
     selector: "game-detail",
     imports: [
         ButtonComponent,
+        IconComponent,
         StarRatingComponent,
         DatePipe,
         StatusComponent,
@@ -46,11 +50,13 @@ import { GameHowLongToBeatComponent } from "./how-long-to-beat/how-long-to-beat.
         GameDetailGameImageComponent,
         GameDetailGameScreenshotsComponent,
         GameHowLongToBeatComponent,
-        LoaderComponent
+        LoaderComponent,
+        MarkdownComponent,
+        FormaMarkdownPipe
     ],
     templateUrl: "./game-detail.component.html",
     styleUrl: "./game-detail.component.scss",
-    providers: [GameService]
+    providers: [GameService, provideMarkdown()]
 })
 export class GameDetailComponent implements OnInit {
     private readonly service = inject(GameService);
@@ -61,6 +67,9 @@ export class GameDetailComponent implements OnInit {
     private readonly modalService = inject(NgbModal);
     private readonly titleService = inject(Title);
     private readonly loaderService = inject(LoaderService);
+
+    @ViewChild("readMoreContainer") public readMoreContainer!: ElementRef;
+    @ViewChild("readMoreCommentsContainer") public readMoreCommentsContainer!: ElementRef;
 
     protected game = <Game>{
         achievements: <Achievement[]>[],
@@ -73,6 +82,9 @@ export class GameDetailComponent implements OnInit {
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
     protected readMoreActive = false;
+    protected isOverflowing = false;
+    protected readMoreCommentsActive = false;
+    protected isCommentsOverflowing = false;
     protected isUserLoggedIn = UserInfo.isLoggedIn();
     protected isLoggedInUser$ = this.store.select(CoreState.isLoggedInUser);
     protected statusEnum = StatusEnum;
@@ -114,6 +126,7 @@ export class GameDetailComponent implements OnInit {
                     : this.game.banner;
                 this.store.dispatch(new UpdateBackgroundScreenshotAction(banner));
                 this.titleService.setTitle("Trophies - " + this.game.name);
+                setTimeout(() => this.checkOverflow());
             });
     }
 
@@ -139,5 +152,21 @@ export class GameDetailComponent implements OnInit {
 
     public toggleReadMore() {
         this.readMoreActive = !this.readMoreActive;
+    }
+
+    public toggleReadMoreComments() {
+        this.readMoreCommentsActive = !this.readMoreCommentsActive;
+    }
+
+    public checkOverflow() {
+        if (this.readMoreContainer) {
+            const element = this.readMoreContainer.nativeElement;
+            this.isOverflowing = element.scrollHeight > element.offsetHeight;
+        }
+
+        if (this.readMoreCommentsContainer) {
+            const element = this.readMoreCommentsContainer.nativeElement;
+            this.isCommentsOverflowing = element.scrollHeight > element.offsetHeight;
+        }
     }
 }

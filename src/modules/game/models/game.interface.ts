@@ -35,4 +35,5 @@ export interface Game {
     isPriceAllTimeLow: boolean;
     isPriceOneYearTimeLow: boolean;
     urlToBuy: string;
+    comments: string;
 }

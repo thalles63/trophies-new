@@ -203,3 +203,9 @@
     align-items: end;
     display: flex;
 }
+
+@media (max-width: 575px) {
+    .game-information {
+        display: none;
+    }
+}

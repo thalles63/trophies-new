@@ -41,21 +41,50 @@
             font-size: 2.5rem;
         }
 
-        .game-description {
+        .game-description,
+        .game-comments {
             color: #ccdbf1;
-            display: -webkit-box;
-            -webkit-line-clamp: 5;
-            -webkit-box-orient: vertical;
+            max-height: 140px;
             overflow: hidden;
-            text-overflow: ellipsis;
+            position: relative;
+            transition: max-height 0.3s ease-out;
+
+            &.overflowing:not(.opened) {
+                mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+                -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            }
         }
 
-        .game-description.opened {
-            -webkit-line-clamp: unset;
+        .game-description.opened,
+        .game-comments.opened {
+            max-height: 1000px; /* Arbitrary large height to allow expansion */
         }
 
-        .read-more-buttons {
-            cursor: pointer;
+        .read-more-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 12px;
+            margin-bottom: 32px;
+
+            .read-more-link {
+                cursor: pointer;
+                color: #8f9ca7;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-weight: 600;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+
+        ::ng-deep .rotate-180 {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
         }
 
         .achievements-title {
@@ -154,5 +183,21 @@ game-image {
         game-image .image-container {
             height: 302px;
         }
+    }
+
+    markdown p, markdown ul {
+        margin-bottom: 2rem;
+    }
+
+    markdown p:last-of-type {
+        margin-bottom: 0;
+    }
+
+    markdown p:has(+ ul) {
+        margin-bottom: 0.5rem;
+    }   
+
+    markdown {
+        color: #ccdbf1;
     }
 }

@@ -71,7 +71,8 @@ export class GameMapper {
             isPriceAllTimeLow: params.isPriceAllTimeLow,
             isPriceOneYearTimeLow: params.isPriceOneYearTimeLow,
             itadId: params.itadId,
-            urlToBuy: params.urlToBuy
+            urlToBuy: params.urlToBuy,
+            comments: params.comments
         };
     };
 
@@ -146,7 +147,8 @@ export class GameMapper {
             isPriceAllTimeLow: params.isPriceAllTimeLow,
             isPriceOneYearTimeLow: params.isPriceOneYearTimeLow,
             itadId: params.itadId,
-            urlToBuy: params.urlToBuy
+            urlToBuy: params.urlToBuy,
+            comments: params.comments
         });
     };
 

@@ -20,6 +20,7 @@ import { StarRatingComponent } from "../../../components/rating/rating.component
 import { SelectComponent } from "../../../components/select/select.component";
 import { TabComponent } from "../../../components/tabs/tab/tab.component";
 import { TabsComponent } from "../../../components/tabs/tabs.component";
+import { TextareaComponent } from "../../../components/textarea/textarea.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Achievement } from "../models/achievement.interface";
 import { GameStatusData, PlatformsData, TrueFalseData } from "../models/game-edit.data";
@@ -43,7 +44,8 @@ import { TimePlayedComponent } from "./time-played/time-played.component";
         TimePlayedComponent,
         ButtonComponent,
         IconComponent,
-        LoaderComponent
+        LoaderComponent,
+        TextareaComponent
         // SearchGameByNameComponent
     ],
     templateUrl: "./game-edit.component.html",

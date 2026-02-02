@@ -181,6 +181,14 @@
                             [isSelectable]="true">
                         </star-rating>
                     </div>
+
+                    <div class="row">
+                        <app-textarea
+                            [(value)]="game.comments"
+                            label="Comments"
+                            [inputSize]="12">
+                        </app-textarea>
+                    </div>
                 </div>
             </tab>
         }
