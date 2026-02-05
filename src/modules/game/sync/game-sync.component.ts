@@ -23,7 +23,7 @@ export class SyncComponent implements OnInit {
     public ngOnInit(): void {
         this.store.dispatch(new UpdateBackgroundScreenshotAction(undefined));
         this.store.dispatch(
-            new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 10, status: StatusEnum.PlayingCompleted })
+            new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 12, status: StatusEnum.PlayingCompleted })
         );
 
         this.sync();

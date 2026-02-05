@@ -196,7 +196,7 @@ export class HomeComponent implements OnInit {
     }
 
     public clearFilter() {
-        this.filter = <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 10, status: StatusEnum.PlayingCompleted };
+        this.filter = <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 12, status: StatusEnum.PlayingCompleted };
         this.listGames();
     }
 

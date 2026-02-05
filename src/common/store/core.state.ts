@@ -16,7 +16,7 @@ interface CoreStateModel {
     name: new StateToken<CoreStateModel>("core"),
     defaults: {
         backgroundScreenshot: undefined,
-        filter: <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 10, status: StatusEnum.PlayingCompleted },
+        filter: <GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 12, status: StatusEnum.PlayingCompleted },
         isLoggedInUser: !!UserInfo.getToken()
     }
 })

@@ -1,130 +1,84 @@
 <a
     [routerLink]="['/game/' + game().id]"
-    (click)="onClickHandler()">
-    <div
-        class="game-cover"
-        [ngStyle]="{ backgroundImage: 'image-set(url(' + game().image + ') type(\'image/jpg\'))' }">
-        <div class="game-overlay"></div>
+    (click)="onClickHandler()"
+    class="game-card">
+
+    <div class="card-image-wrapper">
+        <div class="card-image-overlay"></div>
         <img
-            alt="game"
             [src]="game().image"
-            class="game-image" />
-        <div class="game-information-section">
-            <div>
-                <div class="game-title">{{ game().name }}</div>
+            alt="{{ game().name }}"
+            class="card-image"
+            loading="lazy" />
 
-                <div class="status">
-                    <status [type]="game().statusDescription"></status>
-                    <span>{{ game().statusDescription }}</span>
-                </div>
+        @if (game().rating) {
+            <div class="card-rating">
+                <i class="icon icons-star"></i>
+                <span>{{ game().rating }}</span>
             </div>
+        }
+    </div>
 
-            <div>
-                @if (game().status === statusEnum.Completed) {
-                    <div class="game-information">
-                        <div
-                            class="information-group"
-                            [title]="'LAST_TIME_PLAYED' | translate">
-                            <i class="icon calendar-icon"></i>
-                            @if (game().lastTimePlayed) {
-                                <div>{{ game().lastTimePlayed | date: "dd/MM/yyyy" }} </div>
-                            } @else {
-                                -
-                            }
-                        </div>
-
-                        <div
-                            class="information-group"
-                            [title]="'TIME_PLAYED' | translate">
-                            <i class="icon clock-icon"></i>
-                            @if (game().timePlayed.hours || game().timePlayed.minutes) {
-                                <div>{{ game().timePlayed.hours }}h {{ game().timePlayed.minutes }}m </div>
-                            } @else {
-                                -
-                            }
-                        </div>
-
-                        <div
-                            class="information-group last"
-                            [title]="'ACHIEVEMENTS' | translate">
-                            <i class="icon trophy-icon"></i>
-                            @if (game().earnedAchievements || game().achievements) {
-                                <div>{{ game().earnedAchievements || "-" }}/{{ game().achievements || "-" }} </div>
-                            } @else {
-                                -/-
-                            }
-                        </div>
-
-                        <div
-                            class="information-group last"
-                            [title]="'PLATFORM' | translate">
-                            <div class="platform plat-{{ game().platform }}">{{ game().platformText }} </div>
-                        </div>
-                    </div>
-                    @if (game().rating) {
-                        <div class="stars">
-                            <star-rating
-                                [rating]="game().rating"
-                                color="#3f4b64"
-                                colorSelected="#ea377a"
-                                [size]="16">
-                            </star-rating>
-                        </div>
-                    }
-                }
-
-                @if (game().status === statusEnum.Playing || game().status === statusEnum.Backlog) {
-                    <div class="game-information">
-                        @if (game().status === statusEnum.Playing) {
-                            <div
-                                class="information-group last"
-                                [title]="'LAST_TIME_PLAYED' | translate">
-                                <i class="icon calendar-icon"></i>
-                                @if (game().lastTimePlayed) {
-                                    <div>{{ game().lastTimePlayed | date: "dd/MM/yyyy" }} </div>
-                                } @else {
-                                    -
-                                }
-                            </div>
-                        }
-
-                        <div
-                            class="information-group last"
-                            [title]="'PLATFORM' | translate">
-                            <div class="platform plat-{{ game().platform }}">{{ game().platformText }} </div>
-                        </div>
-                    </div>
-                }
-
-                @if (game().status === statusEnum.Wishlist && game().regularPrice) {
-                    <div class="buy-container">
-                        <div class="game-information">
-                            <div
-                                class="price-label"
-                                [class.atl]="game().isPriceAllTimeLow"
-                                [class.ytl]="game().isPriceOneYearTimeLow && !game().isPriceAllTimeLow">
-                                @if (game().isPriceAllTimeLow) {
-                                    <b>ATL</b>
-                                } @else if (game().isPriceOneYearTimeLow) {
-                                    <b>YTL</b>
-                                }
-                            </div>
-                            <span class="price-label">R$ {{ game().currentPrice | number: "1.2-2" }}</span>
-                            @if (game().currentPrice !== game().regularPrice) {
-                                <span class="price-label regular-price">R$ {{ game().regularPrice | number: "1.2-2" }}</span>
-                            }
-                        </div>
-
-                        <a
-                            class="buy-button"
-                            [href]="game().urlToBuy"
-                            target="_blank"
-                            (click)="$event.stopPropagation()">
-                            {{ "BUY_GAME" | translate }}
-                        </a>
-                    </div>
-                }
+    <div class="card-content">
+        <div class="card-header">
+            <h3 class="game-title" [title]="game().name">{{ game().name }}</h3>
+            <div class="game-badges">
+                <span class="badge status-badge">{{ game().statusDescription }}</span>
+                <span class="badge platform-badge plat-{{ game().platform }}">{{ game().platformText }}</span>
             </div>
         </div>
+
+        @if (game().status !== statusEnum.Backlog) {
+        <div class="card-details">
+            @if (game().status === statusEnum.Completed || game().status === statusEnum.Playing) {
+                <div class="detail-row">
+                    <div class="detail-item" [title]="'LAST_TIME_PLAYED' | translate">
+                        <i class="icon calendar-icon"></i>
+                        <span>{{ game().lastTimePlayed ? (game().lastTimePlayed | date: "dd/MM/yyyy") : '-' }}</span>
+                    </div>
+                </div>
+
+                @if (game().status === statusEnum.Completed) {
+                    <div class="detail-row">
+                        <div class="detail-item" [title]="'TIME_PLAYED' | translate">
+                            <i class="icon clock-icon"></i>
+                            <span>{{ (game().timePlayed.hours || game().timePlayed.minutes) ? (game().timePlayed.hours + 'h ' + game().timePlayed.minutes + 'm') : '-' }}</span>
+                        </div>
+                        <div class="detail-item" [title]="'ACHIEVEMENTS' | translate">
+                            <i class="icon trophy-icon"></i>
+                            <span>{{ (game().earnedAchievements || game().achievements) ? ((game().earnedAchievements || "-") + '/' + (game().achievements || "-")) : '-/-' }}</span>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (game().status === statusEnum.Wishlist && game().regularPrice) {
+                <div class="price-section">
+                    <div class="price-info">
+                        @if (game().isPriceAllTimeLow) {
+                           <span class="price-tag atl">ATL</span>
+                        } @else if (game().isPriceOneYearTimeLow) {
+                            <span class="price-tag ytl">YTL</span>
+                        }
+
+                        <div class="prices">
+                            @if (game().currentPrice !== game().regularPrice) {
+                                <span class="regular-price">R$ {{ game().regularPrice | number: "1.2-2" }}</span>
+                            }
+                            <span class="current-price">R$ {{ game().currentPrice | number: "1.2-2" }}</span>
+                        </div>
+                    </div>
+
+                    <a
+                        class="buy-btn"
+                        [href]="game().urlToBuy"
+                        target="_blank"
+                        (click)="$event.stopPropagation()">
+                        {{ "BUY" | translate }}
+                    </a>
+                </div>
+            }
+        </div>
+        }
     </div>
 </a>

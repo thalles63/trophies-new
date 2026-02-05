@@ -1,11 +1,11 @@
 @font-face {
   font-family: "icons";
-  src: url('icons.eot?t=1754856596696'); /* IE9*/
-  src: url('icons.eot?t=1754856596696#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url("icons.woff2?t=1754856596696") format("woff2"),
-  url("icons.woff?t=1754856596696") format("woff"),
-  url('icons.ttf?t=1754856596696') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('icons.svg?t=1754856596696#icons') format('svg'); /* iOS 4.1- */
+  src: url('icons.eot?t=1770313280832'); /* IE9*/
+  src: url('icons.eot?t=1770313280832#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url("icons.woff2?t=1770313280832") format("woff2"),
+  url("icons.woff?t=1770313280832") format("woff"),
+  url('icons.ttf?t=1770313280832') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('icons.svg?t=1770313280832#icons') format('svg'); /* iOS 4.1- */
 }
 
 [class^="icons-"], [class*=" icons-"] {
@@ -24,8 +24,9 @@
 .icons-gamepad:before { content: "\ea06"; }
 .icons-loading:before { content: "\ea07"; }
 .icons-search:before { content: "\ea08"; }
-.icons-trash:before { content: "\ea09"; }
-.icons-trophy:before { content: "\ea0a"; }
-.icons-warning:before { content: "\ea0b"; }
+.icons-star:before { content: "\ea09"; }
+.icons-trash:before { content: "\ea0a"; }
+.icons-trophy:before { content: "\ea0b"; }
+.icons-warning:before { content: "\ea0c"; }
 
 
