@@ -3,6 +3,7 @@ export interface GameFromOnline {
     image: string;
     platforms: string[];
     region: string;
+    homeCover: string;
     times: {
         mainStory: number;
         mainExtras: number;
@@ -13,10 +14,10 @@ export interface GameFromOnline {
     platformId: string;
     description: string;
     screenshots: string[];
-    banner: string;
     releaseDate: string;
     genres: string[];
     themes: string[];
     developer: string;
     publisher: string;
+    useHomeCoverFromRawg: boolean;
 }

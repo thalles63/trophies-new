@@ -49,6 +49,10 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
             service = this.service.searchIgdb(this.gameName);
         } else if (this.origin === GameSearchOriginEnum.HLTB) {
             service = this.service.searchHltb(this.gameName);
+        } else if (this.origin === GameSearchOriginEnum.STEAM) {
+            service = this.service.searchSteam(this.gameName);
+        } else if (this.origin === GameSearchOriginEnum.RAWG) {
+            service = this.service.searchRawg(this.gameName);
         } else {
             service = this.service.searchItad(this.gameName);
         }
@@ -72,6 +76,16 @@ export class SearchGamesOnlineComponent implements AfterContentInit {
 
         if (this.origin === GameSearchOriginEnum.ITAD) {
             this.activeModal.close(this.mapper.getInItad(this.selectedGame));
+            return;
+        }
+
+        if (this.origin === GameSearchOriginEnum.STEAM) {
+            this.activeModal.close(this.mapper.getInSteam(this.selectedGame));
+            return;
+        }
+
+        if (this.origin === GameSearchOriginEnum.RAWG) {
+            this.activeModal.close(this.mapper.getInRawg(this.selectedGame));
             return;
         }
 

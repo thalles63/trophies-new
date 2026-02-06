@@ -24,7 +24,7 @@ import { TabsComponent } from "../../../components/tabs/tabs.component";
 import { TextareaComponent } from "../../../components/textarea/textarea.component";
 import { GameMapper } from "../mappers/game.mapper";
 import { Achievement } from "../models/achievement.interface";
-import { GameStatusData, PlatformsData, TrueFalseData } from "../models/game-edit.data";
+import { GameStatusData, HomeCoverSourceData, PlatformsData, TrueFalseData } from "../models/game-edit.data";
 import { GameFilter } from "../models/game-filter.interface";
 import { Game } from "../models/game.interface";
 import { AchievementsService } from "../services/achievement.service";
@@ -75,6 +75,7 @@ export class GameEditComponent implements AfterViewInit {
     protected platforms = PlatformsData;
     protected iconEnum = IconEnum;
     protected trueFalse = TrueFalseData;
+    protected homeCoverSourceData = HomeCoverSourceData;
     protected hasChangedAchievements = false;
     protected gamesList = <Game[]>[];
     protected readonly typeOnSearchGame$ = new Subject<void>();
@@ -101,8 +102,8 @@ export class GameEditComponent implements AfterViewInit {
             this.hasChangedAchievements = true;
 
             if (this.isNewRegister()) {
-                this.game.id = result.id;
-                this.router.navigate(["game/" + result.id], { replaceUrl: true });
+                this.activeModal.close();
+                this.router.navigate(["game/" + result.id], { replaceUrl: true, state: { fromNewRegistration: true } });
             }
 
             if (loaderId === LoaderEnum.SAVE_GAME) {
@@ -186,6 +187,22 @@ export class GameEditComponent implements AfterViewInit {
 
     private updateGameWithOnlineInfo(onlineInfo: Game) {
         this.game = { ...this.game, ...onlineInfo };
+    }
+
+    public translateInfos() {
+        this.service
+            .translate(this.game.id)
+            .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.SAVE_GAME_FROM_EXTERNAL))
+            .subscribe((result) => {
+                this.game.description_ptbr = result.description_ptbr;
+
+                this.game.achievements?.forEach((a) => {
+                    const achievement = result.achievements?.find((ac: any) => ac.id === a.id);
+                    a.description_ptbr = achievement.description_ptbr;
+                });
+
+                this.hasChangedAchievements = true;
+            });
     }
 
     public confirmDeleteGame() {

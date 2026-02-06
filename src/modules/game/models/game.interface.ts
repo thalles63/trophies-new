@@ -7,8 +7,11 @@ export interface Game {
     description: string;
     description_ptbr?: string;
     image: string;
+    imageSteam: string;
+    imageRawg: string;
+    homeCoverType: number;
     screenshots?: string[];
-    banner: string;
+    useHomeCoverFromRawg: boolean;
     rating: number;
     platform: number;
     platformText?: string;

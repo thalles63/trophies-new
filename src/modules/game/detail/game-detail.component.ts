@@ -1,4 +1,4 @@
-import { DatePipe, DecimalPipe, LowerCasePipe } from "@angular/common";
+import { DatePipe, DecimalPipe, Location, LowerCasePipe } from "@angular/common";
 import { Component, DestroyRef, ElementRef, inject, OnInit, ViewChild } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Title } from "@angular/platform-browser";
@@ -70,6 +70,7 @@ export class GameDetailComponent implements OnInit {
     private readonly modalService = inject(NgbModal);
     private readonly titleService = inject(Title);
     private readonly loaderService = inject(LoaderService);
+    private readonly location = inject(Location);
 
     @ViewChild("readMoreContainer") public readMoreContainer!: ElementRef;
     @ViewChild("readMoreCommentsContainer") public readMoreCommentsContainer!: ElementRef;
@@ -81,7 +82,6 @@ export class GameDetailComponent implements OnInit {
         themesDescription: <any>[],
         screenshots: <string[]>[]
     };
-    protected gameId: string | null = null;
     protected iconEnum = IconEnum;
     protected platformEnum = PlatformEnum;
     protected readMoreActive = false;
@@ -92,11 +92,16 @@ export class GameDetailComponent implements OnInit {
     protected isLoggedInUser$ = this.store.select(CoreState.isLoggedInUser);
     protected statusEnum = StatusEnum;
     protected loaderEnum = LoaderEnum;
+    protected params = <any>{};
 
     public ngOnInit(): void {
-        this.gameId = this.activatedRoute.snapshot.paramMap.get("id");
+        this.params = {
+            ...this.activatedRoute.snapshot.data,
+            ...this.activatedRoute.snapshot.params,
+            ...history.state
+        };
 
-        if (!this.gameId) {
+        if (!this.params.id) {
             this.store.dispatch(
                 new UpdateGamesListingFilterAction(<GameFilter>{ page: 1, sort: SortDirection.Descending, limit: 12, status: StatusEnum.PlayingCompleted })
             );
@@ -115,21 +120,28 @@ export class GameDetailComponent implements OnInit {
     }
 
     private findGameById() {
-        if (!this.gameId) {
+        if (!this.params.id) {
             return;
         }
 
         this.service
-            .getById(this.gameId)
+            .getById(this.params.id)
             .pipe(takeUntilDestroyed(this.destroyRef), this.loaderService.watch(LoaderEnum.GAME_DETAIL))
             .subscribe((result) => {
                 this.game = this.gameMapper.findById(result);
-                const banner = this.game.screenshots?.length
-                    ? this.game.screenshots[Math.floor(Math.random() * this.game.screenshots.length)].replace("t_screenshot_med", "t_1080p_2x")
-                    : this.game.banner;
-                this.store.dispatch(new UpdateBackgroundScreenshotAction(banner));
+
+                if (this.game.screenshots?.length) {
+                    const banner = this.game.screenshots[Math.floor(Math.random() * this.game.screenshots.length)].replace("t_screenshot_med", "t_1080p_2x");
+                    this.store.dispatch(new UpdateBackgroundScreenshotAction(banner));
+                }
+
                 this.titleService.setTitle("Trophies - " + this.game.name);
                 setTimeout(() => this.checkOverflow());
+
+                if (this.params.fromNewRegistration) {
+                    this.clearHistoryState();
+                    this.openModal();
+                }
             });
     }
 
@@ -171,5 +183,10 @@ export class GameDetailComponent implements OnInit {
             const element = this.readMoreCommentsContainer.nativeElement;
             this.isCommentsOverflowing = element.scrollHeight > element.offsetHeight;
         }
+    }
+
+    private clearHistoryState() {
+        this.location.replaceState(this.location.path());
+        this.params.fromNewRegistration = false;
     }
 }

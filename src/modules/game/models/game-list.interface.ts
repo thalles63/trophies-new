@@ -4,6 +4,9 @@ export interface GameList {
     id: string;
     name: string;
     image: string;
+    homeCoverType: number;
+    imageSteam: string;
+    imageRawg: string;
     rating: number;
     platform: number;
     platformText?: string;

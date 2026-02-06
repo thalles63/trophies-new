@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { HomeCoverTypeEnum } from "../../../common/enums/home-cover-type.enum";
 import { SortDirection } from "../../../common/enums/sort-direction.enum";
 import { SanitizeEmptyStrings } from "../../../common/functions/functions";
 import { TimePlayed } from "../edit/time-played/time-played.interface";
@@ -15,6 +16,9 @@ export class GameMapper {
             id: params.id,
             name: params.name,
             image: params.image,
+            homeCoverType: params.homeCoverType,
+            imageSteam: params.imageSteam,
+            imageRawg: params.imageRawg,
             rating: Number(params.rating),
             platform: params.platform,
             platformText: this.getPlatformText(params.platform),
@@ -40,14 +44,17 @@ export class GameMapper {
             description: params.description,
             description_ptbr: params.description_ptbr,
             image: params.image,
+            homeCoverType: params.homeCoverType,
+            imageSteam: params.imageSteam,
+            imageRawg: params.imageRawg,
             screenshots: params.screenshots?.map((s: string) => s.replace("t_1080p_2x", "t_screenshot_med")),
-            banner: params.banner,
             rating: Number(params.rating),
             platform: params.platform,
             platformText: this.getPlatformText(params.platform),
             timePlayed: this.convertSecondsToTimePlayed(params.timePlayed),
             isPlatinumed: params.isPlatinumed,
             isCampaignComplete: params.isCampaignComplete,
+            useHomeCoverFromRawg: params.useHomeCoverFromRawg,
             achievements: params.achievements?.map(this.achievements).sortByField([
                 { fieldName: "isAchieved", direction: SortDirection.Descending },
                 { fieldName: "dateAchieved", direction: SortDirection.Ascending },
@@ -83,7 +90,6 @@ export class GameMapper {
             description: params.description,
             image: params.image,
             screenshots: params.screenshots,
-            banner: params.banner,
             releaseDate: params.releaseDate,
             genres: params.genres,
             themes: params.themes,
@@ -103,6 +109,20 @@ export class GameMapper {
     public readonly getInItad = (params: GameFromOnline) => {
         return <Game>{
             itadId: params.id
+        };
+    };
+
+    public readonly getInRawg = (params: GameFromOnline) => {
+        return <Game>{
+            homeCoverType: HomeCoverTypeEnum.Rawg,
+            imageRawg: params.image
+        };
+    };
+
+    public readonly getInSteam = (params: GameFromOnline) => {
+        return <Game>{
+            homeCoverType: HomeCoverTypeEnum.Steam,
+            imageSteam: `https://cdn.akamai.steamstatic.com/steam/apps/${params.platformId}/header.jpg`
         };
     };
 
@@ -128,8 +148,10 @@ export class GameMapper {
             description: params.description,
             description_ptbr: params.description_ptbr,
             image: params.image,
+            homeCoverType: params.homeCoverType,
+            imageSteam: params.imageSteam,
+            imageRawg: params.imageRawg,
             screenshots: params.screenshots?.map((s: string) => s.replace("t_screenshot_med", "t_1080p_2x")),
-            banner: params.banner,
             rating: params.rating,
             platform: params.platform,
             timePlayed: params.timePlayed ? this.convertTimePlayedToSeconds(params.timePlayed) : undefined,
@@ -144,6 +166,7 @@ export class GameMapper {
             developer: params.developer,
             publisher: params.publisher,
             completionistTime: params.completionistTime,
+            useHomeCoverFromRawg: params.useHomeCoverFromRawg,
             mainExtrasTime: params.mainExtrasTime,
             mainStoryTime: params.mainStoryTime,
             currentPrice: params.currentPrice,

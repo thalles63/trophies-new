@@ -54,26 +54,72 @@
                             }
                         </a>
 
-                        <a
-                            class="search-button"
-                            (click)="openSearchGameModal(gameSearchOriginEnum.HLTB)">
-                            <div>{{ "HLTB" | translate }}</div>
-                            @if (game.mainStoryTime) {
-                                <div class="check-icon">
-                                    <icon
-                                        [icon]="iconEnum.Check"
-                                        [size]="16">
-                                    </icon>
-                                </div>
-                            }
-                        </a>
-
-                        @if (!this.game.status || this.game.status === statusEnum.Wishlist) {
+                        @if (game.id) {
                             <a
                                 class="search-button"
-                                (click)="openSearchGameModal(gameSearchOriginEnum.ITAD)">
-                                <div>{{ "ITAD" | translate }}</div>
-                                @if (game.itadId) {
+                                (click)="openSearchGameModal(gameSearchOriginEnum.HLTB)">
+                                <div>{{ "HLTB" | translate }}</div>
+                                @if (game.mainStoryTime) {
+                                    <div class="check-icon">
+                                        <icon
+                                            [icon]="iconEnum.Check"
+                                            [size]="16">
+                                        </icon>
+                                    </div>
+                                }
+                            </a>
+
+                            @if (!this.game.status || this.game.status === statusEnum.Wishlist) {
+                                <a
+                                    class="search-button"
+                                    (click)="openSearchGameModal(gameSearchOriginEnum.ITAD)">
+                                    <div>{{ "ITAD" | translate }}</div>
+                                    @if (game.itadId) {
+                                        <div class="check-icon">
+                                            <icon
+                                                [icon]="iconEnum.Check"
+                                                [size]="16">
+                                            </icon>
+                                        </div>
+                                    }
+                                </a>
+                            }
+
+                            <div class="d-flex gap-16">
+                                <a
+                                    class="search-button"
+                                    (click)="openSearchGameModal(gameSearchOriginEnum.STEAM)">
+                                    <div>{{ "STEAM" | translate }}</div>
+                                    @if (game.imageSteam) {
+                                        <div class="check-icon">
+                                            <icon
+                                                [icon]="iconEnum.Check"
+                                                [size]="16">
+                                            </icon>
+                                        </div>
+                                    }
+                                </a>
+
+                                <a
+                                    class="search-button"
+                                    (click)="openSearchGameModal(gameSearchOriginEnum.RAWG)">
+                                    <div>{{ "RAWG" | translate }}</div>
+                                    @if (game.imageRawg) {
+                                        <div class="check-icon">
+                                            <icon
+                                                [icon]="iconEnum.Check"
+                                                [size]="16">
+                                            </icon>
+                                        </div>
+                                    }
+                                </a>
+                            </div>
+
+                            <a
+                                class="search-button"
+                                (click)="translateInfos()">
+                                <div>{{ "TRANSLATE" | translate }}</div>
+                                @if (game.description_ptbr) {
                                     <div class="check-icon">
                                         <icon
                                             [icon]="iconEnum.Check"
@@ -130,16 +176,27 @@
                             bindLabel="description"
                             [items]="platforms"
                             [label]="'PLATFORM' | translate"
-                            [inputSize]="4">
+                            [inputSize]="6">
                         </app-select>
 
+                        <app-select
+                            [(value)]="game.homeCoverType"
+                            bindValue="id"
+                            bindLabel="description"
+                            [items]="homeCoverSourceData"
+                            [label]="'HOME_COVER_SOURCE' | translate"
+                            [inputSize]="6">
+                        </app-select>
+                    </div>
+
+                    <div class="row">
                         <app-select
                             [(value)]="game.isCampaignComplete"
                             bindValue="id"
                             bindLabel="description"
                             [items]="trueFalse"
                             [label]="'IS_CAMPAIGN_COMPLETED' | translate"
-                            [inputSize]="4">
+                            [inputSize]="6">
                         </app-select>
 
                         <app-select
@@ -148,7 +205,7 @@
                             bindLabel="description"
                             [items]="trueFalse"
                             [label]="'IS_PLATINUMED' | translate"
-                            [inputSize]="4">
+                            [inputSize]="6">
                         </app-select>
                     </div>
 

@@ -1,3 +1,4 @@
+import { HomeCoverTypeEnum } from "../../../common/enums/home-cover-type.enum";
 import { PlatformEnum } from "../../../common/enums/platform.enum";
 import { StatusEnum } from "../../../common/enums/status.enum";
 
@@ -79,5 +80,20 @@ export const TrueFalseData = [
     {
         id: false,
         description: "Não"
+    }
+];
+
+export const HomeCoverSourceData = [
+    {
+        id: HomeCoverTypeEnum.Igdb,
+        description: "IGDB"
+    },
+    {
+        id: HomeCoverTypeEnum.Steam,
+        description: "Steam"
+    },
+    {
+        id: HomeCoverTypeEnum.Rawg,
+        description: "Rawg"
     }
 ];

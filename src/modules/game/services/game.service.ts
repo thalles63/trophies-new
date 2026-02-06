@@ -47,6 +47,10 @@ export class GameService {
         return this.http.get<any>(`${this.API_URL}/searchItad?gameName=${gameName}`);
     }
 
+    public searchRawg(gameName: string) {
+        return this.http.get<any>(`${this.API_URL}/searchRawg?gameName=${gameName}`);
+    }
+
     public searchSteam(gameName: string) {
         return this.http.get<any>(`${this.API_URL}/searchSteam?gameName=${gameName}`);
     }
@@ -73,5 +77,9 @@ export class GameService {
 
     public syncItad() {
         return this.http.post<void>(`${this.API_URL}/syncItad`, {});
+    }
+
+    public translate(gameId: string) {
+        return this.http.put<any>(`${this.API_URL}/${gameId}/translate`, {});
     }
 }
